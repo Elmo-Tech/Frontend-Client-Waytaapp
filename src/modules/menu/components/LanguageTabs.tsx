@@ -1,0 +1,57 @@
+'use client';
+
+import { useStaffI18n } from '../../../lib/i18n/client';
+
+export interface LanguageTabOption {
+  locale: string;
+  label: string;
+  /** Short plain-text state marker, e.g. "Default", "Translated", "Not translated yet" -- never a completion percentage (FT-1, Section 15). */
+  stateLabel: string;
+}
+
+export interface LanguageTabsProps {
+  options: LanguageTabOption[];
+  activeLocale: string;
+  onSelect: (locale: string) => void;
+}
+
+/**
+ * One consistent translation-language tab bar shared by the Menu Dialog,
+ * Category Dialog, and Product Editor (FT-1, Section 15). Plain, native
+ * `<button>`s -- keyboard-accessible and focusable with no custom ARIA
+ * widget needed (Section 22); the state marker is always visible text, never
+ * conveyed by color alone.
+ */
+export function LanguageTabs({ options, activeLocale, onSelect }: LanguageTabsProps) {
+  const { t } = useStaffI18n();
+  if (options.length < 2) return null;
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <p className="text-xs font-medium text-muted-foreground">{t('menu.content.languageLabel')}</p>
+      <div role="group" aria-label={t('menu.content.languageLabel')} className="flex flex-wrap gap-2">
+      {options.map((option) => {
+        const isActive = option.locale === activeLocale;
+        return (
+          <button
+            key={option.locale}
+            type="button"
+            aria-pressed={isActive}
+            onClick={() => onSelect(option.locale)}
+            className={`rounded-lg border px-3 py-1.5 text-start text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ${
+              isActive
+                ? 'border-primary bg-accent text-primary'
+                : 'border-border bg-card text-muted-foreground hover:border-muted-foreground/50'
+            }`}
+          >
+            <span lang={option.locale === '__default__' ? undefined : option.locale} className="block font-medium">
+              {option.label}
+            </span>
+            <span className="block text-xs opacity-80">{option.stateLabel}</span>
+          </button>
+        );
+      })}
+      </div>
+    </div>
+  );
+}

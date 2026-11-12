@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-12",
+  "project": "/Users/ashraf/elmo_tech/wayta_app/web",
+  "checks": {
+    "lint": {
+      "command": "npm run lint",
+      "status": "PASS",
+      "warnings": 0
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    "tests": {
+      "command": "npm test",
+      "status": "PASS",
+      "count": 401
+    },
+    "operationsTests": {
+      "command": "npm test",
+      "cwd": "../operations",
+      "status": "PASS",
+      "count": 25
+    },
+    "build": {
+      "command": "npm run build",
+      "status": "PASS",
+      "bundler": "Turbopack",
+      "output": "standalone"
+    },
+    "architecture": {
+      "command": "npm run check:architecture",
+      "status": "PASS",
+      "sources": 604,
+      "domains": 22,
+      "cycles": 0
+    },
+    "install": {
+      "command": "npm ci --prefer-offline --no-audit --no-fund",
+      "status": "PASS"
+    },
+    "dependencyTree": {
+      "command": "npm ls --all",
+      "status": "PASS"
+    },
+    "audit": {
+      "command": "npm audit --json",
+      "status": "WARNINGS",
+      "critical": 0,
+      "high": 0,
+      "moderate": 7,
+      "low": 0,
+      "scope": "development only"
+    },
+    "productionAudit": {
+      "command": "npm audit --omit=dev --json",
+      "status": "PASS",
+      "total": 0
+    },
+    "runtime": {
+      "comparisons": 28,
+      "status": "PASS",
+      "exactPixelMatches": 27,
+      "identicalOrderRequests": true,
+      "browserExceptions": 0
+    }
+  },
+  "liveBackendE2E": "NOT RUN: fixture API used",
+  "originalMonorepo": "unchanged",
+  "committed": false,
+  "pushed": false,
+  "deployed": false
+}

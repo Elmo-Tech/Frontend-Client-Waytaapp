@@ -1,0 +1,92 @@
+import { redirect } from 'next/navigation';
+import type { ReactNode } from 'react';
+import { Alert } from '../../../components/ui/Alert';
+import { receivesDashboardOrders, usesTableOrdering } from '../../../lib/auth/entitlements';
+import { getAuthSessionState } from '../../../lib/auth/session';
+import { getStaffI18n } from '../../../lib/i18n/server';
+import { resolveAssetUrl } from '../../../lib/infrastructure/asset-url';
+import { canViewKitchen } from '../../kitchen/capabilities';
+import { canViewMenu } from '../../menu/capabilities';
+import { canViewOrders } from '../../orders/capabilities';
+import {
+  canViewRestaurantSettings,
+  hasRestaurantManagePermission,
+} from '../../settings/capabilities';
+import { canViewTables } from '../../tables/capabilities';
+import { StaffShell } from '../components/StaffShell';
+import { canViewStaff } from '../utils/capabilities';
+
+interface RestaurantWorkspaceLayoutProps {
+  params: Promise<{ restaurantId: string }>;
+  children: ReactNode;
+}
+
+/**
+ * Workspace shell for every `/staff/restaurants/[restaurantId]/...` route
+ * (UX-1, Section 3). Re-derives session/Membership state independently,
+ * mirroring the exact pattern every sibling page under this Restaurant
+ * already uses (`RestaurantLandingPage`, `MenuManagementPage`) rather than
+ * inventing a new one -- this is navigation/UX chrome only (Section 12).
+ * Each page underneath still performs its own identical checks and remains
+ * the actual authorization boundary for its own content
+ * (CLAUDE.md #21/#82); this layout's checks exist solely to build the
+ * sidebar/breadcrumb chrome (Restaurant name/status, `canViewMenu`) and to
+ * avoid rendering that chrome around a state that has no valid Restaurant
+ * context at all.
+ */
+export default async function RestaurantWorkspaceLayout({
+  params,
+  children,
+}: RestaurantWorkspaceLayoutProps) {
+  const { restaurantId } = await params;
+  const [sessionState, { t }] = await Promise.all([getAuthSessionState(), getStaffI18n()]);
+
+  if (sessionState.status === 'unauthenticated') {
+    redirect('/login');
+  }
+
+  if (sessionState.status === 'error') {
+    return (
+      <div className="mx-auto max-w-3xl px-6 py-8">
+        <Alert variant="error">{sessionState.message}</Alert>
+      </div>
+    );
+  }
+
+  const membership = sessionState.context.memberships.find(
+    (candidate) => candidate.restaurant.id === restaurantId,
+  );
+
+  if (!membership) {
+    return (
+      <div className="mx-auto max-w-3xl px-6 py-8">
+        <Alert variant="error">{t('guard.restaurantNotFound')}</Alert>
+      </div>
+    );
+  }
+
+  return (
+    <StaffShell
+      restaurantId={restaurantId}
+      restaurantName={membership.restaurant.name}
+      restaurantStatus={membership.restaurant.status}
+      restaurantLogoUrl={resolveAssetUrl(membership.restaurant.logoAssetPath)}
+      // A demo owner's address is a throw-away one: the visitor sees a plain label instead.
+      userEmail={membership.restaurant.demoExpiresAt ? t('demo.visitor') : sessionState.context.user.email}
+      canViewMenu={canViewMenu(membership)}
+      canViewTables={canViewTables(membership)}
+      canViewOrders={canViewOrders(membership)}
+      packageHides={{
+        tables: !usesTableOrdering(membership),
+        orders: !receivesDashboardOrders(membership),
+      }}
+      canViewKitchen={canViewKitchen(membership)}
+      canViewStaff={canViewStaff(membership)}
+      canViewRestaurantSettings={canViewRestaurantSettings(membership)}
+      canViewSubscription={hasRestaurantManagePermission(membership)}
+      demoExpiresAt={membership.restaurant.demoExpiresAt ?? null}
+    >
+      {children}
+    </StaffShell>
+  );
+}

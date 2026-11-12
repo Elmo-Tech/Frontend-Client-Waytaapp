@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "case": 2,
+      "path": "/q/pilot?lang=en&template=GALLERY",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=GALLERY",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 23,
+      "path": "/landing-clay",
+      "width": 1440,
+      "status": 200,
+      "url": "/landing-clay",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    }
+  ],
+  "orderRequests": []
+}

@@ -1,0 +1,39 @@
+{
+  "routeFiles": 50,
+  "unchangedRoutes": true,
+  "unchangedGlobalCss": true,
+  "unchangedPublicAndFontAssets": true,
+  "modules": [
+    "announcements",
+    "auth",
+    "branches",
+    "dashboard",
+    "delivery",
+    "demos",
+    "guest-menu",
+    "kitchen",
+    "marketing",
+    "menu",
+    "menu-import",
+    "offers",
+    "orders",
+    "qr",
+    "restaurant-setup",
+    "settings",
+    "staff",
+    "subscription",
+    "suggestions",
+    "table-sessions",
+    "tables",
+    "whatsapp-tracking"
+  ],
+  "appPageMaxLines": 13,
+  "sharedFolders": [
+    "api",
+    "auth",
+    "env",
+    "i18n",
+    "infrastructure",
+    "utils"
+  ]
+}

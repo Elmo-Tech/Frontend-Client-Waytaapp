@@ -1,0 +1,1406 @@
+[
+  {
+    "baseline": "src/lib/announcements/api.ts",
+    "file": "src/modules/announcements/api/announcements.ts",
+    "name": "base",
+    "sha256": "9a4fd14b5fbbd2de2a81b703da74076f04e9b3c1580d8521f834fea3d84cf074"
+  },
+  {
+    "baseline": "src/lib/announcements/api.ts",
+    "file": "src/modules/announcements/api/announcements.ts",
+    "name": "listAnnouncements",
+    "sha256": "2279def3a65b175e52cd6314b61f99821ea11e3b21468936b1b6c88811f66938"
+  },
+  {
+    "baseline": "src/lib/announcements/api.ts",
+    "file": "src/modules/announcements/api/announcements.ts",
+    "name": "createAnnouncement",
+    "sha256": "21fdb8a78e3d8ff26ab8cc391cdb06f0b18d08882feed920490855e98cba03f6"
+  },
+  {
+    "baseline": "src/lib/announcements/api.ts",
+    "file": "src/modules/announcements/api/announcements.ts",
+    "name": "updateAnnouncement",
+    "sha256": "244604a4fd62acc16664b3d992d2817daffef4a38ee3eeda754ad9bb805a729a"
+  },
+  {
+    "baseline": "src/lib/announcements/api.ts",
+    "file": "src/modules/announcements/api/announcements.ts",
+    "name": "deleteAnnouncement",
+    "sha256": "97847c3cf8a263555448d6e90f7e94ee919f0253b75ad430e2d5098e8eb37f1e"
+  },
+  {
+    "baseline": "src/lib/api/client.ts",
+    "file": "src/lib/api/client.ts",
+    "name": "browserApiBaseUrl",
+    "sha256": "900ecea378f6771d6117e52d0a4814a77c82e64d58a9047e16126da5a71eb79f"
+  },
+  {
+    "baseline": "src/lib/api/client.ts",
+    "file": "src/lib/api/client.ts",
+    "name": "readApiResponse",
+    "sha256": "4795d5c8701b70b61d0193565fdaabb7787b9f005bb90293b49202285a70ae1b"
+  },
+  {
+    "baseline": "src/lib/api/client.ts",
+    "file": "src/lib/api/client.ts",
+    "name": "apiFetch",
+    "sha256": "d0cdde0df6a5911f97ec62c61c63df86cb2ae7305d8efd0761f2fdeed284a46d"
+  },
+  {
+    "baseline": "src/lib/api/client.ts",
+    "file": "src/lib/api/client.ts",
+    "name": "apiFetchFormData",
+    "sha256": "1f260e7cc938bce13902687f2fbe7797c89fa2bb753f44c6fe70d34ad6608ef9"
+  },
+  {
+    "baseline": "src/lib/api/server-fetch.ts",
+    "file": "src/lib/api/server-fetch.ts",
+    "name": "forwardedForHeader",
+    "sha256": "a9b190e19ba6dfe4121568d15514fcd8687bf87c3e0f9ec8928e6ae029e9d72b"
+  },
+  {
+    "baseline": "src/lib/api/server-fetch.ts",
+    "file": "src/lib/api/server-fetch.ts",
+    "name": "serverApiGet",
+    "sha256": "c9fc8f1988cf56ef8b5f4c470f078d5b046f99ea03880b62ae38bc14d1ac3991"
+  },
+  {
+    "baseline": "src/lib/auth/account-api.ts",
+    "file": "src/modules/auth/api/account.ts",
+    "name": "changePassword",
+    "sha256": "f0f4c912f3ed2d9466f98dc807028b3e3274341f58263d1a5b221899e9bbc733"
+  },
+  {
+    "baseline": "src/lib/auth/account-api.ts",
+    "file": "src/modules/auth/api/account.ts",
+    "name": "requestPasswordReset",
+    "sha256": "6ea4ab38704925bd838dcfc98fdd6ac79e48dec195fdd1c7433ad8453ecbf424"
+  },
+  {
+    "baseline": "src/lib/auth/account-api.ts",
+    "file": "src/modules/auth/api/account.ts",
+    "name": "resetPassword",
+    "sha256": "8c9815da95687afcf9aabbcdc981e9daac3df00f3033baf551712487214c3d6b"
+  },
+  {
+    "baseline": "src/lib/branches/api.ts",
+    "file": "src/modules/branches/api/branches.ts",
+    "name": "branchesPath",
+    "sha256": "fe2e3a266dff098298fc45e6488d51f0db491d2153a13ec3b2208d9b39dc5469"
+  },
+  {
+    "baseline": "src/lib/branches/api.ts",
+    "file": "src/modules/branches/api/branches.ts",
+    "name": "listBranches",
+    "sha256": "015e69dd973a1acb650e2dd7f17308ab0474db99525f24d4cd7257de024a2663"
+  },
+  {
+    "baseline": "src/lib/branches/api.ts",
+    "file": "src/modules/branches/api/branches.ts",
+    "name": "createBranch",
+    "sha256": "be86fd89cd59a937ee6dc3b4946a566d2122fc0188ca1e41fd16f0c565b4f0b2"
+  },
+  {
+    "baseline": "src/lib/branches/api.ts",
+    "file": "src/modules/branches/api/branches.ts",
+    "name": "updateBranch",
+    "sha256": "f4e0a50341af36e48a22994fa3f7810732639ec8c548b544987f2c4c83ec43eb"
+  },
+  {
+    "baseline": "src/lib/branches/api.ts",
+    "file": "src/modules/branches/api/branches.ts",
+    "name": "setBranchActive",
+    "sha256": "8fd40707e4c0ddf3102ab3a851908c9f5a0d061af4c8a023d6373710c1e29b56"
+  },
+  {
+    "baseline": "src/lib/dashboard/api.ts",
+    "file": "src/modules/dashboard/api/dashboard.ts",
+    "name": "getDashboardMetrics",
+    "sha256": "40c287b4a052afd7531d0c18ac3cafdd262eb00f050b1d7b2491c9d8abdb683f"
+  },
+  {
+    "baseline": "src/lib/delivery/api.ts",
+    "file": "src/modules/delivery/api/delivery.ts",
+    "name": "restaurantPath",
+    "sha256": "f552003c1c526c917974b2c7c48e28380c91b855d668a564f3ac024d7a33b746"
+  },
+  {
+    "baseline": "src/lib/delivery/api.ts",
+    "file": "src/modules/delivery/api/delivery.ts",
+    "name": "listDeliveryBranches",
+    "sha256": "be7aee142ee03c18114c033f29d46cd4f3d4c748c2050d88280d8c1ce7aa8b52"
+  },
+  {
+    "baseline": "src/lib/delivery/api.ts",
+    "file": "src/modules/delivery/api/delivery.ts",
+    "name": "createDeliveryZone",
+    "sha256": "7b074c5d918303576243560c0c20aa4d59a16d51813f5ed629703e2e8c73eeb1"
+  },
+  {
+    "baseline": "src/lib/delivery/api.ts",
+    "file": "src/modules/delivery/api/delivery.ts",
+    "name": "updateDeliveryZone",
+    "sha256": "8f43c237890a126970cd0c16122d99d11b276c5b9c9dde61cf062a07ef83e50c"
+  },
+  {
+    "baseline": "src/lib/delivery/api.ts",
+    "file": "src/modules/delivery/api/delivery.ts",
+    "name": "deleteDeliveryZone",
+    "sha256": "b25ec6f4c84800d6a4b463246ad31f11f7cb290a0c1f6b95b9eea5189e1340a6"
+  },
+  {
+    "baseline": "src/lib/guest-menu/api.ts",
+    "file": "src/modules/guest-menu/api/guest-links.ts",
+    "name": "getGuestMenuSegment",
+    "sha256": "6e38a47f9dba56b7fea1277deb2ebfad8cbb91eeeaf5fd8b488862b9f121e733"
+  },
+  {
+    "baseline": "src/lib/kitchen/api.ts",
+    "file": "src/modules/kitchen/api/kitchen.ts",
+    "name": "listKitchenTickets",
+    "sha256": "9308ffbbc8c54a5407244766d7b2820fe66063af74dffe6b44f71d3fef81355f"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "restaurantPath",
+    "sha256": "f552003c1c526c917974b2c7c48e28380c91b855d668a564f3ac024d7a33b746"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "listMenus",
+    "sha256": "03eaf37cefb7e94f10b607176644d2eb599561391a48a4a42d2baff8848904ba"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "createMenu",
+    "sha256": "ee6d5730b22affeeebb716d07b8c7016c6df8dabbc60cb3861faaa1a3529c336"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "updateMenu",
+    "sha256": "414784294700f8df4d63af7a884f739c5de04225a3a56dcb41b300a34b8503ea"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "setPrimaryMenu",
+    "sha256": "85ef3648b765b4a1aa550d80bfa3cc2e7aca5dc38051ccffdd46a4e4adf58132"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "startFreshMenu",
+    "sha256": "05f9d102288bb0362d89cd75b9fd9c1e7b81d4177ce68fe122685933b46bfe14"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "listCategories",
+    "sha256": "a4e4accf2db8a71d0798c1165fab9614733ceb296fbf4d124e31c79383a0ef99"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "createCategory",
+    "sha256": "be41707ae2167d80734b5dc7b01c362d0d8f93919a03e4214a33023ae4471c9a"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "updateCategory",
+    "sha256": "e65f4a48b0fb2e38e66ae17188423f3419476f6cbee51637f645d62f7f9fffb4"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "uploadCategoryImage",
+    "sha256": "4d0ab38841aacb3890bf00e5a263ad8eac9fed3afa16d9438eb8724ce33a58ef"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "removeCategoryImage",
+    "sha256": "39a51b90283209dc88f283538ceb56e7005ffbc0ddaff199cdeebf8cdc61c4a0"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "listProducts",
+    "sha256": "6ebf48fa8ec2a47d6c1002dccd35a7f49ed6b972c314a34ca505f9b126284694"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "reorderCategories",
+    "sha256": "da9345e242f0f0e479cbfb8189e42527d556151e1473ec248818e83f65beae46"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "reorderProducts",
+    "sha256": "234233d135da519c186413ef5a8ea1995ce401fd072eebc11e3a3a9c8d1fa29d"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "createProduct",
+    "sha256": "e1bcc6960bfd8e2a991ce71d5317e5e809d3806db34edc3729e7b51fd92f51c7"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "updateProduct",
+    "sha256": "815b8f60498b7f7f5c79aef839a2338de533bbdeefee33ecf3604dcaf76a7773"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "updateProductAvailability",
+    "sha256": "a10c5539fed6cc7274e1337d1883a0dced1ae5419eb03f1149b80775964799c4"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "uploadProductImage",
+    "sha256": "226c1bc3b382649ab5e3388ebde16b54616ca967ef00a2616bcd54d9bbab5369"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "removeProductImage",
+    "sha256": "3056b8fd3700b18b1f48b612bc3ae019eb3e54f50a1823c403ea17706d906320"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "getMenuTranslations",
+    "sha256": "4180883659b35076a2303a45e7dcd978b5dd031f3b5feeb592526871b0503729"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "putMenuTranslation",
+    "sha256": "87888c2f02f89382c09558d954aab6c69ca5631b057a53bf3863c16c76be8f63"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/menus.ts",
+    "name": "deleteMenuTranslation",
+    "sha256": "21408b630c16f5d1aca244ce6546722da0133cd879104278d1fc5c6b2f39819e"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "getCategoryTranslations",
+    "sha256": "be0457c4c787ef56a275eefb7315967c3d4b1f0290fcc0c9fc8cb5977ee28060"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "putCategoryTranslation",
+    "sha256": "66d9d7ee329c96e1d2422a2a5c5186aa419ccb3d9167e17ecb08e25f89e1bdef"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/categories.ts",
+    "name": "deleteCategoryTranslation",
+    "sha256": "d7eaf2faeb0c92ce26684d3fd063ac6384b08740f1e09984be5270c95e2b4e6e"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "getProductTranslations",
+    "sha256": "7e5d8d82547ff2fbf77f059700778a1eea91bdb82b1637fd9304345368617a62"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "putProductTranslation",
+    "sha256": "03ecb8ddfd65b6a8a3e385cea64369d75bdd05f53f1398ac404ca1673e9dc7d9"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/products.ts",
+    "name": "deleteProductTranslation",
+    "sha256": "2d50d2803f62478160db2e5dfb8befd36bcd7f6c078283aa6a0ca2faa99e2ccd"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "modifierGroupsPath",
+    "sha256": "f73828fbc496a8e0625215f3e5033e3269395f5521086e653a8e020cc4492b77"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "listModifierGroups",
+    "sha256": "d6f6d1372b5296fad7577d5de82c1cec63b0fed7b3debb9c2453ccaf43afc09d"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "createModifierGroup",
+    "sha256": "86eb4369f8b237d66f54ba20bf42518827891efe5f81bb8b5e9285c31080c7e7"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "updateModifierGroup",
+    "sha256": "dbaebe68037e1f7c10b1237266eee2eea976b2cbc6a1bbc3d930d1e440352766"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "createModifierOption",
+    "sha256": "01105801c132db192c446f5131ba126ecddcce7ab89b8d4bea92ea8604e98379"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "updateModifierOption",
+    "sha256": "7dc11450f74bf58c89af9e11dd384e37a73ca8d38313557dc8d02e368d0166bf"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "deleteModifierGroup",
+    "sha256": "504d92736525879fdc3a6fc4c746c83a51424d92ddee7cbe2f712505058bf3df"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "removeModifierGroupFromProduct",
+    "sha256": "493bf34aa2cc1a9107533efd15729cb793ecaee88943bf6c9db4e1990ef9953b"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "deleteModifierOption",
+    "sha256": "e264736691e1e8fa90546d85a92867bad92c9665096002010f8582b002a6f721"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "getModifierGroupTranslations",
+    "sha256": "69cd3a00c6a64c322d87b44ec7253395cd9088603cffc640ace17c1acd6ad8f5"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "putModifierGroupTranslation",
+    "sha256": "8868fe29024030febf1f28631f5ffb21c950e39fa13e3b571ce428d6e381e815"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "deleteModifierGroupTranslation",
+    "sha256": "cebb81725d37f1fb0ec9379ab169bab210938334c44f38df6ffb5206ab525f58"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "getModifierOptionTranslations",
+    "sha256": "a4344bd1a7387dccb501ab06b6f746648a9de0221b33b028d3ab4fe6f6c56573"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "putModifierOptionTranslation",
+    "sha256": "943a64da1a020aa988caec762d32cae8385e506064346af556ec0770ed84bd7e"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "deleteModifierOptionTranslation",
+    "sha256": "043117a495706e21542c5a5e48de26c65389e4d3e5a21f9377b6286bfea6f876"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "applyModifierPreset",
+    "sha256": "a3cc3130cea26febe95c7c5cf1c17f83497e178c60656c86a727ba2870f61195"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifiers.ts",
+    "name": "resetModifierOptionPrice",
+    "sha256": "95ae92a979aea16c2a4d9ce8aee9435cb3fd6233465ce6639a43fc31fdaf36a8"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "modifierPresetsPath",
+    "sha256": "454c7d7625ed26c76b48a4015f69ef4df0c5f4a231451cf78d8cf0c03761808e"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "listModifierPresets",
+    "sha256": "4a67b80c34dd994491b52b3b54c9f63afe2d02f4423014b99550768c46add7c0"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "createModifierPreset",
+    "sha256": "e7758772edc51bb70c17e4d5a21105ba4cc43b3227f5379cda5d89eb10cf8bd6"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "updateModifierPreset",
+    "sha256": "bd5204da57ce606372d498f2aa80c9e4dbfea7d8931e7272ccb3f59b49c1567a"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "deleteModifierPreset",
+    "sha256": "20d13f1a4f79fe897eab3e64889ef0e12778bdc0ef949fd963baf8f8aa6f1206"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "createModifierPresetOption",
+    "sha256": "64123b528e9fbc76eb900ecda49f97a7c439028cc82eb934f87b3e8fa2933e4c"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "updateModifierPresetOption",
+    "sha256": "8ebb2afcf2b04bd1c5e5ee0e7eeddf6a18bb9671289ed39b0729bc2c0a1cbc4d"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "deleteModifierPresetOption",
+    "sha256": "75848547ae4dab7fc1683ab3483404972cb4789f818edfc0dfc14ef21540c036"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "getModifierPresetTranslations",
+    "sha256": "11f3b2720c2de8a7f256ad1e4179441e8d51129c51f46400ef5d333eae431fff"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "putModifierPresetTranslation",
+    "sha256": "b11de79d6a054bc86f65c943cb83a875e1bac437e80b841ce1fd46b59ee41d49"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "deleteModifierPresetTranslation",
+    "sha256": "404cf02761598e0f2900f079368ac8d92eecc9caf467215a66aa22ace9f19680"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "getModifierPresetOptionTranslations",
+    "sha256": "93ed94bd6724dcf84c39ac82f2b35f14648cd756151a5e89efc0ba8656be4dc0"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "putModifierPresetOptionTranslation",
+    "sha256": "84ad16b7fe85a155a22a61b737cd80d2bb7de2d4bd341c91dd0fdc06a1a9c359"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/modifier-presets.ts",
+    "name": "deleteModifierPresetOptionTranslation",
+    "sha256": "626a35975fb6aa79c7d363445b1e01f05e28afbf91b53692b4a8d3e72411ef67"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "variantsPath",
+    "sha256": "a8c419a7d5a52f875e864321fcd3384e18b2d8d28ab52999a8f7880b04962ca0"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "listProductVariants",
+    "sha256": "419b31c677579cc2b93ecfdbe977a34c39d2d7b54c80e7ba3559845203d4c1ca"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "createProductVariant",
+    "sha256": "b85625da3f14056d788a69e65f15538252445e5827332692abbd4a665d3a8c43"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "updateProductVariant",
+    "sha256": "bef3f7fa32c3366b6be3d3780054736c7185171bb384f4adeb513069c8e4ef0b"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "deleteProductVariant",
+    "sha256": "2b39908dc8b23621f421c1c82a00516455148765e058697a0f550185cec6fa4e"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "reorderProductVariants",
+    "sha256": "82b9c3e0f2e0b77c056f57ef8265fcc0242c275fe92c56f6eda3cb93e8862f24"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "getProductVariantTranslations",
+    "sha256": "cee263a93ed2a66151a85f68422a99ba45b46bde015257e5a506d0f8cc22e1f0"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "putProductVariantTranslation",
+    "sha256": "70091597165c2407fc66fe263b1aa4d8173cc5d3e96ff9eddebd6b6fffb801b6"
+  },
+  {
+    "baseline": "src/lib/menu/api.ts",
+    "file": "src/modules/menu/api/variants.ts",
+    "name": "deleteProductVariantTranslation",
+    "sha256": "39f3d86a2664fed0d3085e20d43a6f31be33769e4cf9cf87cd0d42e940f1eaaa"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "base",
+    "sha256": "6c53f8d0dc0fa9bf7c2511252807a6664283f834dd561fabf895ef3029bfad2c"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "startImport",
+    "sha256": "e4bbf5b3c6ca06612c6d1f72f34d0655ad061d63305d929db314cd33b409967d"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "listImports",
+    "sha256": "a056463df5f9364bcd3415e6a9f4deded03112b821c0b7fd02942bd079c91822"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "getImport",
+    "sha256": "307391e2fe71d52bf1600acf758a0ebedeb6004c52402ea6af630c298f3b969f"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "getDraft",
+    "sha256": "c031db2fee8fbbaa335abadf2b6fc1b91a5c41f4e40f2cdf968379fc07e6bc42"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "updateDraftCategory",
+    "sha256": "fc7b31140acbae22f34535d35a07aa3a167e12bddececc10ef226403ca283a70"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "updateDraftProduct",
+    "sha256": "301e1ca60008f098757c80c5f89e75b79dcfe3553e16de51e3abd00806635eef"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "approveImport",
+    "sha256": "543dd6ba8d0953e7b3e65c0aecda8833afcbba65cf81cabedbc5cfc0ba38b17a"
+  },
+  {
+    "baseline": "src/lib/menu-import/api.ts",
+    "file": "src/modules/menu-import/api/menu-import.ts",
+    "name": "discardImport",
+    "sha256": "399b9fe40aa99f00f628c44709cebbef02fbbc8066afea6d9b85e72d72f60edb"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "base",
+    "sha256": "58cafd49548406b5233f75e678b7c53ad023bc326c94efbd3e6cbaf49ada9fdd"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "listOffers",
+    "sha256": "468940f5b1fe30dc563100fdb26d74b39c72bda64c579f8af31faa2f6a10c9a5"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "createOffer",
+    "sha256": "f4facc3f7545fbd4d13bd8e2c7403186505b2c33894bdcfa14ade6395332bea9"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "updateOffer",
+    "sha256": "ae9cf214d823f0296a90f68087d81b2b11ea3048c54520c66eeeb85ab1226bf0"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "deleteOffer",
+    "sha256": "97847c3cf8a263555448d6e90f7e94ee919f0253b75ad430e2d5098e8eb37f1e"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "reorderOffers",
+    "sha256": "4661a8dd3cd43eba4e09e3f5459ffc9b39c11df98af7544a90aadd7de925f8ac"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "uploadOfferImage",
+    "sha256": "a1ca9aea9e7e4d100ca203206d41db927c87b393bb43566123e56447581799ec"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "removeOfferImage",
+    "sha256": "c71e4b43c5e5bec0bb804c118952c3a79addf6022789e3bb802da841e9d8eebd"
+  },
+  {
+    "baseline": "src/lib/offers/api.ts",
+    "file": "src/modules/offers/api/offers.ts",
+    "name": "listMenuItems",
+    "sha256": "ecc0ae871a20f3317f36093c6d0225fccdf133156a5cbdb3ddc8d1a2fbe34c72"
+  },
+  {
+    "baseline": "src/lib/orders/api.ts",
+    "file": "src/modules/orders/api/orders.ts",
+    "name": "restaurantPath",
+    "sha256": "f552003c1c526c917974b2c7c48e28380c91b855d668a564f3ac024d7a33b746"
+  },
+  {
+    "baseline": "src/lib/orders/api.ts",
+    "file": "src/modules/orders/api/orders.ts",
+    "name": "listOrders",
+    "sha256": "60ea3e2c95285286f082260c306ede4dfb531e448e273023242eb1947b894e45"
+  },
+  {
+    "baseline": "src/lib/orders/api.ts",
+    "file": "src/modules/orders/api/orders.ts",
+    "name": "getOrderDetail",
+    "sha256": "c3a8ede77fbf523eeac9dc898cd5b512afa5feb12a2668ff0b0276f763d24858"
+  },
+  {
+    "baseline": "src/lib/orders/api.ts",
+    "file": "src/modules/orders/api/orders.ts",
+    "name": "updateOrderStatus",
+    "sha256": "4e923fe2d1aea585658f54a6e8fceb57c67c5d8384610f4dadf655414e61f2f8"
+  },
+  {
+    "baseline": "src/lib/public-menu/api.ts",
+    "file": "src/modules/guest-menu/api/guest-menu.ts",
+    "name": "parseBranding",
+    "sha256": "b8351624cd54701f0b4e15e2598d8db2f626a83da3b8f9b2aea685e17c8bb1c4"
+  },
+  {
+    "baseline": "src/lib/public-menu/api.ts",
+    "file": "src/modules/guest-menu/api/guest-menu.ts",
+    "name": "getPublicMenu",
+    "sha256": "a592f7b1a689d58a2a507fd89b7b2822b5af349089004d924fe226cb2efe7730"
+  },
+  {
+    "baseline": "src/lib/public-menu/api.ts",
+    "file": "src/modules/guest-menu/api/guest-menu.ts",
+    "name": "formerRestaurantCanonicalSlug",
+    "sha256": "5d282fcc03a36a9e24d1313d874899ccbd069748c7aa6860bf09633231918899"
+  },
+  {
+    "baseline": "src/lib/public-menu/orders-api.ts",
+    "file": "src/modules/guest-menu/api/guest-orders.ts",
+    "name": "getTableOrdering",
+    "sha256": "24739d751ce23d4ba7a6c24e750fa21a7e7fd9a70f4b6bb84148d96fb8871fee"
+  },
+  {
+    "baseline": "src/lib/public-menu/orders-api.ts",
+    "file": "src/modules/guest-menu/api/guest-orders.ts",
+    "name": "submitGuestOrder",
+    "sha256": "77f4c07738335ded0b1fe3d5202bd78b64ab6bec54c58d654f8440ad42eb90b9"
+  },
+  {
+    "baseline": "src/lib/public-menu/orders-api.ts",
+    "file": "src/modules/guest-menu/api/guest-orders.ts",
+    "name": "submitWhatsappOrder",
+    "sha256": "0fb0511156234e640b9a5a4b56f8f0a550052a1ef4dcba004218e9c22069e0f2"
+  },
+  {
+    "baseline": "src/lib/public-menu/orders-api.ts",
+    "file": "src/modules/guest-menu/api/guest-orders.ts",
+    "name": "sendOrder",
+    "sha256": "1dc18b0d49aa1183b10807e4bb5e14d0a2a397a9462ded9a722bb604a5bdb360"
+  },
+  {
+    "baseline": "src/lib/public-menu/tenant-internal-http.ts",
+    "file": "src/modules/guest-menu/utils/tenant-internal-http.ts",
+    "name": "fetchTenantPublicMenuWithHost",
+    "sha256": "e61e43efc9f28320cb5164677c1b49d5acd641336ab8ea2cf9f28e9f3b567244"
+  },
+  {
+    "baseline": "src/lib/qr/api.ts",
+    "file": "src/modules/qr/api/qr.ts",
+    "name": "path",
+    "sha256": "b8109d1491810270f9f1bb9d9c4f6576813cc2681aa4c014f09cfe1a4ddcc294"
+  },
+  {
+    "baseline": "src/lib/qr/api.ts",
+    "file": "src/modules/qr/api/qr.ts",
+    "name": "getGenericQr",
+    "sha256": "0c80e2f8d5023f5453025d309eec361e2644a51d57f94f8e5bcbfb6102ab1764"
+  },
+  {
+    "baseline": "src/lib/qr/api.ts",
+    "file": "src/modules/qr/api/qr.ts",
+    "name": "createGenericQr",
+    "sha256": "a39bf492a9c24b556d21e61e21382f7dc7f934db799bc1cf08d5c6e6d58c40f6"
+  },
+  {
+    "baseline": "src/lib/qr/api.ts",
+    "file": "src/modules/qr/api/qr.ts",
+    "name": "setGenericQrStatus",
+    "sha256": "72207f6f53f5600ab25ff8bd4ab96da76ae673dd0c573962723bcf87756dd84a"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "restaurantPath",
+    "sha256": "f552003c1c526c917974b2c7c48e28380c91b855d668a564f3ac024d7a33b746"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getRestaurantLocales",
+    "sha256": "6eaae5ec588eb8ffcb6f6b12253fce90c8eb9474a7d75a6df40db6667181e0fe"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "setRestaurantLocaleState",
+    "sha256": "18c15f872be35545a26b5d43c57f4931cc4556881563993cd751380d7dfca09e"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getDefaultLocaleReadiness",
+    "sha256": "d3d7345f63b3e9f73da0367eca683c2007cca9ce220120ce253f68df6add5c1b"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "setDefaultLocale",
+    "sha256": "db1e35dcf5a9f634df404f0e59027ae4504abe41b4cdcda312ee6ed2a14f297f"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "updateRestaurantProfile",
+    "sha256": "ce248f84261a0a5fd3115af8b64f6296a6181dc8cdf8c26abf16d9f96c546d9d"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getExclusiveDesign",
+    "sha256": "7fed6c421413caa84c4eb3e1ba6e22f97b573e126ab509f3ac5fb4bb536e87c5"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "setExclusiveDesignSelection",
+    "sha256": "7c4e5a70cb339b25e154af6b36e1fa0c909fcc267d31fe21e0caf8e4adaa2dff"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "updateQrStyle",
+    "sha256": "442eeb63738d1d9971ff5040f1fd0f335bb8febd93c0e26b731d98d9e141c9fa"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "updateMenuTemplate",
+    "sha256": "ecc537aacbcc4a9c64f99ab2784ebad01ef6c6e2c343d9b86a8e35721bac5658"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getEmberTemplateConfig",
+    "sha256": "6e42c0b8625ac859a6b543d248da312dbcd6236de9842057de92d0ecd458fd2b"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveEmberTemplateDraft",
+    "sha256": "a59539f15951170e430bec2a904eaa6bc4eb8f26d0cf37b5e9a433b3fef6c7ab"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadEmberTemplateHeroImage",
+    "sha256": "9f033ef9a9bb06ae35612738685b9b7d71b2f0ac6081510848ef0c7945aaeb89"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetEmberTemplateHeroImage",
+    "sha256": "11b0b3ea7685df5658ab2ebe699dd0d5f7b6f985aa87c81e80569c4360ce27fd"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishEmberTemplateConfig",
+    "sha256": "42a9b3da6e33f2835937bf38bf907281c94dfd820859dd3c8b8de53fbfde5ce4"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getBloomTemplateConfig",
+    "sha256": "dbcf27e17dd037d33442370d283a08e24da4f20c22a958a174c3d5ab9001688b"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveBloomTemplateDraft",
+    "sha256": "473f39e5b2d09d01da6ea73be4ee5c9d2e7b890a1028b1d2d6cead633d662428"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadBloomTemplateHeroImage",
+    "sha256": "ac090f22580c5f7559ffcd24dc7502d8572fc82450ceebb2c376b919e71f7802"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetBloomTemplateHeroImage",
+    "sha256": "1f236b2554f2cb190aec26e1357decf949ea0eeda2f519f007236743cb828aa1"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishBloomTemplateConfig",
+    "sha256": "c02c26afa2c3db6b3e3c0a39a83eeb40ac3bc36842705d2c9694a6edbf8d308a"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getBrewTemplateConfig",
+    "sha256": "a7b9423cde1488c402f7b2054654d5704c75936c858b1a5e9baa7bad441b6b2e"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveBrewTemplateDraft",
+    "sha256": "151d0bfb22cf09220148530fc59b64374505416e069b7c97e4e97544124b7c78"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadBrewPromoImage",
+    "sha256": "b8f8eab279220ae953137a0939c140f0b9dce05c34ee81d07584edab13f04414"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetBrewPromoImage",
+    "sha256": "f9eb9ee4c0a4706c2819dacb06bfd0d052a6c5c217b5151e6a8e5b441bf99d83"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishBrewTemplate",
+    "sha256": "2d2e49a589a8463c1b53b0c764cf9ce2782e16e2e09ef36a52def9aad205f72f"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getEditorialTemplateSettings",
+    "sha256": "60cd2a4e1f651fb3b0872ed94728f757ad99f303b26059e9c130833c1400a528"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveEditorialTemplateSettings",
+    "sha256": "5441de109e90899c84aa78ebf97567929ada3b2b63f954872ccf8b9e755b9c2c"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "updateOrderingOptions",
+    "sha256": "e1ab58ff40bde5ef61cb749f14a117bdf7208458ea5f9418855062addc6170ef"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "updateContact",
+    "sha256": "86e4ff302670585745e7d26da421bfd9a4a72d2541974017d106f8cf32acc0ee"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadRestaurantLogo",
+    "sha256": "6d3d12e8c9fb6dd7081c4f9f24e458c666ca77f4515f9052dfc2c108501c3103"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "removeRestaurantLogo",
+    "sha256": "ce54bfcdd8a5ace9b5e3469bcf76f77347bd2b028f2ddb62c3e1b2379f8bb4b4"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadRestaurantCover",
+    "sha256": "c4864b42b7a4fa8c4b89a58fcffd138b2e8a0254632bec3372b2ca2bdf7c4d86"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "removeRestaurantCover",
+    "sha256": "d393b5b747441a8f80ceacf4f82edde0e970ce311f32c2c357ad0a34c1804045"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "verdeView",
+    "sha256": "dc29113e27494b14e68f2edcff167361763f765f9891873f9826ccfc82959dfb"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getVerdeMenuConfig",
+    "sha256": "d3f7bb8dffd31b01d039e694897ebf94661e779de97ac1f08ae97e2299c7403c"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveVerdeMenuDraft",
+    "sha256": "4727d782c07161911769fe3db7c3c6f6b25bfd297406d3fdf47a541b6736e387"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadVerdeImage",
+    "sha256": "4392d182711bcfeb2bb30bba2039f848d2aa12c66f002ca0b4b30e25683521a6"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetVerdeImage",
+    "sha256": "2606ce7275f121b7f59980d5fba620ab464755a8dd6e76458a49d006486bd174"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadVerdeCategoryImage",
+    "sha256": "785f8362f434d3f5aebeb7e409dd584dc9ae68048d3e6e7a91bba7adfb12fec1"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetVerdeCategoryImage",
+    "sha256": "a43f5fed9205fc515ea73f60ac24615fa6b7265b18e331b85a0f6c144dd6e91e"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishVerdeMenu",
+    "sha256": "dbf1d8a416d5bc48556bcea00870bffc27b8842da2a9902d68ed2bcac2139e21"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "sherbinyView",
+    "sha256": "7eb14143d117d90a0dc357b74fa6dd90d149a009c2420ca5f278812e310fc282"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getSherbinyMenuConfig",
+    "sha256": "7aa1a36a8d4a746e3670b822df97832a8a5b2197ddebdc4d89bdc7c4e38e9fd6"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveSherbinyMenuDraft",
+    "sha256": "acd7a58615a9350a7029a2931b13d58bb538cd781c39c491818348368d179fd3"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadSherbinyImage",
+    "sha256": "7e480cfd3b93c1a9eb9a673d83bbef76de2954f2f4ec99dff5372ffb0cb946df"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetSherbinyImage",
+    "sha256": "98f3e01fd66ba7e46d1f98c4b386c90172d5f2885c664fdb91cafa289d38d5e9"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadSherbinyCategoryImage",
+    "sha256": "a024fbf43cd88b7022f9fb398ad3427e8d22e24647b51329de6b6ba0007a2b55"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetSherbinyCategoryImage",
+    "sha256": "91373f50bd489e33a5acf2966283c588c8e8255cf6dfd7d5362465a303cb21fe"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishSherbinyMenu",
+    "sha256": "08e3439d704b2985baa59d99b625b040a973eab63606b8643c4a24d5b77e418e"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "makkbozView",
+    "sha256": "8ff2d627e7106c69b17acb8ea826f388a0099da3a6108b203600557da3dc072a"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getMakkbozMenuConfig",
+    "sha256": "6a03669ec4539d7f4dfe9d7990df666b65cca9b021ca58b020d6d016e94e7d9f"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveMakkbozMenuDraft",
+    "sha256": "a1cf95c55058446066f2ab585fc2f5af4824b8bfed32a1a26a3b0eeda55b10c8"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadMakkbozImage",
+    "sha256": "c672c555b94cf3eb31d13fc1f1668e900538c521ee5fe79b2a69491263ea3cab"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetMakkbozImage",
+    "sha256": "6ea7df15ffa0039382039335b6ddbc22911c622b0454a511d2b092c337777609"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadMakkbozCategoryImage",
+    "sha256": "a6bfe157a40fa40e5e4b36d2d5ccf69b922370af53fad5ea86e56b3e6ffc89b9"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetMakkbozCategoryImage",
+    "sha256": "798007259d675a94e05e58f92c0b2676f8ce990fc183880b96ac0f967182711c"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishMakkbozMenu",
+    "sha256": "38587336dc99102aaeca5c2df219122b7f1148a941fde50423de9414954bdcfb"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "meatLoversView",
+    "sha256": "5f47b3e93e90249d62a3bdf9259b155e8ea27952ffa7f2241c96f8c511f14323"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "getMeatLoversMenuConfig",
+    "sha256": "4a298893efeedf7bfa4a50bda79c5d7b3c291e001dea7a86ee0bf3bbfe701439"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "saveMeatLoversMenuDraft",
+    "sha256": "87688054a726a5c2aaa3f57149ca7c7e7313066de758cc2f7f04fa2f72c420a6"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadMeatLoversImage",
+    "sha256": "ecc51cceccaa5b4cf0d8dddbc8286cae392889635715772d528d2f80ab8d2dbf"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetMeatLoversImage",
+    "sha256": "1092a6a7d6617d0de82423b03637dd56a31a95c418cb6a724b3e8abb9625fc6d"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "uploadMeatLoversCategoryImage",
+    "sha256": "ec0576fdbcac57ca1c093bda6c7355bfdc7c503b12b01ee93393843a3bc5affd"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "resetMeatLoversCategoryImage",
+    "sha256": "58d1e79d5fcb7e34b2f8705c1a8ddfa62f582bfc78241dbf748701374756336b"
+  },
+  {
+    "baseline": "src/lib/settings/api.ts",
+    "file": "src/modules/settings/api/settings.ts",
+    "name": "publishMeatLoversMenu",
+    "sha256": "73de744edbb92272be068f6e3bbb985a904dc536c1b05dccb62a38e5f8821254"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "restaurantPath",
+    "sha256": "f552003c1c526c917974b2c7c48e28380c91b855d668a564f3ac024d7a33b746"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "listStaffMembers",
+    "sha256": "71d73810e56256f82f9a5450ca1b1e95c8264c70bbb57b6bbc62c2f49a28267e"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "listStaffRoles",
+    "sha256": "22d21498bdfea3fe702b8dccfa5274aeea4f877f6f794c9faf0f4c89d2e29f33"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "createStaffUser",
+    "sha256": "8dd703be25fd5df0114d52c2946c9d7d605cbc29e0ef7d359cc95f416d0b332e"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "updateStaffMembership",
+    "sha256": "fae9758da6c1fd41d408b865e3548f124234de3613ca68fdecf89dcad5226c5c"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "setStaffMembershipEnabled",
+    "sha256": "5c2a669b19a07d9d8dbc23896efcfd705c2a09ee6fe6b0e5ad17710787116739"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "createStaffRole",
+    "sha256": "54965d928effb9269f3f58bbe2ac08c519c6503982f1acaa228d841cdf9864aa"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "updateStaffRole",
+    "sha256": "875ba1edddde0ddc3a139da900b93872a0c578b9b77f8b1d46a01e0ac086c50a"
+  },
+  {
+    "baseline": "src/lib/staff/api.ts",
+    "file": "src/modules/staff/api/staff.ts",
+    "name": "deleteStaffRole",
+    "sha256": "2707b2ae4c4f1048cf82d880a4f902d15972953877f18298b925c5983268ff3c"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "endpoint",
+    "sha256": "9c1ffa230af0639ddf81e5db9497907b925c2a00cec52d4ca3f839b75f66dd24"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "getSetupStatus",
+    "sha256": "9ff56c334412ed2a54589ae62c99fb5642e720d7d6a38001294ffeb79bb57052"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "post",
+    "sha256": "07e9d4807d2a5e1775dc011d88fd80149099d5f1da6990e38dc4def2bff830df"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "enrollSetup",
+    "sha256": "81efcf8728b4bbd38b5db584ea2cf1b15a4520da527328b9a84b1b0bb2772f53"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "setSetupVisibility",
+    "sha256": "2246fbab509153b17fa1724c212bf17c7cd0b5d5b5e766636e61c6adb2193f95"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "reviewSetupStep",
+    "sha256": "b31fd08d71d4994b2d951d9f3bf87792e45219d897870c81942cd6af91b49c28"
+  },
+  {
+    "baseline": "src/lib/staff/restaurant-setup-api.ts",
+    "file": "src/modules/restaurant-setup/api/restaurant-setup.ts",
+    "name": "completeSetup",
+    "sha256": "3eab176ad4440c5067889f88f47a5da5faa85e7a604619d1bce96b71cb14f2a5"
+  },
+  {
+    "baseline": "src/lib/subscription/api.ts",
+    "file": "src/modules/subscription/api/subscription.ts",
+    "name": "base",
+    "sha256": "2ae3140e3f737cc3caf4865d9ecf555ecb252c9333a063de0a2546c35bb81c3f"
+  },
+  {
+    "baseline": "src/lib/subscription/api.ts",
+    "file": "src/modules/subscription/api/subscription.ts",
+    "name": "getMySubscription",
+    "sha256": "ff41e474fa3d0f5354c9021b59bd2f0613ce2ff6d0628e06df567ab36994757b"
+  },
+  {
+    "baseline": "src/lib/subscription/api.ts",
+    "file": "src/modules/subscription/api/subscription.ts",
+    "name": "sendSubscriptionRequest",
+    "sha256": "c997cd499b2634cec12fb57b8a5605051716a564d9d7d71462620dfeb3b368df"
+  },
+  {
+    "baseline": "src/lib/suggestions/api.ts",
+    "file": "src/modules/suggestions/api/suggestions.ts",
+    "name": "getSuggestionsSettings",
+    "sha256": "126a53632a0c75e31b3fcdaf6ff196822c2e6039e105a748b03673d82a809e12"
+  },
+  {
+    "baseline": "src/lib/suggestions/api.ts",
+    "file": "src/modules/suggestions/api/suggestions.ts",
+    "name": "setSuggestionsMode",
+    "sha256": "baaf110b929872be93cb6febd645efabc4261de188e9194dd182c0f43aebdd9b"
+  },
+  {
+    "baseline": "src/lib/suggestions/api.ts",
+    "file": "src/modules/suggestions/api/suggestions.ts",
+    "name": "getProductSuggestions",
+    "sha256": "59dd07c1f3c3da0c985920a82ba685aaeddf3c797f2d54407001c5024cb3c8c0"
+  },
+  {
+    "baseline": "src/lib/suggestions/api.ts",
+    "file": "src/modules/suggestions/api/suggestions.ts",
+    "name": "saveProductSuggestions",
+    "sha256": "8d307c95baf088b3cf9845e1503d54a2f19d5a4459fc54dbbe24705bb921d471"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "base",
+    "sha256": "ccb281d981d7f4ff6839e401b2231da8d979caab50fba026f48022b72228bf1d"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "query",
+    "sha256": "ca4f4a08ead5cfafefd9c05a309a7141ceb26afcd2f0453bdc4f50b1e5e5ce50"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "getBoard",
+    "sha256": "ebc64a9c5df44bf16f6ce8e2431ad3a6939ee591fb14c52c98ca028801d4ebea"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "listSessions",
+    "sha256": "f52f8c3d321ede5e62e78952bbd7e4dbfc86b8861caf48e7df6e6684a4bfc4a8"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "getSession",
+    "sha256": "f6c1a72a4f3d11a6e2169fbd27e90176b4c63b9534d55dfd836433123f28ef1a"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "openSession",
+    "sha256": "aa47dbd88a813ee39bf82e021918e40c872e19bb476b914fb8988a062a1d0ffb"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "closeSession",
+    "sha256": "295db3fb345728cf6651df293005194d4eb8d207a7ad497e6e843fea73478ab6"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "getBill",
+    "sha256": "055be76180c045055642154fa79859fa1165b8a0639fabdff798a667f9f1bd9c"
+  },
+  {
+    "baseline": "src/lib/table-sessions/api.ts",
+    "file": "src/modules/table-sessions/api/table-sessions.ts",
+    "name": "recordBillPrinted",
+    "sha256": "6eade55986568d8ab86598146eaaa8f24cff0f93ea43b6b47416e9ef3cc1e2c1"
+  },
+  {
+    "baseline": "src/lib/tables/api.ts",
+    "file": "src/modules/tables/api/tables.ts",
+    "name": "branchTablesPath",
+    "sha256": "d9a0dd38b0b167961efcfcf77118fd65f6593b80be9f0f9ed5f2ade50b976f2a"
+  },
+  {
+    "baseline": "src/lib/tables/api.ts",
+    "file": "src/modules/tables/api/tables.ts",
+    "name": "listTables",
+    "sha256": "e485000a9ab264d1eedd14122a6095b53c47ed8114768606cdb5913aa9e2c3ee"
+  },
+  {
+    "baseline": "src/lib/tables/api.ts",
+    "file": "src/modules/tables/api/tables.ts",
+    "name": "getTableDetail",
+    "sha256": "b22c4b876882571ebea83408ab1ec2a13525604e9b921543f628e044c1950ec6"
+  },
+  {
+    "baseline": "src/lib/tables/api.ts",
+    "file": "src/modules/tables/api/tables.ts",
+    "name": "createTable",
+    "sha256": "b015548c183627a5f301b246ec13efb3d75a9feae29a1c03f447fdee09a7f6de"
+  },
+  {
+    "baseline": "src/lib/tables/api.ts",
+    "file": "src/modules/tables/api/tables.ts",
+    "name": "updateTable",
+    "sha256": "a3f939991e11c9be963e307221ceabf5140edb75a253c5b95ee13d8effd9b859"
+  },
+  {
+    "baseline": "src/lib/whatsapp-tracking/api.ts",
+    "file": "src/modules/whatsapp-tracking/api/whatsapp-tracking.ts",
+    "name": "getConnection",
+    "sha256": "d8b481ed19ad2bb5548a8ddff1246076174b5eaa00a69086b4f95dcdb3190279"
+  },
+  {
+    "baseline": "src/lib/whatsapp-tracking/api.ts",
+    "file": "src/modules/whatsapp-tracking/api/whatsapp-tracking.ts",
+    "name": "connectWhatsapp",
+    "sha256": "38d42264739e6d43a5c9ffef4ad35527c0a66cdabcdd6696188f3cfdcb446c98"
+  },
+  {
+    "baseline": "src/lib/whatsapp-tracking/api.ts",
+    "file": "src/modules/whatsapp-tracking/api/whatsapp-tracking.ts",
+    "name": "getToday",
+    "sha256": "25a9bab709714e281a0013109d9d0faed77998b23c43988fc0d392c226dda81d"
+  }
+]

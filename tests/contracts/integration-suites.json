@@ -1,0 +1,18 @@
+[
+  {
+    "old": "src/lib/public-menu/editorial-price-display.contract.test.mjs",
+    "to": "src/modules/guest-menu/tests/editorial-price-display.contract.test.mjs"
+  },
+  {
+    "old": "src/lib/public-menu/mobile-ux.contract.test.mjs",
+    "to": "src/modules/guest-menu/tests/mobile-ux.contract.test.mjs"
+  },
+  {
+    "old": "src/lib/public-menu/subscription-plans.contract.test.mjs",
+    "to": "src/modules/guest-menu/tests/subscription-plans.contract.test.mjs"
+  },
+  {
+    "old": "src/lib/staff/restaurant-setup-live.contract.test.mjs",
+    "to": "src/modules/restaurant-setup/tests/restaurant-setup-live.contract.test.mjs"
+  }
+]

@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+src/generated/prisma/
+/storage/
+.env
+.env.*
+!.env.example
+!.env.production.example
+*.log
+.DS_Store

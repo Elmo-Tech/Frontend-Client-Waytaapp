@@ -1,0 +1,162 @@
+import type { OrderListItem, OrderStatus, OrderType } from '../types/index';
+
+/** FT-7B: the top-level Orders workspace tabs. Pure client-side grouping of the already-loaded Orders -- no backend concept. */
+export type OrdersView = 'active' | 'completed' | 'all';
+
+export const ACTIVE_STATUSES: readonly OrderStatus[] = [
+  'PENDING',
+  'ACCEPTED',
+  'PREPARING',
+  'READY',
+  'OUT_FOR_DELIVERY',
+];
+export const COMPLETED_STATUSES: readonly OrderStatus[] = ['SERVED', 'REJECTED', 'CANCELLED'];
+export const ALL_STATUSES: readonly OrderStatus[] = [...ACTIVE_STATUSES, ...COMPLETED_STATUSES];
+
+export function statusesForView(view: OrdersView): readonly OrderStatus[] {
+  if (view === 'active') return ACTIVE_STATUSES;
+  if (view === 'completed') return COMPLETED_STATUSES;
+  return ALL_STATUSES;
+}
+
+export function isCompletedStatus(status: OrderStatus): boolean {
+  return COMPLETED_STATUSES.includes(status);
+}
+
+/** Newest first is the working default; oldest first answers "which one has been waiting longest / what came in first". */
+export type OrdersSort = 'newest' | 'oldest';
+
+/**
+ * When the Dashboard's "needs attention" flags an order: a PENDING order
+ * nobody accepted for `PENDING_LATE_MINUTES`, or a READY order not handed
+ * over for `READY_LATE_MINUTES`. Age counts from when it was placed.
+ */
+export const PENDING_LATE_MINUTES = 5;
+export const READY_LATE_MINUTES = 10;
+
+export interface OrdersFilters {
+  view: OrdersView;
+  /** `null` = all types. Typed as the list item's own type so a future DELIVERY value needs no change here. */
+  type: OrderListItem['type'] | null;
+  /** `null` = every status of the current view. */
+  status: OrderStatus | null;
+  search: string;
+  sort?: OrdersSort;
+}
+
+/** Case-insensitive match on Table number, customer name/phone, and (from 4 characters) the Order id. Phone also matches ignoring spaces/dashes. */
+function matchesSearch(order: OrderListItem, rawSearch: string): boolean {
+  const term = rawSearch.trim().toLowerCase();
+  if (term === '') return true;
+
+  const digitsOnly = (value: string) => value.replace(/[^\d+]/g, '');
+  const termDigits = digitsOnly(term);
+
+  if (order.table?.tableNumber.toLowerCase().includes(term)) return true;
+  if (order.customer?.name.toLowerCase().includes(term)) return true;
+  if (order.customer) {
+    const phone = order.customer.phone.toLowerCase();
+    if (phone.includes(term)) return true;
+    if (termDigits.length >= 3 && digitsOnly(phone).includes(termDigits)) return true;
+  }
+  if (term.length >= 4 && order.id.toLowerCase().includes(term)) return true;
+  return false;
+}
+
+export function filterOrders(orders: OrderListItem[], filters: OrdersFilters): OrderListItem[] {
+  const viewStatuses = statusesForView(filters.view);
+  const direction = filters.sort === 'oldest' ? 1 : -1;
+  return orders
+    .filter((order) => viewStatuses.includes(order.status))
+    .filter((order) => filters.status === null || order.status === filters.status)
+    .filter((order) => filters.type === null || order.type === filters.type)
+    .filter((order) => matchesSearch(order, filters.search))
+    .sort(
+      (a, b) => direction * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()),
+    );
+}
+
+
+export function countByView(orders: OrderListItem[]): Record<OrdersView, number> {
+  let active = 0;
+  let completed = 0;
+  for (const order of orders) {
+    if (ACTIVE_STATUSES.includes(order.status)) active += 1;
+    else completed += 1;
+  }
+  return { active, completed, all: orders.length };
+}
+
+/**
+ * Design-system-v2, Migration 01: counts for the Type filter chips. Derived
+ * from the caller's already-loaded, view+search-filtered Orders (never a new
+ * Backend request) -- pass the same subset regardless of the current Type
+ * selection so switching Type doesn't make its own count disappear.
+ */
+export function countByType(orders: OrderListItem[]): Record<OrderType, number> {
+  const counts: Record<OrderType, number> = { DINE_IN: 0, PICKUP: 0, DELIVERY: 0 };
+  for (const order of orders) counts[order.type] += 1;
+  return counts;
+}
+
+/**
+ * Counts for the Status filter chips, scoped to one view (Active or
+ * Completed each show a different status set). Same "already-loaded,
+ * view+search-filtered, ignore the caller's own Status selection" rule as
+ * `countByType` above.
+ */
+export function countByStatus(orders: OrderListItem[]): Partial<Record<OrderStatus, number>> {
+  const counts: Partial<Record<OrderStatus, number>> = {};
+  for (const order of orders) {
+    counts[order.status] = (counts[order.status] ?? 0) + 1;
+  }
+  return counts;
+}
+
+/** What `formatOrderTime` needs from the Staff i18n context (kept structural so this stays a plain helper). */
+export interface OrderTimeI18n {
+  t: (key: 'orders.time.justNow') => string;
+  tMinutes: (count: number) => string;
+  formatTime: (value: string | Date) => string;
+  formatDayMonth: (value: string | Date) => string;
+}
+
+/** Compact, staff-friendly time: "Just now", "12 min ago" within the hour; otherwise the clock time (with the date when not today), in the Staff UI language. */
+export function formatOrderTime(isoDate: string, i18n: OrderTimeI18n, now: Date = new Date()): string {
+  const created = new Date(isoDate);
+  const diffMinutes = Math.floor((now.getTime() - created.getTime()) / 60_000);
+  if (diffMinutes < 1) return i18n.t('orders.time.justNow');
+  if (diffMinutes < 60) return i18n.tMinutes(diffMinutes);
+
+  const time = i18n.formatTime(created);
+  const sameDay = created.toDateString() === now.toDateString();
+  return sameDay ? time : `${i18n.formatDayMonth(created)}, ${time}`;
+}
+
+/** Whole minutes elapsed since `isoDate`, never negative (a clock skew or in-flight request must not show a negative age). */
+export function elapsedMinutes(isoDate: string, now: Date = new Date()): number {
+  return Math.max(0, Math.floor((now.getTime() - new Date(isoDate).getTime()) / 60_000));
+}
+
+/** What `formatElapsedAge` needs from the Staff i18n context. */
+export interface OrderElapsedAgeI18n {
+  t: (key: 'orders.time.justNow') => string;
+  /** "{count} min" -- no "ago": this is a live duration on a card, not a past-tense timestamp. */
+  tMinutes: (count: number) => string;
+  /** "{hours}h {minutes}m", minutes zero-padded. */
+  tHoursMinutes: (hours: number, minutes: number) => string;
+}
+
+/**
+ * FT-11 Section 5: the Order Card's live elapsed age -- "Just now", "14
+ * min", "1h 08m". Deliberately distinct from `formatOrderTime` above (which
+ * switches to an absolute clock time after an hour, for the Order Detail
+ * header): a card showing an Order that has been active for 3 hours should
+ * keep counting up as a duration, not fall back to "2:14 PM".
+ */
+export function formatElapsedAge(isoDate: string, i18n: OrderElapsedAgeI18n, now: Date = new Date()): string {
+  const totalMinutes = elapsedMinutes(isoDate, now);
+  if (totalMinutes < 1) return i18n.t('orders.time.justNow');
+  if (totalMinutes < 60) return i18n.tMinutes(totalMinutes);
+  return i18n.tHoursMinutes(Math.floor(totalMinutes / 60), totalMinutes % 60);
+}

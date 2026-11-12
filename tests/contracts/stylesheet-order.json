@@ -1,0 +1,10 @@
+{
+  "src/app/layout.tsx": [
+    "globals.css",
+    "root.module.css"
+  ],
+  "src/app/q/[publicCode]/makkboz/MakkbozMenu.tsx": [
+    "makkboz.css",
+    "makkboz-approved.css"
+  ]
+}

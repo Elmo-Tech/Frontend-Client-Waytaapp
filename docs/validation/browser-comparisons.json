@@ -1,0 +1,318 @@
+{
+  "cases": [
+    {
+      "case": 0,
+      "path": "/q/pilot?lang=en&template=CLASSIC",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=CLASSIC",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 1,
+      "path": "/q/pilot?lang=en&template=LIST",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=LIST",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 2,
+      "path": "/q/pilot?lang=en&template=GALLERY",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=GALLERY",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 3,
+      "path": "/q/pilot?lang=en&template=MENU",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=MENU",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 4,
+      "path": "/q/pilot?lang=en&template=FLOATING",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=FLOATING",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 5,
+      "path": "/q/pilot?lang=en&template=CENTERED",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=CENTERED",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 6,
+      "path": "/q/pilot?lang=en&template=COMPACT",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=COMPACT",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 7,
+      "path": "/q/pilot?lang=en&template=EDITORIAL",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=EDITORIAL",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 8,
+      "path": "/q/pilot?lang=en&template=EMBER",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=EMBER",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": true
+    },
+    {
+      "case": 9,
+      "path": "/q/pilot?lang=en&template=BLOOM",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=BLOOM",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 10,
+      "path": "/q/pilot?lang=en&template=BREW",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=en&template=BREW",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 11,
+      "path": "/q/verde?lang=en",
+      "width": 390,
+      "status": 200,
+      "url": "/q/verde?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 12,
+      "path": "/q/sherbiny?lang=en",
+      "width": 390,
+      "status": 200,
+      "url": "/q/sherbiny?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 13,
+      "path": "/q/makkboz?lang=en",
+      "width": 390,
+      "status": 200,
+      "url": "/q/makkboz?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 14,
+      "path": "/q/meat?lang=en",
+      "width": 390,
+      "status": 200,
+      "url": "/q/meat?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 15,
+      "path": "/q/pilot?lang=ar",
+      "width": 390,
+      "status": 200,
+      "url": "/q/pilot?lang=ar",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 16,
+      "path": "/q/pilot?lang=en",
+      "width": 1440,
+      "status": 200,
+      "url": "/q/pilot?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 17,
+      "path": "/q/missing?lang=en",
+      "width": 390,
+      "status": 200,
+      "url": "/q/missing?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 18,
+      "path": "/q/unavailable?lang=ar",
+      "width": 390,
+      "status": 200,
+      "url": "/q/unavailable?lang=ar",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 19,
+      "path": "/login",
+      "width": 1440,
+      "status": 200,
+      "url": "/login",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 20,
+      "path": "/forgot-password",
+      "width": 1440,
+      "status": 200,
+      "url": "/forgot-password",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 21,
+      "path": "/reset-password",
+      "width": 1440,
+      "status": 200,
+      "url": "/reset-password",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 22,
+      "path": "/landing",
+      "width": 1440,
+      "status": 404,
+      "url": "/landing",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 23,
+      "path": "/landing-clay",
+      "width": 1440,
+      "status": 200,
+      "url": "/landing-clay",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 24,
+      "path": "/staff",
+      "width": 1440,
+      "status": 200,
+      "url": "/login",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 25,
+      "path": "/staff/restaurants/11111111-1111-4111-8111-111111111111/menu",
+      "width": 1440,
+      "status": 200,
+      "url": "/login",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 26,
+      "path": "/staff",
+      "width": 390,
+      "outage": true,
+      "status": 200,
+      "url": "/staff",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    },
+    {
+      "case": 27,
+      "path": "/q/table?lang=en",
+      "width": 390,
+      "flow": true,
+      "status": 200,
+      "url": "/q/table?lang=en",
+      "identicalDom": true,
+      "browserErrors": [],
+      "overflow": false
+    }
+  ],
+  "orderRequests": [
+    {
+      "path": "/api/v1/public/qr/table/orders",
+      "body": {
+        "clientRequestId": "66666666-6666-4666-8666-666666666666",
+        "locale": "en",
+        "expectedTotal": "100.00",
+        "items": [
+          {
+            "productId": "22222222-2222-4222-8222-222222222222",
+            "quantity": 1,
+            "modifierOptionIds": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "/api/v1/public/qr/table/orders",
+      "body": {
+        "clientRequestId": "66666666-6666-4666-8666-666666666666",
+        "locale": "en",
+        "expectedTotal": "100.00",
+        "items": [
+          {
+            "productId": "22222222-2222-4222-8222-222222222222",
+            "quantity": 1,
+            "modifierOptionIds": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+import type { Metadata } from 'next';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { parseMenuTemplate } from '../../../config/menu-templates';
+import { API_ORIGIN } from '../../../lib/env/api';
+import { validRestaurantHostSlug } from '../../../lib/infrastructure/restaurant-routing';
+import { formerRestaurantCanonicalSlug, getPublicMenu } from '../api/guest-menu';
+import { BrandedMenuPending } from '../components/BrandedMenuPending';
+import { GuestStatusPage } from '../components/GuestStatusPage';
+import { PublicMenuView } from '../components/PublicMenuView';
+import { getPublicMenuCopy } from '../constants/copy';
+import { buildRestaurantSeo, restaurantJsonLd } from '../utils/restaurant-seo';
+import { GUEST_THEME_COOKIE } from '../utils/theme';
+
+interface PublicMenuPageProps {
+  params: Promise<{ publicCode: string }>;
+  searchParams: Promise<{ lang?: string; template?: string; designPreview?: string }>;
+}
+
+const noIndex: Metadata['robots'] = {
+  index: false,
+  follow: false,
+  googleBot: { index: false, follow: false },
+};
+
+/** Metadata is server-rendered per published tenant; crawlers do not run browser JS. */
+export async function generateMetadata({ params, searchParams }: PublicMenuPageProps): Promise<Metadata> {
+  const { publicCode } = await params;
+  const { lang, template, designPreview } = await searchParams;
+  if (designPreview || template) return { title: 'Menu preview | Wayta', robots: noIndex };
+  const result = await getPublicMenu(publicCode, lang);
+  if (result.outcome !== 'found') return { title: 'Menu unavailable | Wayta', robots: noIndex };
+  const seo = buildRestaurantSeo(result.data, process.env.RESTAURANT_BASE_DOMAIN, API_ORIGIN);
+  if (!seo) return { title: 'Menu | Wayta', robots: noIndex };
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: { canonical: seo.canonical },
+    robots: { index: true, follow: true },
+    openGraph: {
+      type: 'website',
+      title: seo.title,
+      description: seo.description,
+      url: seo.canonical,
+      siteName: seo.name,
+      locale: seo.locale,
+      images: [{ url: seo.image, width: 1200, height: 630, alt: seo.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
+    },
+  };
+}
+
+/**
+ * FT-3: the public Guest QR Menu entry point, `/q/[publicCode]`. Deliberately
+ * outside `app/staff/` -- no Staff auth gate, no sidebar/header chrome, no
+ * login redirect (this route's `layout.tsx` tree is just the shared root
+ * layout).
+ *
+ * DEC-066: the segment is the Restaurant's readable slug (`/q/el-sherbiny`) or an opaque QR
+ * public code (Table QRs, and every link printed or shared before slugs existed). The Backend
+ * resolves either; an old generic-QR code or a renamed slug is redirected to the current
+ * readable URL, so no existing link breaks. The folder keeps its historical name. A Server Component: the fetch happens before any HTML streams,
+ * so the very first response already carries the resolved language and
+ * content -- no client-side loading waterfall for the common case, and it
+ * works identically with no cookies at all (incognito).
+ */
+export default async function PublicMenuPage({ params, searchParams }: PublicMenuPageProps) {
+  const { publicCode: segment } = await params;
+  const { lang, template, designPreview } = await searchParams;
+
+  const result = await getPublicMenu(segment, lang);
+
+  // A formerly valid restaurant hostname redirects to its current slug.
+  // Never render unguarded tenant content here; the legacy lookup returns a
+  // canonical slug only after the Backend confirms the old alias.
+  if (result.outcome === 'notFound') {
+    const currentSlug = await formerRestaurantCanonicalSlug(segment);
+    if (currentSlug) {
+      const suffix = lang ? '?lang=' + encodeURIComponent(lang) : '';
+      redirect('https://' + currentSlug + '.' + process.env.RESTAURANT_BASE_DOMAIN + '/' + suffix);
+    }
+  }
+
+  // A Restaurant with an exclusive design whose menu is not published yet: a branded page, not a generic error.
+  if (result.outcome === 'unavailable' && result.branding) {
+    return <BrandedMenuPending branding={result.branding} copy={getPublicMenuCopy(result.branding.locale)} />;
+  }
+
+  if (result.outcome === 'notFound' || result.outcome === 'unavailable') {
+    // FT-3B, Section 15: neither outcome carries a Backend-resolved locale
+    // (an unknown/inactive QR has no Restaurant context to resolve one
+    // from) -- the raw `?lang=` the Guest's own URL already carried is the
+    // only locale signal available here, and using it leaks nothing new
+    // about the Restaurant.
+    const copy = getPublicMenuCopy(lang);
+    const dir = lang === 'ar' ? 'rtl' : 'ltr';
+    return (
+      <GuestStatusPage
+        title={result.outcome === 'notFound' ? copy.qrNotFoundTitle : copy.menuUnavailableTitle}
+        message={
+          result.outcome === 'notFound' ? copy.qrNotFoundMessage : copy.menuUnavailableMessage
+        }
+        dir={dir}
+      />
+    );
+  }
+
+  // QR links printed before this rollout still resolve via the opaque publicCode.
+  // Generic menus canonicalize to the restaurant's root hostname; Table QR
+  // menus retain /q/{opaquePublicCode} and all their session semantics.
+  const { redirectToSlug, publicCode } = result.data.context.entry;
+  const query = new URLSearchParams();
+  if (lang) query.set('lang', lang);
+  if (template) query.set('template', template);
+  if (designPreview) query.set('designPreview', designPreview);
+  const queryString = query.toString();
+  const suffix = queryString ? `?${queryString}` : '';
+  const baseDomain = process.env.RESTAURANT_BASE_DOMAIN;
+  const shareCode = result.data.context.restaurant.shareCode;
+  if (
+    baseDomain &&
+    result.data.context.qrType === 'GENERIC' &&
+    shareCode &&
+    validRestaurantHostSlug(shareCode) &&
+    designPreview !== '1' // Staff previews must remain embeddable on the apex.
+  ) {
+    const host = (await headers()).get('host')?.toLowerCase().replace(/:\d+$/, '');
+    const canonicalHost = `${shareCode}.${baseDomain}`;
+    if (host !== canonicalHost) {
+      redirect(`https://${canonicalHost}/${suffix}`);
+    }
+  }
+
+  if (redirectToSlug) {
+    redirect(`/q/${encodeURIComponent(redirectToSlug)}${suffix}`);
+  }
+
+  // The Restaurant's saved template; `?template=` previews another layout (the Staff design picker uses it),
+  // but only one the package allows (DEC-043, DEC-051).
+  const { allowedTemplates, templatesAllowed } = result.data.context;
+  // The exclusive design is shown when the Restaurant chose it; the staff editor can still preview it
+  // (`?template=exclusive&designPreview=1`) before choosing. A stock template is shown otherwise.
+  const exclusiveKey = result.data.context.restaurant.exclusiveRendererKey;
+  const previewExclusive = Boolean(exclusiveKey) && designPreview === '1' && template?.toLowerCase() === 'exclusive';
+  const stockTemplate = previewExclusive ? undefined : template;
+  const previewAllowed =
+    stockTemplate !== undefined &&
+    (allowedTemplates ? allowedTemplates.includes(stockTemplate.toUpperCase()) : templatesAllowed !== false);
+  // An allowed `?template=` (the staff picker previewing a stock design) wins over the exclusive design.
+  const showExclusive =
+    Boolean(exclusiveKey) &&
+    (previewExclusive || (result.data.context.restaurant.exclusiveInUse !== false && !previewAllowed));
+  // The guest's own light / dark pick (null = never chose), so an exclusive design renders it on the first paint.
+  const savedTheme = (await cookies()).get(GUEST_THEME_COOKIE)?.value;
+  const guestTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : null;
+  const seo = !designPreview && result.data.context.qrType === 'GENERIC'
+    ? buildRestaurantSeo(result.data, process.env.RESTAURANT_BASE_DOMAIN, API_ORIGIN)
+    : null;
+
+  return (
+    <>
+      {seo ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: restaurantJsonLd(seo) }} />
+      ) : null}
+      <PublicMenuView
+      data={result.data}
+      guestTheme={guestTheme}
+      publicCode={publicCode}
+      exclusiveRendererKey={showExclusive ? exclusiveKey : undefined}
+      template={parseMenuTemplate(
+        (previewAllowed ? stockTemplate : undefined) ?? result.data.context.restaurant.menuTemplate,
+      )}
+      designPreview={Boolean(
+        designPreview === '1' &&
+        (showExclusive ||
+          (previewAllowed &&
+            (template?.toUpperCase() === 'EMBER' || template?.toUpperCase() === 'BLOOM' || template?.toUpperCase() === 'BREW' || template?.toUpperCase() === 'EDITORIAL')))
+      )}
+      />
+    </>
+  );
+}

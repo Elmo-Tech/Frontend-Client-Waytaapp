@@ -1,0 +1,1638 @@
+@import "tailwindcss";
+
+/*
+ * Design-system-v2 (visual direction correction): dark graphite Sidebar,
+ * clean light workspace, burnt-orange/amber brand accent -- a modern SaaS
+ * look, not the earlier warm beige/brown pass. Tokens only; every component
+ * in `components/ui` (and every screen built on them) reads these names,
+ * never a raw hex value, so the whole app repaints from one place.
+ *
+ * Two token families:
+ *  - the WORKSPACE family (`background`, `card`, `muted`, ...) is the light
+ *    surface every page's content sits on.
+ *  - the `sidebar-*` family is a second, intentionally dark palette used only
+ *    by the Staff Sidebar chrome -- not a dark-mode toggle for the app, a
+ *    permanently dark rail next to a permanently light workspace. Its active
+ *    state and brand mark reuse `primary`/`primary-foreground` directly
+ *    (an orange fill reads correctly on both the light workspace and the
+ *    dark rail -- see the contrast note below), so the brand color is never
+ *    duplicated under a second name.
+ *
+ * `primary` is a deeper "burnt orange" (~#BF5700) rather than the brighter
+ * amber in the brief (~#F07A00): white text on #F07A00 measures ~2.8:1,
+ * which fails WCAG 1.4.3 for real button/nav-item labels -- #BF5700 keeps the
+ * same hue family and reads as the same brand color, but white text on it
+ * measures ~4.8:1 (AA). The brighter amber is kept as `accent`/`accent-
+ * foreground` for soft, non-solid-fill tints (badges, hover washes) where it
+ * is paired with a dark foreground instead of white.
+ */
+@theme {
+  /* ---- workspace (light) ---- */
+  --color-background: #f7f8fa;
+  --color-foreground: #171a1f;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #171a1f;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #171a1f;
+
+  --color-muted: #eef0f3;
+  --color-muted-foreground: #5b6472;
+
+  --color-border: #e2e5ea;
+  --color-input: #e2e5ea;
+  --color-ring: #bf5700;
+
+  --color-primary: #bf5700;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #f1f2f5;
+  --color-secondary-foreground: #171a1f;
+
+  --color-accent: #ffead2;
+  --color-accent-foreground: #9a3e00;
+
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-soft: #fee2e2;
+
+  --color-success: #15803d;
+  --color-success-foreground: #ffffff;
+  --color-success-soft: #dcfce7;
+
+  --color-warning: #b45309;
+  --color-warning-foreground: #ffffff;
+  --color-warning-soft: #fef3c7;
+
+  --color-info: #1d4ed8;
+  --color-info-foreground: #ffffff;
+  --color-info-soft: #dbeafe;
+
+  --color-delivery: #0f766e;
+  --color-delivery-foreground: #ffffff;
+  --color-delivery-soft: #ccfbf1;
+
+  /* ---- sidebar (permanently dark chrome) ---- */
+  --color-sidebar: #14171c;
+  --color-sidebar-foreground: #ffffff;
+  --color-sidebar-muted-foreground: #98a2b3;
+  --color-sidebar-surface: #1b1f26;
+  --color-sidebar-border: #262b33;
+
+  /* Radius scale: overrides Tailwind's own `rounded-md/lg/xl/2xl` -- cards
+     land in the requested 10-14px band (lg/xl) without an arbitrary
+     `rounded-[var(--radius)]` everywhere. */
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+
+  /* Shadow scale: overrides Tailwind's defaults with neutral-graphite-tinted
+     (not pure black, not warm-brown) shadows -- subtle elevation, matching
+     the new neutral foreground. */
+  --shadow-sm: 0 1px 2px 0 rgb(23 26 31 / 0.04);
+  --shadow-md: 0 1px 3px 0 rgb(23 26 31 / 0.06), 0 1px 2px -1px rgb(23 26 31 / 0.04);
+  --shadow-lg: 0 4px 12px -2px rgb(23 26 31 / 0.09), 0 2px 6px -2px rgb(23 26 31 / 0.05);
+  --shadow-xl: 0 12px 28px -6px rgb(23 26 31 / 0.13), 0 4px 10px -4px rgb(23 26 31 / 0.07);
+}
+
+/* FT-10A: Latin text in IBM Plex Sans, Arabic glyphs in IBM Plex Sans Arabic. */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-plex-sans), var(--font-plex-sans-arabic), system-ui, sans-serif;
+}
+
+/*
+ * Arabic letters connect: letter-spacing (Tailwind `tracking-*`) breaks the
+ * joins and makes words unreadable, and `uppercase` has no meaning for an
+ * Arabic script. Reset both wherever the Staff UI (or any subtree) is Arabic.
+ */
+:lang(ar) .tracking-wide,
+:lang(ar) .tracking-wider,
+:lang(ar) .tracking-tight {
+  letter-spacing: 0;
+}
+
+:lang(ar) .uppercase {
+  text-transform: none;
+}
+
+/*
+ * ---- Guest Menu v2 "Ember & Saffron" (FT-13B) ----
+ *
+ * The Guest Menu has its own token set (`--g-*`), scoped to an element carrying
+ * `data-guest-theme="dark|light"` (set server-side from the `guest_theme` cookie
+ * in app/q/layout.tsx, so the first paint is already correct). It never touches
+ * the Staff theme above. Tailwind sees the tokens as `g-*` colours; because they
+ * resolve through `var()` at the element, every utility repaints with the theme.
+ *
+ * Contrast (WCAG AA, every pair checked): saffron is a FILL colour only -- text on it is
+ * always `--g-on-accent`. Saffron as text or as a focus ring on the light theme would be
+ * 1.9:1, so `--g-accent-text` (links, focus ring) is a darker amber there. Light `--g-text-3`
+ * and `--g-price` are nudged from the brief (#8B7D6D / #A9580A: 3.4-4.0:1 and 4.35:1 on the
+ * raised surfaces) to #756858 / #A05209 so they clear 4.5:1.
+ */
+@theme inline {
+  --color-g-bg: var(--g-bg);
+  --color-g-surface: var(--g-surface);
+  --color-g-surface-2: var(--g-surface-2);
+  --color-g-line: var(--g-line);
+  --color-g-text: var(--g-text);
+  --color-g-text-2: var(--g-text-2);
+  --color-g-text-3: var(--g-text-3);
+  --color-g-accent: var(--g-accent);
+  --color-g-on-accent: var(--g-on-accent);
+  --color-g-accent-soft: var(--g-accent-soft);
+  --color-g-price: var(--g-price);
+  --color-g-danger: var(--g-danger);
+  --color-g-danger-soft: var(--g-danger-soft);
+  --color-g-accent-text: var(--g-accent-text);
+}
+
+[data-guest-theme='dark'] {
+  color-scheme: dark;
+  --g-bg: #12100e;
+  --g-surface: #1d1a17;
+  --g-surface-2: #29241f;
+  --g-line: #352f29;
+  --g-text: #f6efe5;
+  --g-text-2: #bcb1a2;
+  --g-text-3: #958a7c;
+  --g-accent: #f5a524;
+  --g-on-accent: #1c1205;
+  --g-accent-soft: rgb(245 165 36 / 0.15);
+  --g-price: #f7b548;
+  --g-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  --g-danger: #ff8d76;
+  --g-danger-soft: rgb(232 87 58 / 0.16);
+  --g-accent-text: #f5a524;
+}
+
+[data-guest-theme='light'] {
+  color-scheme: light;
+  --g-bg: #fbf6ee;
+  --g-surface: #ffffff;
+  --g-surface-2: #f4ebdd;
+  --g-line: #e9ddcb;
+  --g-text: #1f1611;
+  --g-text-2: #66584a;
+  --g-text-3: #756858;
+  --g-accent: #f5a524;
+  --g-on-accent: #1c1205;
+  --g-accent-soft: #fceacb;
+  --g-price: #a05209;
+  --g-shadow: 0 10px 30px rgb(70 45 15 / 0.14);
+  --g-danger: #b3361e;
+  --g-danger-soft: #fde8e2;
+  --g-accent-text: #a05209;
+}
+
+/* Type: Lalezar for display, Archivo (width axis) for the Latin brand name and every number. Body stays IBM Plex. */
+@utility g-display {
+  font-family: var(--font-lalezar), var(--font-plex-sans-arabic), var(--font-plex-sans), system-ui,
+    sans-serif;
+  font-weight: 400;
+}
+
+@utility g-num {
+  font-family: var(--font-archivo), var(--font-plex-sans), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 88;
+  font-weight: 800;
+}
+
+@utility g-brand {
+  font-family: var(--font-archivo), var(--font-plex-sans), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 70;
+  font-weight: 900;
+}
+
+@utility g-body {
+  font-family: var(--font-plex-sans), var(--font-plex-sans-arabic), system-ui, sans-serif;
+  font-weight: 500;
+}
+
+@utility g-shadow {
+  box-shadow: var(--g-shadow);
+}
+
+/* One theme cross-fade (0.3s) for colours; zero-specificity so utilities with their own transitions win. */
+.guest-root :where(*) {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Visible keyboard focus everywhere in the Guest Menu: 2px saffron (amber on light) + 2px offset. */
+:where(.guest-root) :focus-visible {
+  outline: 2px solid var(--g-accent-text);
+  outline-offset: 2px;
+}
+
+@keyframes guest-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes guest-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes guest-sheet-pop {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes guest-drawer-in-ltr {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes guest-drawer-in-rtl {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes guest-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes guest-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+
+@keyframes guest-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes guest-check-draw {
+  from { stroke-dashoffset: 28; }
+  to { stroke-dashoffset: 0; }
+}
+
+@utility guest-anim-backdrop {
+  animation: guest-fade-in 180ms ease-out both;
+}
+
+/* Product sheet: bottom sheet on phones, centred dialog from 640px. */
+@utility guest-anim-sheet {
+  animation: guest-sheet-up 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  @media (min-width: 40rem) {
+    animation: guest-sheet-pop 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Cart/checkout: bottom sheet below 1024px, side drawer from the inline-end edge at 1024px and up. */
+@utility guest-anim-drawer {
+  animation: guest-sheet-up 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  @media (min-width: 64rem) {
+    animation: guest-drawer-in-ltr 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+[dir='rtl'] .guest-anim-drawer {
+  @media (min-width: 64rem) {
+    animation: guest-drawer-in-rtl 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@utility guest-anim-rise {
+  animation: guest-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility guest-anim-bump {
+  animation: guest-bump 260ms ease-out;
+}
+
+/* Skeleton shimmer: a soft highlight sweep that reads on both themes. */
+@utility guest-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, var(--g-text) 9%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: guest-shimmer 1.6s linear infinite;
+}
+
+@utility guest-scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* The no-photo tile: a soft saffron glow on the raised surface, shared by every product. */
+@utility g-fallback {
+  background-color: var(--g-surface-2);
+  background-image: radial-gradient(circle at 30% 25%, rgb(245 165 36 / 0.24), transparent 62%);
+}
+
+/* Honour reduced motion across the whole Guest surface: no slides, bumps, hover lifts or shimmer. */
+@media (prefers-reduced-motion: reduce) {
+  .guest-root *,
+  .guest-root *::before,
+  .guest-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* The browser overscroll area follows the Guest theme instead of flashing the Staff background. */
+html:has([data-guest-theme="dark"]) {
+  background-color: #12100e;
+}
+
+html:has([data-guest-theme="light"]) {
+  background-color: #fbf6ee;
+}
+
+/* Menu Import: the "reading your menu" animation (MenuReadingAnimation). */
+.menu-read-row {
+  animation: menu-read-row 4.4s ease-in-out infinite;
+  transform-box: fill-box;
+}
+.menu-read-beam {
+  animation: menu-read-beam 4.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.menu-read-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: menu-read-spark 2.6s ease-in-out infinite;
+}
+.menu-read-spark-late {
+  animation-delay: 1.3s;
+}
+.menu-read-hint {
+  animation: menu-read-hint 0.5s ease-out both;
+}
+@keyframes menu-read-row {
+  0%, 8% { opacity: 0; transform: translateX(-10px); }
+  28%, 82% { opacity: 1; transform: translateX(0); }
+  96%, 100% { opacity: 0; transform: translateX(0); }
+}
+@keyframes menu-read-beam {
+  0% { transform: translateY(0); opacity: 0; }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateY(250px); opacity: 0; }
+}
+@keyframes menu-read-spark {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes menu-read-hint {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-read-row { animation: none; opacity: 1; }
+  .menu-read-beam { animation: none; opacity: 0; }
+  .menu-read-spark { animation: none; opacity: 0.8; }
+  .menu-read-hint { animation: none; }
+}
+
+/* Guest announcements ticker: one seamless loop; the shift and duration are set per render. */
+.announce-track {
+  animation: announce-marquee var(--announce-duration, 20s) linear infinite;
+  will-change: transform;
+}
+@keyframes announce-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--announce-shift, -50%)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .announce-track { animation: none; }
+}
+
+
+/* ---- EMBER cinematic premium template (isolated from the other designs). ----
+ * All accents are CSS variables, not arbitrary user-provided CSS. The Guest
+ * theme switch still works and reduced-motion accessibility is respected.
+ */
+.ember-experience {
+  --g-bg: #120d0a;
+  --g-surface: #211711;
+  --g-surface-2: #2d2019;
+  --g-line: #4b3528;
+  --g-text: #fff3e8;
+  --g-text-2: #dcc3b1;
+  --g-text-3: #b99781;
+  --g-accent: #f29653;
+  --g-on-accent: #291307;
+  --g-accent-soft: rgb(242 150 83 / 0.16);
+  --g-price: #ffb87c;
+  --g-accent-text: #ffb87c;
+  --g-shadow: 0 16px 44px rgb(0 0 0 / 0.36);
+  color: var(--g-text);
+  background: radial-gradient(ellipse at 95% 8%, rgb(121 55 25 / .12), transparent 36%), var(--g-bg);
+}
+[data-guest-theme='light'] .ember-experience {
+  --g-bg: #fcf6ef;
+  --g-surface: #fffaf5;
+  --g-surface-2: #f6e8db;
+  --g-line: #e5d0bf;
+  --g-text: #2b1911;
+  --g-text-2: #6f5141;
+  --g-text-3: #7e6051;
+  --g-accent: #ba5422;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #f9e5d9;
+  --g-price: #9d4218;
+  --g-accent-text: #934015;
+  --g-shadow: 0 14px 35px rgb(80 43 24 / .12);
+}
+.ember-experience .ember-hero-image {
+  animation: ember-reveal 1.2s cubic-bezier(.16,1,.3,1) both;
+}
+.ember-experience .ember-hero-content {
+  animation: ember-content-rise .72s .12s both;
+}
+.ember-experience main article.guest-anim-rise {
+  border-color: var(--g-line);
+  background: var(--g-surface);
+  box-shadow: var(--g-shadow);
+  transition: transform .32s ease-out, box-shadow .32s ease-out;
+}
+.ember-experience main article.guest-anim-rise:hover {
+  box-shadow: 0 22px 48px rgb(0 0 0 / .23);
+}
+.ember-experience main article.guest-anim-rise img {
+  transition: transform .65s cubic-bezier(.22,1,.36,1);
+}
+.ember-experience main article.guest-anim-rise:hover img {
+  transform: scale(1.065);
+}
+.ember-experience main section[id^='category'] {
+  scroll-margin-top: 110px;
+}
+@keyframes ember-reveal {
+  from { transform: scale(1.055); opacity: .7; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes ember-content-rise {
+  from { transform: translateY(14px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ember-experience .ember-hero-image,
+  .ember-experience .ember-hero-content {
+    animation: none !important;
+  }
+  .ember-experience main article.guest-anim-rise:hover img {
+    transform: none;
+  }
+}
+
+
+/* Curated palette presets: never accept arbitrary user CSS/JS. */
+.ember-experience[data-ember-palette='NOIR'] {
+  --g-bg:#0b0c10; --g-surface:#17191e; --g-surface-2:#272a30;
+  --g-line:#383b43; --g-text:#f8f6f2; --g-text-2:#cecbc6;
+  --g-text-3:#b5afa7; --g-accent:#d6ae74; --g-on-accent:#16130f;
+  --g-accent-soft:rgb(214 174 116 / .15); --g-price:#e8c48e;
+  --g-accent-text:#e8c48e;
+}
+.ember-experience[data-ember-palette='COPPER'] {
+  --g-bg:#20130e; --g-surface:#322018; --g-surface-2:#462a1f;
+  --g-line:#6a4736; --g-text:#fff4e8; --g-text-2:#ebcbbb;
+  --g-text-3:#c9a28e; --g-accent:#e7a070; --g-on-accent:#27140e;
+  --g-accent-soft:rgb(231 160 112 / .17); --g-price:#ffbd90;
+  --g-accent-text:#ffbd90;
+}
+.ember-experience[data-ember-motion='OFF'] .ember-hero-image,
+.ember-experience[data-ember-motion='OFF'] .ember-hero-content {
+  animation: none !important;
+}
+.ember-experience[data-ember-motion='OFF'] main article.guest-anim-rise:hover img {
+  transform: none !important;
+}
+
+
+/* ---- EMBER V2: faithful cinematic concept components (unique to this template). ---- */
+.ember-experience .ember-v2-header {
+  overflow: hidden;
+  color: #fff0e7;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(120, 39, 20, .20), transparent 48%),
+    linear-gradient(125deg, #1c100d 0%, #100d0e 58%, #100d0e 100%);
+  border-bottom: 1px solid rgba(255, 237, 217, .08);
+}
+.ember-v2-nav {
+  position: relative; z-index: 2; display: flex; align-items: center;
+  justify-content: space-between; gap: 18px; padding: 17px max(20px, calc((100% - 1280px)/2));
+  border-bottom: 1px solid rgba(255, 237, 217, .13);
+}
+.ember-v2-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ember-v2-brand-logo { border: 1px solid rgba(241, 97, 55, .65); transform: rotate(-5deg); box-shadow: none; }
+.ember-v2-brand-name {
+  font-family: 'Arial Black', Inter, Arial, sans-serif; font-weight: 900;
+  font-size: clamp(18px, 2vw, 29px); line-height: 1.15; letter-spacing: -.065em;
+  white-space: nowrap; max-width: min(320px, 42vw); overflow: hidden; text-overflow: ellipsis;
+}
+.ember-v2-brand-dot { color: var(--g-accent, #f2683b); }
+.ember-v2-nav-note {
+  font-family: Inter, Arial, sans-serif; letter-spacing: .15em;
+  color: #a9a09c; font-size: 10px; font-weight: 800; text-align: center;
+}
+.ember-v2-cart-button {
+  display: flex; align-items: center; gap: 10px; min-height: 44px;
+  border: 1px solid rgba(255, 237, 217, .16); border-radius: 999px;
+  padding: 10px 14px; color: #fff0e7; background: rgba(29, 22, 21, .66);
+  font-size: 13px; font-weight: 900; cursor: pointer;
+}
+.ember-v2-cart-button:hover { border-color: var(--g-accent); background: rgba(59, 35, 28, .86); }
+.ember-v2-cart-count {
+  display: grid; place-items: center; min-width: 19px; height: 19px;
+  border-radius: 50%; background: var(--g-accent); color: var(--g-on-accent);
+  font-size: 11px; padding: 0 3px;
+}
+.ember-v2-campaign {
+  position: relative; max-width: 1320px; min-height: 470px; margin: auto;
+  display: grid; grid-template-columns: 1fr 1.03fr; align-items: center;
+  padding: 29px 5.5% 44px; isolation: isolate; gap: 8px;
+}
+.ember-v2-campaign-copy { min-width: 0; z-index: 2; position: relative; align-self: center; }
+.ember-v2-eyebrow {
+  color: var(--g-accent, #f2683b); font: 900 11px/1.5 Inter, Arial, sans-serif;
+  letter-spacing: .20em; text-align: start;
+}
+.ember-v2-headline {
+  margin: 22px 0 20px; font-family: 'Arial Black', Inter, Arial, sans-serif;
+  font-size: clamp(56px, 8.4vw, 128px); font-weight: 950; line-height: .91;
+  letter-spacing: -.085em; text-transform: uppercase; word-break: break-word;
+}
+.ember-v2-headline span { display: block; }
+.ember-v2-headline .ember-v2-headline-accent { color: var(--g-accent, #ef6436); }
+.ember-v2-subtitle {
+  max-width: 470px; color: #d3c0b5; font-size: clamp(13px, 1.5vw, 16px);
+  line-height: 1.75; margin: 0 0 23px;
+}
+.ember-v2-signature {
+  display: flex; align-items: center; gap: 12px; color: #eeb397;
+  font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 800;
+  letter-spacing: .065em;
+}
+.ember-v2-signature > span:last-child { width: 24px; height: 1px; background: #eeb397; }
+.ember-v2-restaurant-details {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  margin: 14px 0 10px; color: #ead5c9; font-size: 12px;
+}
+.ember-v2-restaurant-details > span { border-inline-start: 2px solid var(--g-accent); padding-inline-start: 8px; }
+.ember-v2-visual { position: relative; z-index: 1; width: 100%; min-height: 390px; display: grid; place-items: center; }
+.ember-v2-visual-glow {
+  position: absolute; inset: 1%; pointer-events: none; border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 120, 49, .29) 0, rgba(210, 65, 27, .12) 43%, transparent 71%);
+  filter: blur(35px);
+}
+.ember-v2-photo {
+  position: relative; width: 100%; height: 410px; max-width: 580px;
+  object-fit: cover; object-position: center;
+  border-radius: 38% 49% 45% 48% / 45% 41% 48% 51%;
+  -webkit-mask-image: radial-gradient(ellipse closest-side at center, #000 64%, rgba(0,0,0,.9) 75%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side at center, #000 64%, rgba(0,0,0,.9) 75%, transparent 100%);
+  filter: drop-shadow(14px 20px 20px rgba(0,0,0,.5));
+  animation: ember-v2-float 8s ease-in-out infinite;
+}
+.ember-v2-photo-fallback {
+  display: grid; place-items: center; align-content: center; gap: 15px;
+  width: min(370px, 80%); aspect-ratio: 1; border-radius: 50%;
+  color: #e38959; border: 2px solid rgba(255, 149, 92, .25);
+  background: radial-gradient(circle at center, #66301e 0, #351a14 45%, #1d120f 76%);
+  box-shadow: 0 0 75px rgba(184, 78, 27, .24);
+}
+.ember-v2-fallback-label {
+  font: 900 12px Inter, sans-serif; letter-spacing: .22em;
+}
+.ember-v2-tools-nav {
+  position: relative; z-index: 3; display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between; gap: 10px;
+  max-width: 1280px; margin: -10px auto 20px; padding: 0 5.5%;
+}
+.ember-v2-tools-nav nav, .ember-v2-tools-nav button { color: #fff0e7; }
+.ember-v2-marquee {
+  position: relative; z-index: 4; margin: -1px 0 16px;
+  overflow: hidden; white-space: nowrap; padding: 12px 0 10px;
+  background: var(--g-accent, #f26636); color: var(--g-on-accent, #160e0a);
+  transform: rotate(-1.4deg) scale(1.025);
+  font: 900 11px/1.3 Inter, Arial, sans-serif; letter-spacing: .17em;
+}
+.ember-v2-marquee-track { display: flex; width: max-content; gap: 52px; animation: ember-v2-marquee 28s linear infinite; }
+.ember-v2-marquee-track span { flex: none; }
+@keyframes ember-v2-marquee { to { transform: translateX(-33.333%); } }
+@keyframes ember-v2-float { 50% { transform: translateY(-10px); } }
+
+/* Menu area: distinct from regular Gallery/Classic. */
+.ember-experience .ember-v2-chipbar {
+  margin-top: 12px; background: rgba(16, 13, 14, .95);
+  border-color: rgba(255, 255, 255, .07);
+}
+.ember-experience .ember-v2-chip {
+  padding-inline: 18px; border-color: #4a3933;
+  background: #1a1717; color: #d4c3bc;
+  font-size: 13px; font-weight: 800;
+}
+.ember-experience .ember-v2-chip-active {
+  border-color: var(--g-accent); background: var(--g-accent);
+  color: var(--g-on-accent);
+}
+.ember-experience .ember-v2-toolbar {
+  border-radius: 12px; box-shadow: none; background: #181718;
+}
+.ember-experience .ember-v2-section { padding-block: 20px 4px; }
+.ember-v2-section-heading {
+  display: flex; align-items: end; justify-content: space-between;
+  gap: 20px; margin-bottom: 24px;
+}
+.ember-v2-section-kicker {
+  color: var(--g-accent-text); font: 800 10px/1.5 Inter, Arial, sans-serif;
+  letter-spacing: .20em; margin-bottom: 17px;
+}
+.ember-v2-section-title {
+  color: var(--g-text); margin: 0; line-height: 1.05;
+  font-size: clamp(33px, 5vw, 58px); font-weight: 900;
+  letter-spacing: -.04em;
+}
+.ember-v2-section-count { padding-bottom: 5px; color: #ad968a; font-size: 12px; white-space: nowrap; }
+.ember-v2-grid { gap: 17px; }
+.ember-experience main article.ember-v2-card {
+  border: 1px solid #40322d; border-radius: 15px;
+  background: #1c1918; box-shadow: none;
+  transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
+}
+.ember-experience main article.ember-v2-card:hover {
+  transform: translateY(-5px); border-color: #a46850;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, .23);
+}
+.ember-v2-card-photo { width: 100%; aspect-ratio: 1.65; background: #39261f; }
+.ember-v2-card-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ember-v2-card-photo-shade { position:absolute; inset: 0; pointer-events:none; background: linear-gradient(to top, rgba(12,9,8,.18), transparent 70%); }
+.ember-v2-card-body { padding: 16px 18px 18px; }
+.ember-v2-card-kicker {
+  font: 900 9px/1.5 Inter, Arial, sans-serif; letter-spacing: .14em;
+  color: var(--g-accent-text); margin-bottom: 8px; text-transform: uppercase;
+}
+.ember-v2-card-title { font-size: 18px; }
+.ember-v2-card-description { font-size: 12px; line-height: 1.65; min-height: 32px; }
+.ember-v2-price { font-size: 16px; }
+.ember-experience .ember-v2-add { width: 37px; height: 37px; border-radius: 7px; }
+.ember-experience .ember-v2-add:hover { filter: brightness(1.13); }
+@media (max-width: 980px) {
+  .ember-v2-campaign { min-height: 410px; gap: 0; }
+  .ember-v2-visual { min-height: 310px; }
+  .ember-v2-photo { height: 330px; }
+  .ember-v2-headline { font-size: clamp(58px, 8.4vw, 103px); }
+}
+@media (max-width: 680px) {
+  .ember-v2-nav { padding: 12px 5%; gap: 10px; }
+  .ember-v2-brand-name { max-width: 43vw; font-size: 18px; }
+  .ember-v2-nav-note { display: none; }
+  .ember-v2-campaign { display:flex; flex-direction:column; min-height:0; padding: 31px 5% 14px; align-items: stretch; }
+  .ember-v2-campaign-copy { width:100%; }
+  .ember-v2-headline { font-size: clamp(59px, 14vw, 95px); line-height: .90; margin: 17px 0; }
+  .ember-v2-eyebrow { font-size: 9px; }
+  .ember-v2-subtitle { font-size: 13px; max-width: 100%; margin-bottom: 15px; }
+  .ember-v2-visual { height: 235px; min-height: 235px; margin-top: -10px; }
+  .ember-v2-photo { height: 255px; width: 95%; }
+  .ember-v2-tools-nav { margin: -5px auto 10px; }
+  .ember-v2-marquee { margin-bottom: 10px; font-size: 9px; }
+  .ember-v2-section-heading { margin-bottom: 17px; }
+  .ember-v2-section-kicker { font-size: 9px; margin-bottom: 10px; }
+  .ember-v2-section-title { font-size: 31px; }
+  .ember-v2-section-count { font-size: 10px; }
+  .ember-v2-grid { gap: 10px; }
+  .ember-v2-card-photo { aspect-ratio: 1.15; }
+  .ember-v2-card-body { padding: 11px 12px 12px; }
+  .ember-v2-card-title { font-size: 14px; }
+  .ember-v2-card-description { font-size: 10px; min-height: 31px; }
+  .ember-v2-price { font-size: 13px; }
+  .ember-v2-card-kicker { font-size: 8px; letter-spacing: .08em; }
+  .ember-experience .ember-v2-add { width: 32px; height: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ember-v2-photo, .ember-v2-marquee-track { animation: none !important; }
+}
+.ember-experience[data-ember-motion='OFF'] .ember-v2-photo,
+.ember-experience[data-ember-motion='OFF'] .ember-v2-marquee-track {
+  animation: none !important;
+}
+
+
+/* EMBER's category chooser lives BELOW the cinematic section title, as in the approved concept. */
+.ember-v2-tabs {
+  display: flex; align-items: center; gap: 9px; overflow-x: auto;
+  scrollbar-width: none; padding: 3px 0 22px; margin-top: 4px;
+}
+.ember-v2-tabs::-webkit-scrollbar { display: none; }
+.ember-v2-tab {
+  flex: 0 0 auto; padding: 10px 18px;
+  border: 1px solid #49403c; border-radius: 999px;
+  background: #1b1918; color: #c6b4ab;
+  font-size: 13px; font-weight: 800;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.ember-v2-tab:hover { border-color: var(--g-accent); color: #f8eee7; }
+.ember-v2-tab-active, .ember-v2-tab[aria-pressed='true'] {
+  border-color: var(--g-accent); background: var(--g-accent); color: var(--g-on-accent);
+}
+.ember-experience #ember-menu-start { scroll-margin-top: 14px; }
+
+
+/* Palette-specific hero lighting while maintaining legible real-product photography. */
+.ember-experience[data-ember-palette='NOIR'] .ember-v2-header {
+  background: radial-gradient(ellipse at 15% 55%, rgba(128, 105, 68, .18), transparent 48%), #0c0c10;
+}
+.ember-experience[data-ember-palette='NOIR'] .ember-v2-visual-glow {
+  background: radial-gradient(circle, rgba(191, 153, 105, .22), transparent 70%);
+}
+.ember-experience[data-ember-palette='COPPER'] .ember-v2-header {
+  background: radial-gradient(ellipse at 20% 40%, rgba(180, 88, 47, .20), transparent 50%), #1f110d;
+}
+.ember-experience[data-ember-palette='COPPER'] .ember-v2-visual-glow {
+  background: radial-gradient(circle, rgba(255, 150, 85, .26), transparent 70%);
+}
+/* Dark cinematic hero is deliberate; rest of the guest menu respects any light-mode choice. */
+.ember-experience main article.ember-v2-card {
+  border-color: var(--g-line); background: var(--g-surface);
+}
+.ember-experience .ember-v2-tab {
+  color: var(--g-text-2); background: var(--g-surface);
+  border-color: var(--g-line);
+}
+.ember-experience .ember-v2-tab:hover { color: var(--g-text); border-color: var(--g-accent); }
+.ember-experience .ember-v2-tab-active,
+.ember-experience .ember-v2-tab[aria-pressed='true'] {
+  color: var(--g-on-accent); border-color: var(--g-accent);
+  background: var(--g-accent);
+}
+.ember-experience .ember-v2-section-count { color: var(--g-text-3); }
+
+
+/* ---- EMBER premium light theme (guest-only) ----
+ * Applies ONLY when the existing GuestThemeProvider is in light mode.
+ * This rule group must appear AFTER the dark palette presets and cinematic
+ * V2 components so all 3 premium palettes have light-surface equivalents.
+ * Dark EMBER stays pixel-for-pixel unchanged.
+ */
+[data-guest-theme='light'] .ember-experience {
+  color-scheme: light;
+  --g-bg: #fffaf5;
+  --g-surface: #ffffff;
+  --g-surface-2: #fff0e5;
+  --g-line: #e8cbbc;
+  --g-text: #25150f;
+  --g-text-2: #694b3c;
+  --g-text-3: #765548;
+  --g-accent: #b34c22;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #f9e3d7;
+  --g-price: #9d3919;
+  --g-accent-text: #903c1b;
+  --g-shadow: 0 12px 32px rgb(100 48 22 / .13);
+  --ember-light-hero:
+    radial-gradient(ellipse at 22% 37%, rgb(221 132 77 / .16), transparent 58%),
+    linear-gradient(115deg, #fff1e5 0%, #fffaf5 64%, #fff6ed 100%);
+  --ember-light-glow: radial-gradient(ellipse at center, rgb(224 123 49 / .19), transparent 71%);
+  color: var(--g-text);
+  background: radial-gradient(ellipse at 95% 6%, rgb(222 125 64 / .09), transparent 38%), var(--g-bg);
+}
+/* These three-light variants override the later dark-palette declarations.
+ * Palette choice and light/dark mode are independent (not competing inputs).
+ */
+[data-guest-theme='light'] .ember-experience[data-ember-palette='NOIR'] {
+  --g-bg: #f8f5f0;
+  --g-surface: #fffdfa;
+  --g-surface-2: #f0eae0;
+  --g-line: #d9cdbb;
+  --g-text: #29241f;
+  --g-text-2: #62574a;
+  --g-text-3: #75695d;
+  --g-accent: #765632;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #efe5d5;
+  --g-price: #6a4d2b;
+  --g-accent-text: #6a4d2b;
+  --g-shadow: 0 12px 30px rgb(53 43 31 / .12);
+  --ember-light-hero:
+    radial-gradient(ellipse at 24% 42%, rgb(179 152 105 / .14), transparent 60%),
+    linear-gradient(118deg, #f1ebdf 0%, #fffdfa 65%, #f8f3e9 100%);
+  --ember-light-glow: radial-gradient(ellipse at center, rgb(168 136 84 / .18), transparent 73%);
+}
+[data-guest-theme='light'] .ember-experience[data-ember-palette='COPPER'] {
+  --g-bg: #fff5ee;
+  --g-surface: #ffffff;
+  --g-surface-2: #fae5d6;
+  --g-line: #e9c6ad;
+  --g-text: #2d1911;
+  --g-text-2: #6e5041;
+  --g-text-3: #80604e;
+  --g-accent: #ad4924;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #f9decb;
+  --g-price: #91391c;
+  --g-accent-text: #913c1d;
+  --g-shadow: 0 12px 32px rgb(128 62 29 / .13);
+  --ember-light-hero:
+    radial-gradient(ellipse at 22% 45%, rgb(205 120 65 / .15), transparent 58%),
+    linear-gradient(118deg, #fbe7d7 0%, #fff8f0 63%, #fff0e4 100%);
+  --ember-light-glow: radial-gradient(ellipse at center, rgb(195 94 39 / .19), transparent 72%);
+}
+
+/* The hero itself was hard-coded dark in EMBER V2, so it needs a true light
+ * treatment as well as the shared guest tokens. Same photo and layout.
+ */
+[data-guest-theme='light'] .ember-experience .ember-v2-header {
+  color: var(--g-text);
+  background: var(--ember-light-hero);
+  border-bottom-color: var(--g-line);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-nav {
+  border-bottom-color: var(--g-line);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-brand-logo {
+  border-color: var(--g-line);
+  box-shadow: 0 6px 22px rgb(95 52 29 / .09);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-nav-note,
+[data-guest-theme='light'] .ember-experience .ember-v2-subtitle,
+[data-guest-theme='light'] .ember-experience .ember-v2-restaurant-details {
+  color: var(--g-text-2);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-eyebrow,
+[data-guest-theme='light'] .ember-experience .ember-v2-signature {
+  color: var(--g-accent-text);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-signature > span:last-child {
+  background: var(--g-accent-text);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-cart-button {
+  color: var(--g-text);
+  background: color-mix(in srgb, var(--g-surface) 88%, transparent);
+  border-color: var(--g-line);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-cart-button:hover {
+  background: var(--g-accent-soft);
+  border-color: var(--g-accent);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-visual-glow {
+  background: var(--ember-light-glow);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-photo-fallback {
+  color: var(--g-accent-text);
+  border-color: var(--g-line);
+  background: radial-gradient(circle at 45% 40%, var(--g-surface) 0%, var(--g-surface-2) 68%, var(--g-bg) 100%);
+  box-shadow: 0 0 55px rgb(166 95 47 / .13);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-tools-nav nav,
+[data-guest-theme='light'] .ember-experience .ember-v2-tools-nav button {
+  color: var(--g-text);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-toolbar {
+  background: var(--g-surface);
+  border-color: var(--g-line);
+  box-shadow: var(--g-shadow);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-chipbar {
+  background: color-mix(in srgb, var(--g-bg) 93%, transparent);
+  border-color: var(--g-line);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-chip {
+  background: var(--g-surface);
+  color: var(--g-text-2);
+  border-color: var(--g-line);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-chip-active {
+  background: var(--g-accent);
+  color: var(--g-on-accent);
+  border-color: var(--g-accent);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-card-photo {
+  background: var(--g-surface-2);
+}
+[data-guest-theme='light'] .ember-experience main article.ember-v2-card {
+  background: var(--g-surface);
+  border-color: var(--g-line);
+  box-shadow: 0 6px 22px rgb(87 51 28 / .07);
+}
+[data-guest-theme='light'] .ember-experience main article.ember-v2-card:hover {
+  border-color: var(--g-accent);
+  box-shadow: 0 18px 36px rgb(87 51 28 / .14);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-tab:hover {
+  color: var(--g-text);
+  border-color: var(--g-accent);
+}
+[data-guest-theme='light'] .ember-experience .ember-v2-tab-active,
+[data-guest-theme='light'] .ember-experience .ember-v2-tab[aria-pressed='true'] {
+  background: var(--g-accent);
+  border-color: var(--g-accent);
+  color: var(--g-on-accent);
+}
+
+
+/* ---- BLOOM premium patisserie design (user-approved Cormorant / Tajawal reference) ----
+ * Never inherit EMBER's cinematic fonts or poster layout. Latin display uses the
+ * EXACT Cormorant Garamond (normal + italic) from the original HTML prototype;
+ * Arabic and UI elements use Tajawal. Theme and palettes are orthogonal.
+ */
+.bloom-experience {
+  --g-bg: #fff7f1;
+  --g-surface: #ffffff;
+  --g-surface-2: #fff0ed;
+  --g-line: #efc9d0;
+  --g-text: #6a3a3f;
+  --g-text-2: #91636d;
+  --g-text-3: #976a74;
+  --g-accent: #b44d6b;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #f9e0e8;
+  --g-price: #a53d5e;
+  --g-accent-text: #9a3755;
+  --g-shadow: 0 15px 32px rgb(153 75 98 / .10);
+  --bloom-bg-pattern: radial-gradient(circle at 72% 15%, #ffe9e7 0%, #fff6f1 53%, #fffaf6 100%);
+  --bloom-ring: #f3c7cb;
+  --bloom-ring-inner: #ffe1e1;
+  --bloom-sparkle: #d6a05f;
+  font-family: var(--font-bloom-arabic), Tahoma, sans-serif;
+  color: var(--g-text);
+  background: var(--bloom-bg-pattern);
+  min-height: 100vh;
+}
+.bloom-experience[data-bloom-palette='LILAC'] {
+  --g-bg: #faf5fc; --g-surface: #ffffff; --g-surface-2: #f2e8fa;
+  --g-line: #e5cbe9; --g-text: #563a60; --g-text-2: #765b83;
+  --g-text-3: #81698d; --g-accent: #7d478f; --g-on-accent: #ffffff;
+  --g-accent-soft: #f2dff5; --g-price: #783c84; --g-accent-text: #743582;
+  --bloom-bg-pattern: radial-gradient(circle at 70% 14%, #f2dafa 0%, #fcf6fe 55%, #fffaff 100%);
+  --bloom-ring: #dec2e7; --bloom-ring-inner: #f4e2f8;
+}
+.bloom-experience[data-bloom-palette='PEACH'] {
+  --g-bg: #fff8f0; --g-surface: #ffffff; --g-surface-2: #fbe9db;
+  --g-line: #ebcabb; --g-text: #633b2b; --g-text-2: #85604a;
+  --g-text-3: #916d56; --g-accent: #a3502f; --g-on-accent: #ffffff;
+  --g-accent-soft: #fbe2d3; --g-price: #a24b29; --g-accent-text: #994524;
+  --bloom-bg-pattern: radial-gradient(circle at 70% 15%, #ffe6d5 0%, #fff8f0 55%, #fffbf7 100%);
+  --bloom-ring: #f4ceb9; --bloom-ring-inner: #ffe8db;
+}
+/* Existing guest sun/moon toggle drives dark BLOOM as well. */
+[data-guest-theme='dark'] .bloom-experience {
+  color-scheme: dark;
+  --g-bg: #241720; --g-surface: #30212c; --g-surface-2: #402c39;
+  --g-line: #674757; --g-text: #fff0ef; --g-text-2: #e3c1cb;
+  --g-text-3: #c8a9b5; --g-accent: #f2a4b9; --g-on-accent: #301723;
+  --g-accent-soft: #4d3240; --g-price: #ffc0ce; --g-accent-text: #ffc0ce;
+  --g-shadow: 0 17px 36px rgb(0 0 0 / .23);
+  --bloom-bg-pattern: radial-gradient(circle at 70% 15%, #422a3b 0%, #281b25 55%, #211820 100%);
+  --bloom-ring: #704658; --bloom-ring-inner: #8f5b6d;
+  --bloom-sparkle: #f0c587;
+}
+[data-guest-theme='dark'] .bloom-experience[data-bloom-palette='LILAC'] {
+  --g-bg: #201b2b; --g-surface: #2e273b; --g-surface-2: #3d3250;
+  --g-line: #655477; --g-text: #faf0ff; --g-text-2: #dfc9e8;
+  --g-text-3: #c8add5; --g-accent: #d7b4ed; --g-on-accent: #23152d;
+  --g-accent-soft: #493755; --g-price: #e7c7f8; --g-accent-text: #e7c7f8;
+  --bloom-bg-pattern: radial-gradient(circle at 70% 15%, #392947 0%, #241e30 58%, #1d1929 100%);
+  --bloom-ring: #70587f; --bloom-ring-inner: #9176a5;
+}
+[data-guest-theme='dark'] .bloom-experience[data-bloom-palette='PEACH'] {
+  --g-bg: #251b1b; --g-surface: #332523; --g-surface-2: #43302b;
+  --g-line: #725249; --g-text: #fff1e5; --g-text-2: #e6c4b7;
+  --g-text-3: #d4b09f; --g-accent: #f2b48f; --g-on-accent: #321a10;
+  --g-accent-soft: #52382e; --g-price: #ffc8a3; --g-accent-text: #ffc8a3;
+  --bloom-bg-pattern: radial-gradient(circle at 72% 15%, #493129 0%, #2b201d 56%, #241a1a 100%);
+  --bloom-ring: #80584b; --bloom-ring-inner: #a47360;
+}
+.bloom-v2-display {
+  font-family: var(--font-bloom-display), var(--font-bloom-arabic), Georgia, serif;
+  font-optical-sizing: auto;
+  font-synthesis: none;
+}
+.bloom-v2-ribbon {
+  background: var(--g-accent);
+  color: var(--g-on-accent);
+  padding: 9px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-align: center;
+}
+.bloom-v2-header { color: var(--g-text); }
+.bloom-v2-nav {
+  max-width: 1360px; margin: auto; padding: 21px 5.8%;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+}
+.bloom-v2-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.bloom-v2-brand-name {
+  font-size: clamp(25px, 2.5vw, 37px); letter-spacing: .07em;
+  line-height: 1; font-weight: 700; white-space: nowrap;
+  max-width: min(340px, 39vw); overflow: hidden; text-overflow: ellipsis;
+}
+.bloom-v2-brand-seal {
+  flex: none; width: 39px; height: 39px; border: 1px solid var(--g-accent);
+  border-radius: 50%; object-fit: cover;
+}
+.bloom-v2-brand-flower {
+  display: grid; place-items: center;
+  font-family: Georgia, serif; font-size: 22px; color: var(--g-accent);
+  transform: rotate(-15deg);
+}
+.bloom-v2-nav-note { text-align: center; font-size: 11px; opacity: .78; }
+.bloom-v2-cart-button {
+  display: flex; gap: 8px; align-items: center;
+  border: 1px solid var(--g-line); background: transparent;
+  color: var(--g-accent-text); border-radius: 99px;
+  padding: 10px 13px; font-size: 13px; font-weight: 800;
+}
+.bloom-v2-cart-button:hover { background: var(--g-accent-soft); }
+.bloom-v2-hero {
+  max-width: 1330px; min-height: 425px; margin: auto; padding: 8px 5.8% 32px;
+  display: grid; grid-template-columns: 1.02fr 1fr;
+  align-items: center; gap: 32px;
+}
+.bloom-v2-hero-copy { position: relative; z-index: 2; min-width: 0; }
+.bloom-v2-eyebrow {
+  color: var(--g-accent-text); letter-spacing: .22em;
+  font-size: 11px; font-weight: 800;
+}
+.bloom-v2-headline {
+  color: var(--g-accent-text); font-size: clamp(68px, 11vw, 145px);
+  line-height: .76; letter-spacing: -.07em; font-weight: 700;
+  margin: 25px 0; text-align: start;
+  overflow-wrap: anywhere;
+}
+.bloom-v2-headline > span, .bloom-v2-headline > i { display: block; }
+.bloom-v2-headline i { font-style: italic; font-weight: 700; padding-inline-start: .22em; opacity: .78; }
+.bloom-v2-subtitle {
+  font-size: 16px; color: var(--g-text-2);
+  line-height: 1.9; margin: 24px 0 17px;
+}
+.bloom-v2-cta {
+  border: none; border-radius: 99px; padding: 12px 24px;
+  background: var(--g-accent); color: var(--g-on-accent);
+  box-shadow: 0 7px 0 color-mix(in srgb, var(--g-accent) 43%, var(--g-bg));
+  font: 800 12px/1.5 var(--font-bloom-arabic), Tahoma, sans-serif;
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+}
+.bloom-v2-cta:hover { transform: translateY(-2px); box-shadow: 0 9px 0 color-mix(in srgb, var(--g-accent) 43%, var(--g-bg)); }
+.bloom-v2-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.bloom-v2-tools nav, .bloom-v2-tools button { color: var(--g-text); }
+.bloom-v2-art-wrap { position: relative; display: grid; place-items: center; min-height: 380px; }
+.bloom-v2-art-backdrop {
+  position: absolute; width: 90%; aspect-ratio: 1; max-height: 95%;
+  border-radius: 50%; background: var(--bloom-ring);
+  box-shadow: inset 0 0 0 15px var(--bloom-ring-inner), 0 0 0 2px var(--g-line);
+  transform: rotate(-8deg);
+}
+.bloom-v2-art {
+  position: relative; z-index: 1; width: 100%; max-height: 440px;
+  filter: drop-shadow(8px 18px 15px rgb(165 91 92 / .3));
+  animation: bloom-cake-float 6s ease-in-out infinite;
+}
+.bloom-v2-hero-photo {
+  width: 75%; max-height: 400px; aspect-ratio: 1;
+  object-fit: cover; border-radius: 50%;
+  border: 7px solid var(--g-surface); box-shadow: var(--g-shadow);
+}
+.bloom-v2-sparkle { position: absolute; z-index: 2; pointer-events: none; color: var(--bloom-sparkle); }
+.bloom-v2-sparkle-one { top: 0; left: 0; font-size: 74px; animation: bloom-sparkle-turn 20s linear infinite; }
+.bloom-v2-sparkle-two { top: 14%; right: 2%; font-size: 36px; opacity: .6; }
+@keyframes bloom-cake-float { 50% { transform: translateY(-8px) rotate(2deg); } }
+@keyframes bloom-sparkle-turn { to { transform: rotate(360deg); } }
+
+/* One-category-at-a-time navigation and real restaurant product cards. */
+.bloom-experience #bloom-menu-start { scroll-margin-top: 20px; }
+.bloom-v2-section {
+  max-width: 1320px; margin: auto; border-top: 1px dashed var(--g-line);
+  padding: 31px 0 6px; position: relative;
+}
+.bloom-v2-section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+.bloom-v2-section-eyebrow { font-size: 10px; letter-spacing: .11em; color: var(--g-text-3); }
+.bloom-v2-section-title {
+  color: var(--g-accent-text); font-size: clamp(38px, 6vw, 62px);
+  line-height: 1.05; font-weight: 700; margin: 5px 0 0;
+}
+.bloom-v2-section-flower { color: var(--g-accent); font-size: 26px; }
+.bloom-v2-tabs {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  padding: 11px 2px 22px;
+}
+.bloom-v2-tabs::-webkit-scrollbar { display:none; }
+.bloom-v2-tab {
+  flex: 0 0 auto; padding: 10px 16px; border-radius: 99px;
+  background: transparent; border: 1px solid var(--g-line);
+  color: var(--g-accent-text); font-size: 12px; font-weight: 800;
+  transition: background .2s ease, border-color .2s ease;
+}
+.bloom-v2-tab:hover { background: var(--g-accent-soft); }
+.bloom-v2-tab-active, .bloom-v2-tab[aria-pressed='true'] {
+  color: var(--g-on-accent); background: var(--g-accent);
+  border-color: var(--g-accent);
+}
+.bloom-v2-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap: 16px; }
+.bloom-v2-card {
+  background: var(--g-surface); border: 1px solid var(--g-line);
+  border-radius: 22px; overflow: hidden;
+  box-shadow: var(--g-shadow);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.bloom-v2-card:hover {
+  transform: translateY(-5px) rotate(-.7deg);
+  box-shadow: 0 22px 40px color-mix(in srgb, var(--g-accent) 23%, transparent);
+}
+.bloom-v2-card-photo { aspect-ratio: 1.55; background: linear-gradient(145deg, var(--g-surface-2), var(--bloom-ring)); }
+.bloom-v2-card:nth-child(3n + 2) .bloom-v2-card-photo {
+  background: linear-gradient(145deg, var(--g-surface-2), var(--bloom-ring-inner));
+}
+.bloom-v2-card-photo img { width:100%; height:100%; object-fit: cover; display: block; }
+.bloom-v2-card-body { padding: 17px 18px 19px; }
+.bloom-v2-card-kicker {
+  font-size: 9px; color: var(--g-accent-text); letter-spacing: .12em;
+  font-weight: 800; margin: 0 0 7px; text-transform: uppercase;
+}
+.bloom-v2-card-title { font-size: 17px; color: var(--g-text); font-weight: 800; }
+.bloom-v2-card-description { font-size: 12px; color: var(--g-text-2); line-height: 1.7; min-height: 32px; }
+.bloom-v2-price { color: var(--g-price); font-weight: 800; font-family: var(--font-bloom-arabic), Tahoma, sans-serif; }
+.bloom-v2-add { background: var(--g-accent-soft) !important; color: var(--g-accent-text) !important; border-radius: 50% !important; }
+.bloom-v2-add:hover { background: var(--g-accent) !important; color: var(--g-on-accent) !important; }
+
+@media (max-width: 900px) {
+  .bloom-v2-hero { gap: 15px; min-height: 390px; }
+  .bloom-v2-headline { font-size: clamp(60px, 10vw, 115px); }
+  .bloom-v2-art-wrap { min-height: 310px; }
+}
+@media (max-width: 680px) {
+  .bloom-v2-nav { padding: 16px 5%; }
+  .bloom-v2-nav-note { display: none; }
+  .bloom-v2-brand-name { font-size: 25px; max-width: 44vw; }
+  .bloom-v2-hero { grid-template-columns: 1fr; padding: 10px 5% 23px; gap: 10px; min-height: 0; }
+  .bloom-v2-headline { font-size: clamp(65px, 15.5vw, 116px); margin: 19px 0 13px; }
+  .bloom-v2-subtitle { font-size: 13px; margin: 12px 0 22px; }
+  .bloom-v2-hero-copy { min-width: 0; }
+  .bloom-v2-art-wrap { min-height: 250px; max-height: 310px; }
+  .bloom-v2-art { max-height: 295px; }
+  .bloom-v2-hero-photo { max-height: 235px; }
+  .bloom-v2-sparkle-one { font-size: 46px; }
+  .bloom-v2-tools { margin-top: 19px; }
+  .bloom-v2-section { padding-top: 25px; }
+  .bloom-v2-section-title { font-size: 43px; }
+  .bloom-v2-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .bloom-v2-card-photo { aspect-ratio: 1.12; }
+  .bloom-v2-card-body { padding: 12px; }
+  .bloom-v2-card-title { font-size: 14px; }
+  .bloom-v2-card-description { font-size: 10px; min-height: 30px; }
+  .bloom-v2-price { font-size: 12px; }
+  .bloom-v2-card-kicker { font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bloom-v2-art, .bloom-v2-sparkle-one { animation: none !important; }
+  .bloom-v2-card:hover { transform: none !important; }
+}
+.bloom-experience[data-bloom-motion='OFF'] .bloom-v2-art,
+.bloom-experience[data-bloom-motion='OFF'] .bloom-v2-sparkle-one {
+  animation: none !important;
+}
+.bloom-experience[data-bloom-motion='OFF'] .bloom-v2-card:hover {
+  transform: none !important;
+}
+
+/* ---- BREW premium specialty-coffee design ----
+ * The original FOREST palette is the reference; MOCHA and SAGE are curated presets.
+ * Guest dark mode is independent of the palette. Other templates are unaffected.
+ * Latin display: the existing Cormorant Garamond normal/italic, Arabic: Tajawal.
+ */
+.brew-experience {
+  --g-bg: #f0ecdf;
+  --g-surface: #fffdf7;
+  --g-surface-2: #e8e8dd;
+  --g-line: #bbc4b6;
+  --g-text: #253d30;
+  --g-text-2: #506655;
+  --g-text-3: #607568;
+  --g-accent: #294b39;
+  --g-on-accent: #ffffff;
+  --g-accent-soft: #e1e9df;
+  --g-price: #2e553d;
+  --g-accent-text: #274b38;
+  --g-shadow: 0 12px 30px rgb(31 59 42 / 0.12);
+  --brew-paper: #f1ede1;
+  --brew-pattern-dot: rgb(108 93 72 / 0.10);
+  --brew-eyebrow: #865f36;
+  --brew-display-accent: #a97b4d;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #67816b, #334f42 55%, #273c32);
+  --brew-art-ring: rgb(208 191 144 / 0.70);
+  --brew-art-seal: #f5e5b7;
+  --brew-promo-bg: linear-gradient(145deg, #365b44, #213e2e);
+  --brew-promo-title: #fff7e3;
+  --brew-promo-muted: #dfebd2;
+  --brew-promo-eyebrow: #c6dbb8;
+  color-scheme: light;
+  color: var(--g-text);
+  background: var(--g-bg);
+  font-family: var(--font-bloom-arabic), Tahoma, sans-serif;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+.brew-experience[data-brew-palette='MOCHA'] {
+  --g-bg: #f5ede4; --g-surface: #fffaf4; --g-surface-2: #e9ded3;
+  --g-line: #c9b4a4; --g-text: #4a3027; --g-text-2: #71554a;
+  --g-text-3: #785b4e; --g-accent: #694333; --g-on-accent: #ffffff;
+  --g-accent-soft: #f1ded1; --g-price: #75452f; --g-accent-text: #68402f;
+  --brew-paper: #f4e9df; --brew-pattern-dot: rgb(134 89 59 / 0.10);
+  --brew-eyebrow: #815331; --brew-display-accent: #b27b47;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #90715c, #654737 55%, #3e2a24);
+  --brew-art-ring: rgb(246 212 162 / 0.65);
+  --brew-promo-bg: linear-gradient(145deg, #76513e, #422e27);
+  --brew-promo-title: #fff3e5; --brew-promo-muted: #f2dbcb; --brew-promo-eyebrow: #f2d2ad;
+}
+.brew-experience[data-brew-palette='SAGE'] {
+  --g-bg: #eef2e8; --g-surface: #fcfdf7; --g-surface-2: #e0e9dc;
+  --g-line: #acc2b1; --g-text: #2b4738; --g-text-2: #4f695a;
+  --g-text-3: #5a7465; --g-accent: #375e49; --g-on-accent: #ffffff;
+  --g-accent-soft: #d9e7d8; --g-price: #305c45; --g-accent-text: #315642;
+  --brew-paper: #eff4eb; --brew-pattern-dot: rgb(85 116 91 / 0.11);
+  --brew-eyebrow: #76613d; --brew-display-accent: #91764d;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #7f9b84, #496d57 55%, #2f4b39);
+  --brew-art-ring: rgb(228 221 177 / 0.76);
+  --brew-promo-bg: linear-gradient(145deg, #5c7b60, #2f503e);
+  --brew-promo-title: #fffdf0; --brew-promo-muted: #e4eedd; --brew-promo-eyebrow: #deebcf;
+}
+/* These selectors override the preset values without changing the saved palette. */
+[data-guest-theme='dark'] .brew-experience {
+  --g-bg: #192820; --g-surface: #26392e; --g-surface-2: #324a3c;
+  --g-line: #496352; --g-text: #f5f2e5; --g-text-2: #d5e1d3;
+  --g-text-3: #b8cab8; --g-accent: #c9dfb5; --g-on-accent: #1a3023;
+  --g-accent-soft: #375141; --g-price: #e7d2a4; --g-accent-text: #d7e9c6;
+  --g-shadow: 0 12px 35px rgb(0 0 0 / 0.32);
+  --brew-paper: #1f3026; --brew-pattern-dot: rgb(216 225 200 / 0.06);
+  --brew-eyebrow: #e5c89a; --brew-display-accent: #e1b983;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #58745e, #2c493a 55%, #1d342a);
+  --brew-art-ring: rgb(210 204 151 / 0.62);
+  --brew-promo-bg: linear-gradient(145deg, #40674f, #2a4a38);
+  --brew-promo-title: #fff9e9; --brew-promo-muted: #e1ebd8; --brew-promo-eyebrow: #d9e9c7;
+  color-scheme: dark;
+}
+[data-guest-theme='dark'] .brew-experience[data-brew-palette='MOCHA'] {
+  --g-bg: #251d1a; --g-surface: #352921; --g-surface-2: #46362e;
+  --g-line: #695144; --g-text: #fff2e2; --g-text-2: #e0c8b6;
+  --g-text-3: #ceb4a1; --g-accent: #edc29b; --g-on-accent: #30201b;
+  --g-accent-soft: #553c30; --g-price: #f6c795; --g-accent-text: #f5d1af;
+  --brew-paper: #2e231f; --brew-pattern-dot: rgb(233 203 171 / 0.07);
+  --brew-eyebrow: #edc7a7; --brew-display-accent: #e6b47f;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #765a49, #493528 57%, #30221c);
+  --brew-art-ring: rgb(238 190 130 / 0.60);
+  --brew-promo-bg: linear-gradient(145deg, #76513f, #50392f);
+  --brew-promo-title: #fff7ed; --brew-promo-muted: #f1d9c8; --brew-promo-eyebrow: #f0cda7;
+}
+[data-guest-theme='dark'] .brew-experience[data-brew-palette='SAGE'] {
+  --g-bg: #18251f; --g-surface: #283e31; --g-surface-2: #395340;
+  --g-line: #516c56; --g-text: #f0f5e8; --g-text-2: #d3e2d3;
+  --g-text-3: #b7c9b9; --g-accent: #c5e0bf; --g-on-accent: #21382c;
+  --g-accent-soft: #395442; --g-price: #e6d6ad; --g-accent-text: #d5e8ca;
+  --brew-paper: #21342a; --brew-pattern-dot: rgb(217 233 210 / 0.06);
+  --brew-eyebrow: #e0c998; --brew-display-accent: #e0c18a;
+  --brew-art-bg: radial-gradient(circle at 48% 40%, #6c8972, #355b45 55%, #223b2d);
+  --brew-art-ring: rgb(228 229 188 / 0.66);
+  --brew-promo-bg: linear-gradient(145deg, #608069, #385741);
+  --brew-promo-title: #fffdf0; --brew-promo-muted: #e1efdd; --brew-promo-eyebrow: #d9ebce;
+}
+.brew-v2-display {
+  font-family: var(--font-bloom-display), var(--font-bloom-arabic), Georgia, serif;
+  font-synthesis: none;
+  font-weight: 600;
+}
+.brew-experience .brew-v2-header {
+  color: var(--g-text);
+  background:
+    radial-gradient(var(--brew-pattern-dot) 0.5px, transparent 0.5px) 0 0 / 5px 5px,
+    var(--brew-paper);
+  border-bottom: 1px solid var(--g-line);
+}
+.brew-v2-nav {
+  max-width: 1320px;
+  margin-inline: auto;
+  padding: 20px 5.8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.brew-v2-brand { display: flex; align-items: center; min-width: 0; gap: 10px; }
+.brew-v2-brand strong {
+  display: block;
+  max-width: min(360px, 35vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(24px, 2.8vw, 35px);
+  line-height: 1.15;
+}
+.brew-v2-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px; height: 42px;
+  background: var(--g-accent); color: var(--g-on-accent);
+  border-radius: 50%;
+}
+.brew-v2-navnote { font-size: 10px; color: var(--g-text-3); }
+.brew-v2-nav button {
+  flex: none;
+  border: 1px solid var(--g-line);
+  color: var(--g-accent-text);
+  padding: 9px 16px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.brew-v2-nav button:hover { background: var(--g-accent-soft); }
+.brew-v2-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.13fr) minmax(0, .87fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1320px;
+  margin-inline: auto;
+  padding: 0 5.8% 44px;
+  min-height: 420px;
+}
+.brew-v2-copy { min-width: 0; }
+.brew-v2-eyebrow {
+  color: var(--brew-eyebrow);
+  font-size: 11px;
+  letter-spacing: .18em;
+  font-weight: 800;
+}
+.brew-v2-copy h1 {
+  color: var(--g-text);
+  font-size: clamp(68px, 9.5vw, 130px);
+  line-height: .86;
+  letter-spacing: -.075em;
+  direction: ltr;
+  text-align: right;
+  max-width: 100%;
+  margin: 28px 0;
+  overflow-wrap: anywhere;
+}
+.brew-v2-copy h1 span,
+.brew-v2-copy h1 i { display: block; }
+.brew-v2-copy h1 i {
+  font-weight: 500;
+  color: var(--brew-display-accent);
+}
+.brew-v2-copy p {
+  color: var(--g-text-2);
+  line-height: 1.9;
+  max-width: 440px;
+  font-size: 15px;
+}
+.brew-v2-copy small {
+  display: block;
+  color: var(--brew-eyebrow);
+  margin: 16px 0;
+  font-size: 11px;
+  letter-spacing: .035em;
+}
+.brew-v2-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  color: var(--g-text);
+}
+.brew-v2-art {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: clamp(320px, 31vw, 440px);
+  min-width: 0;
+  background: var(--brew-art-bg);
+  border-radius: 220px 220px 14px 14px;
+}
+.brew-v2-artframe {
+  position: absolute;
+  inset: 18px;
+  border: 1px solid var(--brew-art-ring);
+  border-radius: 210px 210px 8px 8px;
+  pointer-events: none;
+}
+.brew-v2-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  filter: drop-shadow(12px 20px 15px rgb(16 30 32 / 0.35));
+  animation: brewFloat 7s ease-in-out infinite;
+}
+.brew-v2-seal {
+  position: absolute;
+  bottom: 22px;
+  left: 26px;
+  color: var(--brew-art-seal, #f5e5b7);
+  font: 600 22px/.9 var(--font-bloom-display), Georgia, serif;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+.brew-experience #brew-menu-start { scroll-margin-top: 20px; }
+.brew-v2-menu-section { width: 100%; min-width: 0; max-width: 1300px; margin-inline: auto; }
+.brew-v2-sectionhead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 24px 0;
+  min-width: 0;
+}
+.brew-v2-sectionhead h2 {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  color: var(--g-text);
+  font-size: clamp(46px, 6vw, 76px);
+  line-height: 1.05;
+  letter-spacing: -.055em;
+  direction: ltr;
+  overflow-wrap: anywhere;
+}
+.brew-v2-sectionhead p {
+  flex: 0 1 275px;
+  max-width: 275px;
+  color: var(--g-text-2);
+  font-size: 13px;
+  line-height: 1.85;
+}
+.brew-v2-tabs {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 2px 20px;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+}
+.brew-v2-tabs::-webkit-scrollbar { display: none; }
+.brew-v2-tabs button {
+  flex: 0 0 auto;
+  border: 1px solid var(--g-line);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--g-text);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+.brew-v2-tabs button:hover { background: var(--g-accent-soft); }
+.brew-v2-tabs button[aria-pressed='true'] {
+  background: var(--g-accent);
+  color: var(--g-on-accent);
+  border-color: var(--g-accent);
+}
+.brew-v2-list {
+  border-top: 1px solid var(--g-line);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  align-items: start;
+  gap: clamp(20px, 3vw, 40px);
+  padding-top: 20px;
+}
+.brew-v2-rows { min-width: 0; }
+.brew-v2-rows > article {
+  border-color: var(--g-line);
+  padding-block: 15px;
+}
+.brew-v2-promo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  gap: 11px;
+  min-width: 0;
+  min-height: clamp(300px, 30vw, 430px);
+  padding: 32px 33px 25px;
+  border-radius: 5px 92px 5px 5px;
+  background: var(--brew-promo-bg);
+  color: var(--brew-promo-title);
+  overflow: hidden;
+  isolation: isolate;
+}
+.brew-v2-promo::before {
+  content: '✳';
+  position: absolute;
+  inset-inline-end: -28px;
+  top: 12px;
+  font-size: 225px;
+  line-height: 1;
+  color: var(--brew-promo-title);
+  opacity: .055;
+  z-index: -1;
+  pointer-events: none;
+}
+.brew-v2-promo small {
+  display: block;
+  color: var(--brew-promo-eyebrow);
+  font-size: 11px;
+  letter-spacing: .13em;
+  font-weight: 800;
+}
+.brew-v2-promo h3 {
+  color: var(--brew-promo-title);
+  font-size: clamp(39px, 4.2vw, 61px);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+  margin: 14px 0 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.brew-v2-promo p {
+  color: var(--brew-promo-muted);
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.brew-v2-promo-icon {
+  position: relative;
+  display: block;
+  align-self: flex-end;
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 62px;
+  line-height: 1;
+  filter: drop-shadow(0 5px 7px rgb(0 0 0 / .14));
+  pointer-events: none;
+}
+.brew-v2-promo-photo {
+  display: block;
+  position: relative;
+  align-self: flex-end;
+  flex: none;
+  margin-top: auto;
+  padding-top: 14px;
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* Layout prioritizes legible category content over maintaining rigid desktop columns. */
+@media (max-width: 900px) {
+  .brew-v2-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+  .brew-v2-copy h1 { font-size: clamp(58px, 10vw, 98px); }
+  .brew-v2-sectionhead h2 { font-size: clamp(44px, 6.5vw, 65px); }
+  .brew-v2-list { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .brew-v2-promo { min-height: 280px; }
+}
+@media (max-width: 640px) {
+  .brew-v2-nav { padding: 16px 5%; gap: 10px; }
+  .brew-v2-navnote { display: none; }
+  .brew-v2-brand { gap: 7px; flex: 1; }
+  .brew-v2-brand strong { max-width: 46vw; font-size: 27px; }
+  .brew-v2-mark { width: 36px; height: 36px; }
+  .brew-v2-nav button { padding: 8px 11px; font-size: 12px; }
+  .brew-v2-hero { display: flex; flex-direction: column; min-height: 0; padding: 8px 5% 28px; gap: 24px; }
+  .brew-v2-copy { width: 100%; }
+  .brew-v2-eyebrow { font-size: 10px; letter-spacing: .10em; }
+  .brew-v2-copy h1 { font-size: clamp(57px, 14vw, 88px); line-height: .9; margin: 19px 0 16px; }
+  .brew-v2-copy p { font-size: 14px; line-height: 1.85; max-width: none; }
+  .brew-v2-copy small { margin: 12px 0; }
+  .brew-v2-tools { margin-top: 13px; }
+  .brew-v2-art { height: clamp(232px, 70vw, 325px); max-width: 520px; border-radius: 180px 180px 9px 9px; }
+  .brew-v2-artframe { inset: 13px; }
+  .brew-v2-seal { font-size: 17px; bottom: 18px; left: 19px; }
+  .brew-v2-sectionhead { flex-direction: column; align-items: flex-start; gap: 12px; padding: 19px 0 17px; }
+  .brew-v2-sectionhead h2 { flex: none; width: 100%; font-size: clamp(39px, 11vw, 58px); line-height: 1.02; }
+  .brew-v2-sectionhead p { flex: none; width: 100%; max-width: none; font-size: 12px; line-height: 1.75; }
+  .brew-v2-tabs { gap: 7px; padding-bottom: 16px; }
+  .brew-v2-tabs button { padding: 10px 15px; font-size: 12px; min-height: 40px; }
+  .brew-v2-list { gap: 22px; padding-top: 12px; }
+  .brew-v2-rows > article { padding-block: 13px; }
+  .brew-v2-promo { min-height: 260px; padding: 27px 24px 21px; border-top-right-radius: 78px; }
+  .brew-v2-promo h3 { font-size: clamp(36px, 10vw, 54px); margin: 11px 0 0; }
+  .brew-v2-promo-icon { font-size: 52px; }
+  .brew-v2-promo-photo { width: 84px; height: 84px; }
+}
+@media (max-width: 360px) {
+  .brew-v2-copy h1 { font-size: clamp(50px, 13.5vw, 66px); }
+  .brew-v2-sectionhead h2 { font-size: 39px; }
+  .brew-v2-promo h3 { font-size: 36px; }
+  .brew-v2-nav button { padding-inline: 9px; }
+}
+@keyframes brewFloat { 50% { transform: translateY(-8px) rotate(1deg); } }
+.brew-experience[data-brew-motion='OFF'] .brew-v2-art svg { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .brew-v2-art svg { animation: none; }
+}

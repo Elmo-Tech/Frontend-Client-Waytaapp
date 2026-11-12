@@ -1,0 +1,24 @@
+import type { ReactNode } from 'react';
+import { cn } from '../../lib/utils/cn';
+
+export interface CardProps {
+  children: ReactNode;
+  className?: string;
+  /** An anchor target for in-page navigation. */
+  id?: string;
+}
+
+/** Design-system-v2: the shared surface -- token-based background/border/text, so a Card never silently goes back to the browser default (white-on-white) if it ends up nested somewhere unexpected. */
+export function Card({ children, className, id }: CardProps) {
+  return (
+    <div
+      id={id}
+      className={cn(
+        'rounded-xl border border-border bg-card text-card-foreground p-6 shadow-sm',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
