@@ -84,9 +84,9 @@ test('a send with a problem is blocked and focused on the first bad field, in bo
   for (const handler of ['handlePlaceOrder', 'handleSendWhatsapp']) {
     const start = menuView.indexOf(`async function ${handler}()`);
     assert.ok(start > 0, handler);
-    const body = menuView.slice(start, start + 400);
+    const body = menuView.slice(start, menuView.indexOf("\n  }", start) + 4);
     const guard = body.indexOf('if (!(await validation.checkBeforeSend())) return;');
-    const submitting = body.indexOf('setIsSubmitting(true)');
+    const submitting = body.indexOf(handler === 'handlePlaceOrder' ? 'await submitGuestOrder(' : 'await submitWhatsappOrder(');
     assert.ok(guard > 0 && submitting > guard, `${handler} must check the fields before sending anything`);
   }
   assert.ok(hook.includes('document.getElementById(`checkout-${first}`)'));
