@@ -24,3 +24,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Modular architecture
 
 Read `docs/ARCHITECTURE.md` before structural changes. Keep app routes thin, business code in modules, and shared infrastructure independent of modules. Import other modules only through focused root public entry points. Run `npm run check:architecture` in addition to existing validation. Preserve current routes, API contracts, UI, auth and locale behavior.
+
+## AI workflow entry point
+
+Read [AI.md](AI.md) before implementation. It routes to the repository workflow, domain rules, approved specification map, change-spec template and validation guidance under `docs/ai/`. Preserve the Next-managed instructions above. Apply the user's authorized scope and do not add backend or sibling-repository changes to a frontend task.
