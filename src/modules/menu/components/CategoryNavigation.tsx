@@ -1,39 +1,30 @@
 'use client';
-
+import { CategoryFormFields } from './CategoryFormFields';
 import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type Dispatch,
-  type FormEvent,
-  type RefObject,
-  type SetStateAction,
-} from 'react';
+  KEEP_CURRENT_MENU,
+  type CategoryFormState,
+  type SecondaryDrafts,
+} from './category-form-model';
+
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Alert } from '../../../components/ui/Alert';
 import { Button } from '../../../components/ui/Button';
 import { Dialog } from '../../../components/ui/Dialog';
 import { EmptyState } from '../../../components/ui/EmptyState';
-import { FormField } from '../../../components/ui/FormField';
-import { FormSection } from '../../../components/ui/FormSection';
+
 import { IconImage, IconPencil, IconPlus } from '../../../components/ui/icons';
-import { Input } from '../../../components/ui/Input';
+
 import { LoadingState } from '../../../components/ui/LoadingState';
 import { SectionCard } from '../../../components/ui/SectionCard';
-import { Select } from '../../../components/ui/Select';
-import { Textarea } from '../../../components/ui/Textarea';
+
 import { ApiError } from '../../../lib/api/errors';
 import { useStaffI18n } from '../../../lib/i18n/client';
-import { localeDirection, localeLabel } from '../../../lib/i18n/locale-labels';
+import { localeLabel } from '../../../lib/i18n/locale-labels';
 import { resolveAssetUrl } from '../../../lib/infrastructure/asset-url';
 import type { RestaurantLocalesResponse } from '../../settings/types';
 import * as menuApi from '../api';
-import { useTranslationsEditor } from '../hooks/use-translations-editor';
-import type {
-  Category,
-  CategoryStatus,
-  Menu,
-} from '../types/index';
+
+import type { Category, Menu } from '../types/index';
 import { ALL_PRODUCTS } from '../utils/all-products';
 import {
   describeError,
@@ -41,12 +32,8 @@ import {
   redirectToLogin,
 } from '../../../lib/api/user-errors';
 import { validateImageFile } from '../utils/image-validation';
-import { ImageField } from './ImageField';
-import { LanguageTabs, type LanguageTabOption } from './LanguageTabs';
-import { DragGrip, MoveArrows, useDragReorder } from './reorder';
-import { TranslationFields } from './TranslationFields';
 
-const KEEP_CURRENT_MENU = '__keep_current_menu__';
+import { DragGrip, MoveArrows, useDragReorder } from './reorder';
 
 interface CategoryNavigationProps {
   restaurantId: string;
@@ -71,14 +58,6 @@ interface CategoryNavigationProps {
   onReorder: (categoryIds: string[]) => void;
 }
 
-interface CategoryFormState {
-  name: string;
-  description: string;
-  status: CategoryStatus;
-  displayOrder: string;
-  targetMenuId: string;
-}
-
 const EMPTY_FORM: CategoryFormState = {
   name: '',
   description: '',
@@ -98,7 +77,11 @@ function toFormState(category: Category): CategoryFormState {
 }
 
 /** FT-2 correction, Section 2: a compact ~36px thumbnail in the Category nav itself -- reuses the existing `resolveAssetUrl` helper and the same clean placeholder icon as `ProductList`'s thumbnail, no larger redesign. */
-function CategoryThumbnail({ imageAssetPath }: { imageAssetPath: string | null }) {
+function CategoryThumbnail({
+  imageAssetPath,
+}: {
+  imageAssetPath: string | null;
+}) {
   const imageUrl = resolveAssetUrl(imageAssetPath);
   if (imageUrl) {
     return (
@@ -118,11 +101,6 @@ function CategoryThumbnail({ imageAssetPath }: { imageAssetPath: string | null }
 }
 
 /** One in-progress, not-yet-saved secondary-locale translation typed while creating (FT-1 correction 2, Section 3). */
-interface SecondaryDraft {
-  name: string;
-  description: string;
-}
-type SecondaryDrafts = Record<string, SecondaryDraft>;
 
 /**
  * UX-3, Section 7: Categories become the navigation rail for the selected
@@ -166,9 +144,16 @@ export function CategoryNavigation({
   // Touch / small screens: ordering is an explicit mode (arrows), because a row of
   // chips has no room for per-item controls. Desktop uses the drag grip directly.
   const [reorderMode, setReorderMode] = useState(false);
-  const categoryIds = useMemo(() => (categories ?? []).map((category) => category.id), [categories]);
+  const categoryIds = useMemo(
+    () => (categories ?? []).map((category) => category.id),
+    [categories],
+  );
   const canReorder = canManage && categoryIds.length > 1;
-  const reorder = useDragReorder({ ids: categoryIds, enabled: canReorder, onReorder });
+  const reorder = useDragReorder({
+    ids: categoryIds,
+    enabled: canReorder,
+    onReorder,
+  });
   const [mode, setMode] = useState<'idle' | 'create' | 'edit'>('idle');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<CategoryFormState>(EMPTY_FORM);
@@ -176,7 +161,9 @@ export function CategoryNavigation({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [secondaryDrafts, setSecondaryDrafts] = useState<SecondaryDrafts>({});
   const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
-  const [editingImageAssetPath, setEditingImageAssetPath] = useState<string | null>(null);
+  const [editingImageAssetPath, setEditingImageAssetPath] = useState<
+    string | null
+  >(null);
   const [imageUploadBusy, setImageUploadBusy] = useState(false);
   const [imageError, setImageError] = useState<string | null>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -246,7 +233,11 @@ export function CategoryNavigation({
     setImageUploadBusy(true);
     setImageError(null);
     try {
-      const result = await menuApi.uploadCategoryImage(restaurantId, categoryId, file);
+      const result = await menuApi.uploadCategoryImage(
+        restaurantId,
+        categoryId,
+        file,
+      );
       setEditingImageAssetPath(result.imageAssetPath);
       // FT-2 code review blocker: the Dialog's own `editingImageAssetPath`
       // is only local preview state -- the Menu Management nav renders
@@ -255,7 +246,9 @@ export function CategoryNavigation({
       // entirely inside this Dialog. Reuse the existing `onUpdated` callback
       // (already wired to `MenuWorkspace`'s narrow `loadCategories` refetch)
       // so the thumbnail updates immediately, with no page refresh.
-      const original = categories?.find((category) => category.id === categoryId);
+      const original = categories?.find(
+        (category) => category.id === categoryId,
+      );
       if (original) {
         onUpdated({ ...original, imageAssetPath: result.imageAssetPath });
       }
@@ -284,7 +277,9 @@ export function CategoryNavigation({
       // Same reasoning as `uploadImageNow` above -- the nav thumbnail must
       // fall back to the placeholder immediately, not only after some
       // unrelated later refetch.
-      const original = categories?.find((category) => category.id === editingId);
+      const original = categories?.find(
+        (category) => category.id === editingId,
+      );
       if (original) {
         onUpdated({ ...original, imageAssetPath: null });
       }
@@ -317,7 +312,12 @@ export function CategoryNavigation({
     // MenuWorkspace's own mount effect) -- it has nothing to do with the
     // safety guarantee itself, which is simply "close the Dialog once the
     // Category it is editing is no longer in the loaded list."
-    if (mode === 'edit' && editingId && categories && !categories.some((category) => category.id === editingId)) {
+    if (
+      mode === 'edit' &&
+      editingId &&
+      categories &&
+      !categories.some((category) => category.id === editingId)
+    ) {
       queueMicrotask(() => {
         cancelForm();
       });
@@ -355,10 +355,18 @@ export function CategoryNavigation({
         for (const [locale, draft] of Object.entries(secondaryDrafts)) {
           if (draft.name.trim() === '') continue;
           try {
-            await menuApi.putCategoryTranslation(restaurantId, created.id, locale, {
-              name: draft.name.trim(),
-              description: draft.description.trim() === '' ? null : draft.description.trim(),
-            });
+            await menuApi.putCategoryTranslation(
+              restaurantId,
+              created.id,
+              locale,
+              {
+                name: draft.name.trim(),
+                description:
+                  draft.description.trim() === ''
+                    ? null
+                    : draft.description.trim(),
+              },
+            );
           } catch (translationError) {
             if (isUnauthenticatedError(translationError)) {
               redirectToLogin();
@@ -399,7 +407,11 @@ export function CategoryNavigation({
           // Save/Upload flows.
           const failures: string[] = [];
           if (translationFailures.length > 0) {
-            failures.push(t('menu.categories.failTranslation', { languages: translationFailures.join(', ') }));
+            failures.push(
+              t('menu.categories.failTranslation', {
+                languages: translationFailures.join(', '),
+              }),
+            );
           }
           if (imageUploadFailed) {
             failures.push(t('menu.categories.failImage'));
@@ -410,7 +422,9 @@ export function CategoryNavigation({
           setEditingImageAssetPath(uploadedImageAssetPath);
           setPendingImageFile(null);
           setFormError(
-            t('menu.categories.createdPartial', { problems: failures.join(t('menu.form.and')) }),
+            t('menu.categories.createdPartial', {
+              problems: failures.join(t('menu.form.and')),
+            }),
           );
           return;
         }
@@ -460,12 +474,17 @@ export function CategoryNavigation({
   }
 
   const moveTargets = menus.filter((menu) => menu.id !== menuId);
-  const currentMenuName = menus.find((menu) => menu.id === menuId)?.translation.name ?? '';
+  const currentMenuName =
+    menus.find((menu) => menu.id === menuId)?.translation.name ?? '';
 
   const dialog = (
     <Dialog
       open={mode !== 'idle'}
-      title={mode === 'create' ? t('menu.categories.create') : t('menu.categories.edit')}
+      title={
+        mode === 'create'
+          ? t('menu.categories.create')
+          : t('menu.categories.edit')
+      }
       subtitle={currentMenuName || undefined}
       isSubmitting={isSubmitting || imageUploadBusy}
       submitLabel={
@@ -494,9 +513,15 @@ export function CategoryNavigation({
         secondaryDrafts={secondaryDrafts}
         setSecondaryDrafts={setSecondaryDrafts}
         imageUrl={
-          mode === 'create' ? pendingImagePreviewUrl : resolveAssetUrl(editingImageAssetPath)
+          mode === 'create'
+            ? pendingImagePreviewUrl
+            : resolveAssetUrl(editingImageAssetPath)
         }
-        hasRemovableImage={mode === 'create' ? pendingImageFile !== null : editingImageAssetPath !== null}
+        hasRemovableImage={
+          mode === 'create'
+            ? pendingImageFile !== null
+            : editingImageAssetPath !== null
+        }
         onSelectImageFile={handleSelectImageFile}
         onRemoveImage={() => void handleRemoveImage()}
         imageBusy={imageUploadBusy}
@@ -552,7 +577,9 @@ export function CategoryNavigation({
             </Alert>
           ) : null}
 
-          {categories === null && !error ? <LoadingState label={t('menu.categories.loading')} /> : null}
+          {categories === null && !error ? (
+            <LoadingState label={t('menu.categories.loading')} />
+          ) : null}
 
           {categories !== null && categories.length === 0 ? (
             <EmptyState
@@ -563,7 +590,8 @@ export function CategoryNavigation({
               action={
                 canManage ? (
                   <Button variant="secondary" size="sm" onClick={startCreate}>
-                    <IconPlus className="h-3.5 w-3.5" /> {t('menu.categories.add')}
+                    <IconPlus className="h-3.5 w-3.5" />{' '}
+                    {t('menu.categories.add')}
                   </Button>
                 ) : undefined
               }
@@ -587,7 +615,9 @@ export function CategoryNavigation({
                   <button
                     type="button"
                     onClick={() => onSelectCategory(ALL_PRODUCTS)}
-                    aria-current={selectedCategoryId === ALL_PRODUCTS ? 'true' : undefined}
+                    aria-current={
+                      selectedCategoryId === ALL_PRODUCTS ? 'true' : undefined
+                    }
                     className={`flex items-center justify-between gap-3 whitespace-nowrap rounded-md py-2 ps-2 pe-1 text-start text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring xl:w-full ${
                       selectedCategoryId === ALL_PRODUCTS
                         ? 'font-semibold text-primary'
@@ -605,7 +635,11 @@ export function CategoryNavigation({
                             : 'bg-muted text-muted-foreground'
                         }`}
                       >
-                        {categories.reduce((sum, category) => sum + (productCounts[category.id] ?? 0), 0)}
+                        {categories.reduce(
+                          (sum, category) =>
+                            sum + (productCounts[category.id] ?? 0),
+                          0,
+                        )}
                       </span>
                     ) : null}
                   </button>
@@ -613,7 +647,9 @@ export function CategoryNavigation({
               </li>
               {categories.map((category, index) => {
                 const isSelected = category.id === selectedCategoryId;
-                const count = productCounts ? (productCounts[category.id] ?? 0) : null;
+                const count = productCounts
+                  ? (productCounts[category.id] ?? 0)
+                  : null;
                 const isDragging = reorder.draggingId === category.id;
                 const isOver = reorder.overId === category.id;
                 return (
@@ -648,22 +684,30 @@ export function CategoryNavigation({
                         onClick={() => onSelectCategory(category.id)}
                         aria-current={isSelected ? 'true' : undefined}
                         className={`flex items-center justify-between gap-3 whitespace-nowrap rounded-md py-1.5 ps-1.5 pe-1 text-start text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring xl:w-full xl:whitespace-normal ${
-                          isSelected ? 'font-semibold text-primary' : 'text-secondary-foreground'
+                          isSelected
+                            ? 'font-semibold text-primary'
+                            : 'text-secondary-foreground'
                         }`}
                       >
                         <span className="flex min-w-0 items-center gap-2">
-                          <CategoryThumbnail imageAssetPath={category.imageAssetPath} />
+                          <CategoryThumbnail
+                            imageAssetPath={category.imageAssetPath}
+                          />
                           <span dir="auto" className="truncate">
                             {category.translation.name}
                           </span>
                         </span>
                         <span className="flex flex-shrink-0 items-center gap-1.5">
                           {category.status === 'INACTIVE' ? (
-                            <span className="text-xs text-muted-foreground">{t('common.inactive')}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {t('common.inactive')}
+                            </span>
                           ) : null}
                           {count !== null ? (
                             <span
-                              title={t('menu.categories.productCount', { count })}
+                              title={t('menu.categories.productCount', {
+                                count,
+                              })}
                               className={`inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-xs font-semibold ${
                                 isSelected
                                   ? 'bg-primary text-primary-foreground'
@@ -688,7 +732,9 @@ export function CategoryNavigation({
                         <button
                           type="button"
                           onClick={() => startEdit(category)}
-                          aria-label={t('menu.products.editAria', { name: category.translation.name })}
+                          aria-label={t('menu.products.editAria', {
+                            name: category.translation.name,
+                          })}
                           className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded text-muted-foreground outline-none transition-colors hover:bg-card hover:text-primary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring xl:opacity-0 xl:group-hover:opacity-100"
                         >
                           <IconPencil className="h-3.5 w-3.5" />
@@ -717,364 +763,3 @@ export function CategoryNavigation({
  * the Restaurant's already-loaded Menu list (Section 10/11), identical to
  * the previous inline form's Move-to-Menu control.
  */
-function CategoryFormFields({
-  mode,
-  form,
-  setForm,
-  formError,
-  isSubmitting,
-  currentMenuName,
-  moveTargets,
-  nameRef,
-  restaurantId,
-  entityId,
-  locales,
-  secondaryDrafts,
-  setSecondaryDrafts,
-  imageUrl,
-  hasRemovableImage,
-  onSelectImageFile,
-  onRemoveImage,
-  imageBusy,
-  imageError,
-}: {
-  mode: 'create' | 'edit';
-  form: CategoryFormState;
-  setForm: Dispatch<SetStateAction<CategoryFormState>>;
-  formError: string | null;
-  isSubmitting: boolean;
-  currentMenuName: string;
-  moveTargets: Menu[];
-  nameRef: RefObject<HTMLInputElement | null>;
-  restaurantId: string;
-  entityId: string | null;
-  locales: RestaurantLocalesResponse | null;
-  secondaryDrafts: SecondaryDrafts;
-  setSecondaryDrafts: Dispatch<SetStateAction<SecondaryDrafts>>;
-  imageUrl: string | null;
-  hasRemovableImage: boolean;
-  onSelectImageFile: (file: File) => void;
-  onRemoveImage: () => void;
-  imageBusy: boolean;
-  imageError: string | null;
-}) {
-  const { t } = useStaffI18n();
-  return (
-    <div className="flex flex-col gap-6">
-      {formError ? <Alert variant="error">{formError}</Alert> : null}
-
-      <FormSection title={t('menu.form.image')}>
-        <ImageField
-          idPrefix="category"
-          imageUrl={imageUrl}
-          onSelectFile={onSelectImageFile}
-          onRemove={hasRemovableImage ? onRemoveImage : undefined}
-          isBusy={imageBusy || isSubmitting}
-          error={imageError}
-          selectLabel={imageUrl ? t('menu.form.replaceImage') : t('menu.form.chooseImage')}
-          helperText={
-            mode === 'create'
-              ? t('menu.categories.imageHintCreate')
-              : t('menu.form.imageHint')
-          }
-        />
-      </FormSection>
-
-      <FormSection title={t('menu.form.general')}>
-        <FormField label={t('menu.form.status')} htmlFor="category-status">
-          <Select
-            id="category-status"
-            value={form.status}
-            onChange={(event) => setForm((prev) => ({ ...prev, status: event.target.value as CategoryStatus }))}
-            disabled={isSubmitting}
-          >
-            <option value="ACTIVE">{t('common.active')}</option>
-            <option value="INACTIVE">{t('common.inactive')}</option>
-          </Select>
-          {form.status === 'INACTIVE' ? (
-            <p className="mt-1 text-xs text-muted-foreground">{t('menu.form.inactiveHint')}</p>
-          ) : null}
-        </FormField>
-      </FormSection>
-
-      {entityId === null ? (
-        <CategoryCreateLanguages
-          form={form}
-          setForm={setForm}
-          isSubmitting={isSubmitting}
-          locales={locales}
-          nameRef={nameRef}
-          secondaryDrafts={secondaryDrafts}
-          setSecondaryDrafts={setSecondaryDrafts}
-        />
-      ) : (
-        <CategoryTranslationSection
-          restaurantId={restaurantId}
-          entityId={entityId}
-          locales={locales}
-          form={form}
-          setForm={setForm}
-          isSubmitting={isSubmitting}
-          nameRef={nameRef}
-        />
-      )}
-
-      <FormSection title={t('menu.form.organization')}>
-        {mode === 'edit' && moveTargets.length > 0 ? (
-          <FormField label={t('menu.menus.label')} htmlFor="category-move">
-            <Select
-              id="category-move"
-              value={form.targetMenuId}
-              onChange={(event) => setForm((prev) => ({ ...prev, targetMenuId: event.target.value }))}
-              disabled={isSubmitting}
-            >
-              <option value={KEEP_CURRENT_MENU}>
-                {t('menu.categories.currentMenu', { name: currentMenuName })}
-              </option>
-              {moveTargets.map((menu) => (
-                <option key={menu.id} value={menu.id}>
-                  {menu.translation.name}
-                </option>
-              ))}
-            </Select>
-          </FormField>
-        ) : (
-          <div className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium text-secondary-foreground">{t('menu.menus.label')}</span>
-            <p className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-secondary-foreground">
-              {currentMenuName}
-            </p>
-          </div>
-        )}
-      </FormSection>
-
-      <FormSection title={t('menu.form.advanced')}>
-        <FormField label={t('menu.form.displayOrder')} htmlFor="category-displayOrder">
-          <Input
-            id="category-displayOrder"
-            type="number"
-            min={0}
-            step={1}
-            required
-            value={form.displayOrder}
-            onChange={(event) => setForm((prev) => ({ ...prev, displayOrder: event.target.value }))}
-            disabled={isSubmitting}
-          />
-        </FormField>
-      </FormSection>
-    </div>
-  );
-}
-
-/**
- * Create-mode Languages section (FT-1 correction 2, Section 1/3), mirroring
- * `MenuContextBar.MenuCreateLanguages` exactly: shows the same
- * `[ English ] [ العربية ]` tabs as Edit for every ACTIVE Restaurant
- * locale, but keeps secondary-locale content in local `secondaryDrafts`
- * only -- no GET/PUT/DELETE happens until the parent's `handleSubmit` PUTs
- * each non-empty draft after the Category has actually been created.
- */
-function CategoryCreateLanguages({
-  form,
-  setForm,
-  isSubmitting,
-  locales,
-  nameRef,
-  secondaryDrafts,
-  setSecondaryDrafts,
-}: {
-  form: CategoryFormState;
-  setForm: Dispatch<SetStateAction<CategoryFormState>>;
-  isSubmitting: boolean;
-  locales: RestaurantLocalesResponse | null;
-  nameRef: RefObject<HTMLInputElement | null>;
-  secondaryDrafts: SecondaryDrafts;
-  setSecondaryDrafts: Dispatch<SetStateAction<SecondaryDrafts>>;
-}) {
-  const { t } = useStaffI18n();
-  const defaultLocale = locales?.defaultLocale ?? null;
-  const secondaryLocales = useMemo(
-    () =>
-      locales?.locales.filter((row) => !row.isDefault && row.isActive).map((row) => row.locale) ?? [],
-    [locales],
-  );
-
-  const [activeLocale, setActiveLocale] = useState<string>('__default__');
-  const isDefaultTab = activeLocale === '__default__';
-  const currentLocale = isDefaultTab ? defaultLocale : activeLocale;
-  const dir = currentLocale ? localeDirection(currentLocale) : 'ltr';
-
-  const tabOptions: LanguageTabOption[] = defaultLocale
-    ? [
-        { locale: '__default__', label: localeLabel(defaultLocale), stateLabel: t('menu.content.default') },
-        ...secondaryLocales.map((locale) => ({
-          locale,
-          label: localeLabel(locale),
-          stateLabel: secondaryDrafts[locale]?.name.trim() ? t('menu.content.draftEntered') : t('menu.content.notTranslated'),
-        })),
-      ]
-    : [];
-
-  function updateDraft(locale: string, patch: Partial<SecondaryDraft>) {
-    setSecondaryDrafts((prev) => ({
-      ...prev,
-      [locale]: { ...(prev[locale] ?? { name: '', description: '' }), ...patch },
-    }));
-  }
-
-  return (
-    <FormSection title={t('menu.form.contentLanguages')}>
-      <LanguageTabs options={tabOptions} activeLocale={activeLocale} onSelect={setActiveLocale} />
-
-      {isDefaultTab ? (
-        <>
-          <FormField label={t('menu.tr.name')} htmlFor="category-name">
-            <Input
-              id="category-name"
-              ref={nameRef}
-              dir={dir}
-              required
-              value={form.name}
-              onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-              disabled={isSubmitting}
-            />
-          </FormField>
-          <FormField label={t('menu.tr.description')} htmlFor="category-description">
-            <Textarea
-              id="category-description"
-              dir={dir}
-              value={form.description}
-              onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-              disabled={isSubmitting}
-            />
-          </FormField>
-        </>
-      ) : (
-        <>
-          <p className="text-xs text-muted-foreground">{t('menu.form.optionalLanguage')}</p>
-          <FormField label={t('menu.tr.name')} htmlFor={`category-create-name-${activeLocale}`}>
-            <Input
-              id={`category-create-name-${activeLocale}`}
-              dir={dir}
-              value={secondaryDrafts[activeLocale]?.name ?? ''}
-              onChange={(event) => updateDraft(activeLocale, { name: event.target.value })}
-              disabled={isSubmitting}
-            />
-          </FormField>
-          <FormField label={t('menu.tr.description')} htmlFor={`category-create-description-${activeLocale}`}>
-            <Textarea
-              id={`category-create-description-${activeLocale}`}
-              dir={dir}
-              value={secondaryDrafts[activeLocale]?.description ?? ''}
-              onChange={(event) => updateDraft(activeLocale, { description: event.target.value })}
-              disabled={isSubmitting}
-            />
-          </FormField>
-        </>
-      )}
-    </FormSection>
-  );
-}
-
-/**
- * Edit-only Languages section (FT-1 correction, Section 3): only ever
- * rendered once `entityId` is non-null, mirroring
- * `MenuContextBar.MenuTranslationSection` exactly. Create shows the same
- * tabs via `CategoryCreateLanguages` above, backed by local drafts instead
- * of the translation hook.
- */
-function CategoryTranslationSection({
-  restaurantId,
-  entityId,
-  locales,
-  form,
-  setForm,
-  isSubmitting,
-  nameRef,
-}: {
-  restaurantId: string;
-  entityId: string;
-  locales: RestaurantLocalesResponse | null;
-  form: CategoryFormState;
-  setForm: Dispatch<SetStateAction<CategoryFormState>>;
-  isSubmitting: boolean;
-  nameRef: RefObject<HTMLInputElement | null>;
-}) {
-  const { t } = useStaffI18n();
-  const defaultLocale = locales?.defaultLocale ?? null;
-  // Memoized: see MenuContextBar's identical note -- an unstable array
-  // identity here would make useTranslationsEditor re-fetch (and wipe
-  // in-progress edits) on every keystroke in a translation field.
-  const secondaryLocales = useMemo(
-    () =>
-      locales?.locales.filter((row) => !row.isDefault && row.isActive).map((row) => row.locale) ?? [],
-    [locales],
-  );
-
-  const [activeLocale, setActiveLocale] = useState<string>('__default__');
-
-  const translations = useTranslationsEditor({
-    restaurantId,
-    entityId,
-    locales: secondaryLocales,
-    list: menuApi.getCategoryTranslations,
-    put: menuApi.putCategoryTranslation,
-    remove: menuApi.deleteCategoryTranslation,
-  });
-
-  const isDefaultTab = activeLocale === '__default__';
-  const currentLocale = isDefaultTab ? defaultLocale : activeLocale;
-  const dir = currentLocale ? localeDirection(currentLocale) : 'ltr';
-
-  const tabOptions: LanguageTabOption[] = defaultLocale
-    ? [
-        { locale: '__default__', label: localeLabel(defaultLocale), stateLabel: t('menu.content.default') },
-        ...secondaryLocales.map((locale) => ({
-          locale,
-          label: localeLabel(locale),
-          stateLabel: translations.drafts[locale]?.exists ? t('menu.content.translated') : t('menu.content.notTranslated'),
-        })),
-      ]
-    : [];
-
-  return (
-    <FormSection title={t('menu.form.contentLanguages')}>
-      <LanguageTabs options={tabOptions} activeLocale={activeLocale} onSelect={setActiveLocale} />
-
-      {isDefaultTab ? (
-        <>
-          <FormField label={t('menu.tr.name')} htmlFor="category-name">
-            <Input
-              id="category-name"
-              ref={nameRef}
-              dir={dir}
-              required
-              value={form.name}
-              onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-              disabled={isSubmitting}
-            />
-          </FormField>
-          <FormField label={t('menu.tr.description')} htmlFor="category-description">
-            <Textarea
-              id="category-description"
-              dir={dir}
-              value={form.description}
-              onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-              disabled={isSubmitting}
-            />
-          </FormField>
-        </>
-      ) : (
-        <TranslationFields
-          idPrefix="category-translation"
-          locale={activeLocale}
-          dir={dir}
-          draft={translations.drafts[activeLocale]}
-          onChange={(patch) => translations.updateDraft(activeLocale, patch)}
-          onSave={() => void translations.save(activeLocale)}
-          onRemove={() => void translations.removeTranslation(activeLocale)}
-        />
-      )}
-    </FormSection>
-  );
-}

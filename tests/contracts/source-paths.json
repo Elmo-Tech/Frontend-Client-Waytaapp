@@ -64,7 +64,12 @@
     "src/modules/guest-menu/components/PublicMenuView.tsx",
     "src/modules/guest-menu/hooks/use-public-menu-controller.ts",
     "src/modules/guest-menu/types/menu-view.ts",
-    "src/modules/guest-menu/types/menu-view-constants.ts"
+    "src/modules/guest-menu/types/menu-view-constants.ts",
+    "src/modules/guest-menu/hooks/use-menu-design-preview.ts",
+    "src/modules/guest-menu/utils/cart-lines.ts",
+    "src/modules/guest-menu/hooks/use-guest-checkout.ts",
+    "src/modules/guest-menu/hooks/use-guest-order-submission.ts",
+    "src/modules/guest-menu/hooks/use-guest-cart.ts"
   ],
   "src/app/q/[publicCode]/SearchField.tsx": "src/modules/guest-menu/components/SearchField.tsx",
   "src/app/q/[publicCode]/ShareButton.tsx": "src/modules/guest-menu/components/ShareButton.tsx",
@@ -134,7 +139,11 @@
   "src/app/staff/restaurants/[restaurantId]/kitchen/page.tsx": "src/modules/kitchen/pages/staff_restaurants_restaurantId_kitchen_page.tsx",
   "src/app/staff/restaurants/[restaurantId]/layout.tsx": "src/modules/staff/pages/staff_restaurants_restaurantId_layout.tsx",
   "src/app/staff/restaurants/[restaurantId]/loading.tsx": "src/app/staff/restaurants/[restaurantId]/loading.tsx",
-  "src/app/staff/restaurants/[restaurantId]/menu/CategoryNavigation.tsx": "src/modules/menu/components/CategoryNavigation.tsx",
+  "src/app/staff/restaurants/[restaurantId]/menu/CategoryNavigation.tsx": [
+    "src/modules/menu/components/CategoryNavigation.tsx",
+    "src/modules/menu/components/CategoryFormFields.tsx",
+    "src/modules/menu/components/category-form-model.ts"
+  ],
   "src/app/staff/restaurants/[restaurantId]/menu/MenuContextBar.tsx": "src/modules/menu/components/MenuContextBar.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/MenuSectionTabs.tsx": "src/modules/menu/components/MenuSectionTabs.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/MenuWorkspace.tsx": "src/modules/menu/components/MenuWorkspace.tsx",
@@ -147,10 +156,24 @@
   "src/app/staff/restaurants/[restaurantId]/menu/import/MenuImportWorkspace.tsx": "src/modules/menu-import/components/menu/import/MenuImportWorkspace.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/import/MenuReadingAnimation.tsx": "src/modules/menu-import/components/menu/import/MenuReadingAnimation.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/import/page.tsx": "src/modules/menu-import/pages/staff_restaurants_restaurantId_menu_import_page.tsx",
-  "src/app/staff/restaurants/[restaurantId]/menu/modifier-presets/ModifierPresetsWorkspace.tsx": "src/modules/menu/components/modifier-presets/ModifierPresetsWorkspace.tsx",
+  "src/app/staff/restaurants/[restaurantId]/menu/modifier-presets/ModifierPresetsWorkspace.tsx": [
+    "src/modules/menu/components/modifier-presets/ModifierPresetsWorkspace.tsx",
+    "src/modules/menu/components/modifier-presets/NewPresetForm.tsx",
+    "src/modules/menu/components/modifier-presets/PresetDetail.tsx",
+    "src/modules/menu/components/modifier-presets/PresetOptionRow.tsx",
+    "src/modules/menu/components/modifier-presets/NewPresetOptionForm.tsx",
+    "src/modules/menu/components/modifier-presets/EditPresetOptionForm.tsx"
+  ],
   "src/app/staff/restaurants/[restaurantId]/menu/modifier-presets/page.tsx": "src/modules/menu/pages/staff_restaurants_restaurantId_menu_modifier_presets_page.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/offers/OfferPreview.tsx": "src/modules/offers/components/menu/offers/OfferPreview.tsx",
-  "src/app/staff/restaurants/[restaurantId]/menu/offers/OffersWorkspace.tsx": "src/modules/offers/components/menu/offers/OffersWorkspace.tsx",
+  "src/app/staff/restaurants/[restaurantId]/menu/offers/OffersWorkspace.tsx": [
+    "src/modules/offers/components/menu/offers/OffersWorkspace.tsx",
+    "src/modules/offers/components/menu/offers/offer-draft.ts",
+    "src/modules/offers/components/menu/offers/MenuItemPicker.tsx",
+    "src/modules/offers/components/menu/offers/use-offers-editor.ts",
+    "src/modules/offers/components/menu/offers/OfferEditor.tsx",
+    "src/modules/offers/components/menu/offers/OfferItemRow.tsx"
+  ],
   "src/app/staff/restaurants/[restaurantId]/menu/offers/page.tsx": "src/modules/offers/pages/staff_restaurants_restaurantId_menu_offers_page.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/overview/page.tsx": "src/modules/menu/pages/staff_restaurants_restaurantId_menu_overview_page.tsx",
   "src/app/staff/restaurants/[restaurantId]/menu/page.tsx": "src/modules/menu/pages/staff_restaurants_restaurantId_menu_page.tsx",

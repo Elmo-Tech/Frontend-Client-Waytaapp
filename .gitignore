@@ -13,3 +13,5 @@ src/generated/prisma/
 !.env.production.example
 *.log
 .DS_Store
+
+/test-results/

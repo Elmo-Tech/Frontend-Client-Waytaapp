@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --experimental-strip-types --test \"src/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
-    "check:architecture": "node scripts/check-architecture.mjs"
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "test:browser": "node scripts/browser-qa.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

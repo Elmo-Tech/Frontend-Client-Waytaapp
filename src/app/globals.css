@@ -420,6 +420,9 @@ html:has([data-guest-theme="light"]) {
  * theme switch still works and reduced-motion accessibility is respected.
  */
 .ember-experience {
+  /* Contain the oversized, rotated marquee without creating a horizontal
+     scroll container or changing the sticky category navigation. */
+  overflow-x: clip;
   --g-bg: #120d0a;
   --g-surface: #211711;
   --g-surface-2: #2d2019;

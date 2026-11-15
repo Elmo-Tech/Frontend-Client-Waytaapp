@@ -148,8 +148,8 @@ const view = read('app/q/[publicCode]/PublicMenuView.tsx');
 test('the shared offers strip, choice sheet and cart wiring live once in PublicMenuView', () => {
   assert.ok(view.includes('<OffersStrip'));
   assert.ok(view.includes('<OfferSheet'));
-  assert.ok(view.includes('showFeatured = featuredProducts.length > 0 && !isSearching && !hasOffers'), 'offers replace the featured strip');
-  assert.ok(view.includes("{ id: OFFERS_SECTION_ID, name: offersCopy.sectionTitle, imageUrl: null, isOffers: true }"), 'first chip');
+  assert.ok(/showFeatured\s*=\s*featuredProducts.length > 0 && !isSearching && !hasOffers/.test(view), 'offers replace the featured strip');
+  assert.match(view, /\{\s*id: OFFERS_SECTION_ID,\s*name: offersCopy\.sectionTitle,\s*imageUrl: null,\s*isOffers: true,?\s*\}/, 'first chip');
   assert.ok((view.match(/offers=\{designOffers\}/g) ?? []).length === 4, 'all four exclusive designs receive the offers');
 });
 
