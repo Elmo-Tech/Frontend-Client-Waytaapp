@@ -29,7 +29,7 @@ npm run build
 Build a container from this repository root using Dockerfile. The API also exposes a tools build target for migrations/provisioning.
 Original product specifications, shared Compose/Nginx/n8n configuration and cross-repository tests live in wayta-operations
 (locally ../operations). Application builds and unit tests do not require that sibling checkout.
-The original monorepo and its Git history are unchanged. This is a new local Git repository with no commit or remote.
+The original monorepo and its Git history are unchanged. Git initialization happened at extraction; inspect current Git history and remotes for the present repository state.
 
 ## Architecture and additional checks
 
@@ -42,3 +42,7 @@ npm audit --omit=dev
 ```
 
 Cross-repository source contracts run with `npm test` in `../operations`; standalone web tests and builds require no sibling repositories.
+
+## AI-assisted development
+
+Start with [AI.md](AI.md) and [AGENTS.md](AGENTS.md). The [AI workflow](docs/ai/WORKFLOW.md), [domain rules](docs/ai/DOMAIN_RULES.md), [spec map](docs/ai/SPEC_MAP.md), [change-spec template](docs/ai/CHANGE_SPEC_TEMPLATE.md) and [validation guide](docs/ai/VALIDATION.md) apply to AI-assisted changes. Claude, Copilot and Cursor entry files route to the same guidance; other tools can be given AI.md explicitly.

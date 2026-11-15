@@ -1,0 +1,8 @@
+---
+description: Wayta frontend ownership, behavior preservation and verification
+alwaysApply: true
+---
+
+Before implementation, read @AGENTS.md and @AI.md, then their task-relevant references. AI.md owns the detailed workflow, domain rules, specification classifications and validation. Preserve existing behavior and contracts within the authorized repository scope; report actual checks and remaining limitations.
+
+Referenced files are read when needed, not automatically inlined. This is a Cursor project rule; it does not configure Cursor Tab or other AI clients.
