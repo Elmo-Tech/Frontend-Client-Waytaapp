@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://build:build@localhost:5432/build
-      NEXT_PUBLIC_API_URL: http://localhost:4000
+      NEXT_PUBLIC_API_URL: http://127.0.0.1:14480
       NEXT_PUBLIC_API_BASE_PATH: /api/v1
     steps:
       - uses: actions/checkout@v4
@@ -16,6 +16,21 @@ jobs:
       - run: npm install --global npm@11.12.1
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run check:architecture
       - run: npm test
       - run: npm run lint
       - run: npm run build
+      - name: Install pinned browser test tooling
+        run: npm install --prefix "$RUNNER_TEMP/wayta-browser" --no-audit --no-fund --ignore-scripts playwright@1.62.1
+      - name: Install Chromium
+        run: node "$RUNNER_TEMP/wayta-browser/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Test production frontend in Chromium
+        run: npm run test:browser
+        env:
+          PLAYWRIGHT_MODULE: ${{ runner.temp }}/wayta-browser/node_modules/playwright/index.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-results
+          path: test-results/browser/
+          if-no-files-found: ignore
