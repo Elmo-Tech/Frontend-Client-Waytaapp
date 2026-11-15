@@ -9,6 +9,10 @@ This is the model-neutral starting document for AI-assisted work in this reposit
 3. Read [current architecture](docs/ARCHITECTURE.md), [domain rules](docs/ai/DOMAIN_RULES.md) and the relevant entries in [the spec map](docs/ai/SPEC_MAP.md).
 4. Use [validation](docs/ai/VALIDATION.md) before reporting completion. For substantial work, use [the change-spec template](docs/ai/CHANGE_SPEC_TEMPLATE.md).
 
+## Phase 2 — P0 workflows
+
+Choose through the [P0 selection guide](docs/ai/WORKFLOW.md#p0-workflow-selection-guide): [Safe Refactor](docs/ai/SAFE_REFACTOR.md) preserves observable behavior; [Feature Implementation](docs/ai/FEATURE_IMPLEMENTATION.md) delivers an intentional approved change. Both use the [shared risk matrix](docs/ai/VALIDATION.md#p0-risk-based-validation) and the existing change-spec template. See [documentation-only evaluations](docs/ai/P0_DRY_RUNS.md) and [P0 validation evidence](docs/ai/PHASE2_P0_VALIDATION.md). P1 workflows are outside this phase.
+
 Read only the detailed specs relevant to the task rather than loading the entire archive.
 
 For observed ownership and API exceptions, use the [domain knowledge map](docs/ai/DOMAIN_MAP.md). The [guidance inventory and gap analysis](docs/ai/GOVERNANCE_AUDIT.md) records instruction ownership and unresolved conflicts. [Phase 1 validation](docs/ai/PHASE1_VALIDATION.md) records this documentation pass; it is not release certification.

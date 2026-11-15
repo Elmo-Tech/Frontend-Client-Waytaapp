@@ -1,5 +1,21 @@
 # AI change workflow
 
+## P0 workflow selection guide
+
+This file owns common scope/change controls; the linked procedures own their task-specific lifecycles. [AI.md](../../AI.md) remains the repository navigation entry. Use the [risk matrix](VALIDATION.md#p0-risk-based-validation) for both procedures; it supplements existing mandatory checks.
+
+| Intended outcome | Procedure | Required starting record |
+| --- | --- | --- |
+| Internal structure changes; observable behavior/public contracts preserved | [Safe Refactor — P0](SAFE_REFACTOR.md) | Current implementation/callers, preservation examples and focused plan |
+| New or deliberately changed behavior | [Feature Implementation — P0](FEATURE_IMPLEMENTATION.md) | Business objective and an approved requirement, followed by the existing change spec |
+| Mixed feature plus structural change | Feature procedure with an explicit preservation plan for the structural part | One scope/spec separating authorized behavior changes from preserved outcomes; no silent refactor scope expansion |
+
+Choose by intent and impact, not changed-line count. The [matrix](VALIDATION.md#p0-risk-based-validation) owns LOW/MEDIUM/HIGH classification, escalation and verification details.
+
+Only the two P0 procedures are introduced here. P1 workflows, including Bug Investigation, are not implemented. Tasks outside these procedures retain the common Phase 1 workflow below; this is not a new specialized procedure for them.
+
+Use [P0_DRY_RUNS.md](P0_DRY_RUNS.md) for documentation-only examples and [PHASE2_P0_VALIDATION.md](PHASE2_P0_VALIDATION.md) for dated evidence. Neither is a product approval or proof that all AI clients follow the instructions.
+
 ## 1. Establish scope
 
 - Read the user's current request, root `AGENTS.md`, root `AI.md` and instructions in the affected directory ancestry.

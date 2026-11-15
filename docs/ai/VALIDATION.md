@@ -59,6 +59,25 @@ Never clear, bypass or describe a failing check as successful merely to finish t
 
 ## Documentation governance checks
 
-For documentation-only work, check local Markdown links and heading anchors, referenced source paths and npm scripts, module coverage against `src/modules`, adapter metadata/import paths, and preservation of Next-managed instruction blocks. Compare against the initial working-tree state, not only HEAD, to protect pre-existing changes. Record results in [PHASE1_VALIDATION.md](PHASE1_VALIDATION.md); unresolved evidence belongs in [GOVERNANCE_AUDIT.md](GOVERNANCE_AUDIT.md).
+For documentation-only work, check local Markdown links and heading anchors, referenced source paths and npm scripts, module coverage against `src/modules`, adapter metadata/import paths, and preservation of Next-managed instruction blocks. Compare against the initial working-tree state, not only HEAD, to protect pre-existing changes. Keep dated evidence in the relevant phase report: [Phase 1](PHASE1_VALIDATION.md) or [Phase 2 P0](PHASE2_P0_VALIDATION.md). Preserve historical reports; unresolved Phase 1 evidence remains in [GOVERNANCE_AUDIT.md](GOVERNANCE_AUDIT.md).
 
 There is no repository documentation-validation npm script in this checkout. Do not invent a script name or add dependencies merely to validate links. Sibling operations references are conditional on the independent checkout being present. Formatting and link checks cannot prove that an AI client followed the instructions.
+
+
+## P0 risk-based validation
+
+This is the single shared classification for [Safe Refactor](SAFE_REFACTOR.md) and [Feature Implementation](FEATURE_IMPLEMENTATION.md). Select the highest risk of the actual impacted behavior, consumers and trust boundary, explain why, and reassess when scope expands. Module membership alone does not turn a text-only edit into a pricing change; a one-line transport change can be HIGH. Unknown material impact must be investigated before assigning a lower risk.
+
+| Risk | Examples / classification | Required verification |
+| --- | --- | --- |
+| **LOW** | Isolated documentation; visual copy/styling; presentation-only type cleanup with unchanged runtime/public contract | Docs: links, anchors, paths, scripts, navigation/adapter preservation and scope diff. Application UI/types: existing application baseline plus direct before/after or acceptance checks for affected rendering, locale, layout and accessibility. Mark irrelevant request/async scenarios with reasons |
+| **MEDIUM** | Module refactors, forms, domain API clients without HIGH trust-boundary impact | Application baseline plus affected behavior/request/serialization checks; success, validation, loading/empty, failure retention, retry, duplicate actions and stale reads as applicable. Exercise affected rendered flows; helper tests alone are insufficient |
+| **HIGH** | Authentication, permissions, tenant isolation, pricing, checkout, payments, shared transports or public contracts | MEDIUM evidence plus relevant auth/session/transport/request/contract tests and explicit role/context/denial cases, authoritative-price/refusal cases, retry identity and concurrent actions where applicable. Inspect consumers and client/server reachability. Verify affected user workflows; real-backend claims require authorized integration evidence and remain unverified without it |
+
+For application source changes, preserve the existing application baseline commands above. Existing task/CI/domain requirements remain mandatory; risk classification cannot waive them. Run focused tests for meaningful behavior, reuse existing coverage, and avoid tests that merely mirror a trivial type extraction. A changed import/route/server boundary still requires architecture/build checks even for a small diff.
+
+Behavior-oriented verification is required for an affected user workflow. Use relevant existing automated tests and rendered/manual exercises; use `npm run test:browser` when the existing fixture harness/tooling and scenario are applicable. Record the setup and any coverage gap rather than claiming the harness covers a new criterion. Browser tooling/installations are not authorized by this documentation phase. For future implementation tasks, follow the task's scope and existing browser setup requirements; no production credentials or implicit environment changes.
+
+Keep the existing evidence states: **Passed**, **Failed**, **Not run**, **Not verifiable**. Record automated commands separately from manual observations and assumptions, with environment/revision and specific acceptance/preservation outcomes. A build does not establish behavior equivalence, and local fixtures do not establish backend enforcement or production success. Missing required evidence prevents a full-verification claim; record implementation status separately.
+
+Risk classification adds no new CI, tool configuration, test framework, specification template or blanket approval step. Material unresolved business decisions/contract gaps block only dependent behavior changes; routine authorized work proceeds.
