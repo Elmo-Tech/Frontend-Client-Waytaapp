@@ -12,9 +12,25 @@ This file owns common scope/change controls; the linked procedures own their tas
 
 Choose by intent and impact, not changed-line count. The [matrix](VALIDATION.md#p0-risk-based-validation) owns LOW/MEDIUM/HIGH classification, escalation and verification details.
 
-Only the two P0 procedures are introduced here. P1 workflows, including Bug Investigation, are not implemented. Tasks outside these procedures retain the common Phase 1 workflow below; this is not a new specialized procedure for them.
+The two P0 procedures retain their Phase 2 scope and behavior. Phase 3 adds the P1 procedures below; existing common controls continue to apply.
 
 Use [P0_DRY_RUNS.md](P0_DRY_RUNS.md) for documentation-only examples and [PHASE2_P0_VALIDATION.md](PHASE2_P0_VALIDATION.md) for dated evidence. Neither is a product approval or proof that all AI clients follow the instructions.
+
+## P1 workflow selection
+
+Choose one lead workflow by the task's primary intent, then attach supporting procedures without duplicating their definitions or checks. Keep the existing P0 table/links above. Test Strategy supports every task; it is not a separate implementation gate.
+
+| Primary intent | Lead procedure | Selection evidence |
+| --- | --- | --- |
+| Correct a deviation from existing expected behavior | [Bug Investigation & Fix](BUG_INVESTIGATION.md) | Reproduction/expected outcome and root-cause investigation; not a new feature |
+| Improve a named measured cost | [Performance Optimization](PERFORMANCE_OPTIMIZATION.md) | Baseline metric and attribution before a claimed improvement; Safe Refactor supports structural edits |
+| Maintain a dependency/lockfile or address an advisory | [Dependency Management](DEPENDENCY_MANAGEMENT.md) | Actual versions, direct/transitive chain and compatibility/advisory evidence |
+| Adapt to an agreed API delta or investigate evidenced contract drift | [API Contract Changes](API_CONTRACT_CHANGES.md) | Current/new contracts, consumers and approval/compatibility; bug investigation supports an unproven drift report |
+| Select verification for any P0/P1 task | [Test Strategy](TEST_STRATEGY.md) — supporting only | Acceptance/preservation cases, risk, existing tools and missing coverage |
+
+If restoring existing behavior requires an intentional public contract change, resolve its authority/compatibility through the API procedure before adapting clients. For a primary intent of new behavior, use Feature Implementation; for structure-only work, use Safe Refactor. Performance, dependency and API specialist intents retain their lead selection even when other behavior is preserved. An old-looking package or a slow-looking component alone does not establish an upgrade/performance task. A mixed task records one lead, additional support and the highest actual impact risk.
+
+All P1 guides define entry/investigation/plan/risk/scope/validation/regression/rollback/evidence/completion. They inherit existing architecture, backend authority, independent-repository scope and four evidence statuses through references. Procedures describe future authorized work; Phase 3 itself changes documentation only. Preserve user changes and use the existing change-spec template for substantial changes. See [P1 dry runs](P1_DRY_RUNS.md) and [Phase 3 evidence](PHASE3_VALIDATION.md).
 
 ## 1. Establish scope
 

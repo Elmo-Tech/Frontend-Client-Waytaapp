@@ -59,14 +59,14 @@ Never clear, bypass or describe a failing check as successful merely to finish t
 
 ## Documentation governance checks
 
-For documentation-only work, check local Markdown links and heading anchors, referenced source paths and npm scripts, module coverage against `src/modules`, adapter metadata/import paths, and preservation of Next-managed instruction blocks. Compare against the initial working-tree state, not only HEAD, to protect pre-existing changes. Keep dated evidence in the relevant phase report: [Phase 1](PHASE1_VALIDATION.md) or [Phase 2 P0](PHASE2_P0_VALIDATION.md). Preserve historical reports; unresolved Phase 1 evidence remains in [GOVERNANCE_AUDIT.md](GOVERNANCE_AUDIT.md).
+For documentation-only work, check local Markdown links and heading anchors, referenced source paths and npm scripts, module coverage against `src/modules`, adapter metadata/import paths, and preservation of Next-managed instruction blocks. Compare against the initial working-tree state, not only HEAD, to protect pre-existing changes. Keep dated evidence in the relevant phase report: [Phase 1](PHASE1_VALIDATION.md), [Phase 2 P0](PHASE2_P0_VALIDATION.md) or [Phase 3 P1](PHASE3_VALIDATION.md). Preserve historical reports; unresolved Phase 1 evidence remains in [GOVERNANCE_AUDIT.md](GOVERNANCE_AUDIT.md).
 
 There is no repository documentation-validation npm script in this checkout. Do not invent a script name or add dependencies merely to validate links. Sibling operations references are conditional on the independent checkout being present. Formatting and link checks cannot prove that an AI client followed the instructions.
 
 
 ## P0 risk-based validation
 
-This is the single shared classification for [Safe Refactor](SAFE_REFACTOR.md) and [Feature Implementation](FEATURE_IMPLEMENTATION.md). Select the highest risk of the actual impacted behavior, consumers and trust boundary, explain why, and reassess when scope expands. Module membership alone does not turn a text-only edit into a pricing change; a one-line transport change can be HIGH. Unknown material impact must be investigated before assigning a lower risk.
+This is the single shared classification for [Safe Refactor](SAFE_REFACTOR.md), [Feature Implementation](FEATURE_IMPLEMENTATION.md) and the [P1 procedures](WORKFLOW.md#p1-workflow-selection). The existing heading/anchor is retained for P0 compatibility; no second risk matrix is introduced. Select the highest risk of the actual impacted behavior, consumers and trust boundary, explain why, and reassess when scope expands. Module membership alone does not turn a text-only edit into a pricing change; a one-line transport change can be HIGH. Unknown material impact must be investigated before assigning a lower risk.
 
 | Risk | Examples / classification | Required verification |
 | --- | --- | --- |
@@ -81,3 +81,10 @@ Behavior-oriented verification is required for an affected user workflow. Use re
 Keep the existing evidence states: **Passed**, **Failed**, **Not run**, **Not verifiable**. Record automated commands separately from manual observations and assumptions, with environment/revision and specific acceptance/preservation outcomes. A build does not establish behavior equivalence, and local fixtures do not establish backend enforcement or production success. Missing required evidence prevents a full-verification claim; record implementation status separately.
 
 Risk classification adds no new CI, tool configuration, test framework, specification template or blanket approval step. Material unresolved business decisions/contract gaps block only dependent behavior changes; routine authorized work proceeds.
+
+
+## P1 verification support
+
+Use [Test Strategy](TEST_STRATEGY.md) to map risk and acceptance cases to existing unit, integration, component, browser/E2E, regression and contract evidence. The baseline and risk matrix above remain mandatory as applicable; P1 adds task-specific evidence, not another runner/CI implementation. Performance claims require comparable measured before/after data; dependency conclusions need actual version/advisory/compatibility evidence; API compatibility claims need the stated client/server combinations. Follow each lead guide for those task-specific completion criteria.
+
+A command that started but was interrupted has an attempted execution with a non-success result and incomplete verification; it is never Passed or simply described as an unattempted check. An unavailable browser environment is Not run; the behavior that cannot be established is Not verifiable. Keep these distinctions in the existing four-state evidence record, with exit code/reason when known. Do not overwrite historic reports or carry earlier experiment passes into a new task as fresh results.
