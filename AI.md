@@ -17,6 +17,10 @@ Choose through the [P0 selection guide](docs/ai/WORKFLOW.md#p0-workflow-selectio
 
 Use the [P1 selection guide](docs/ai/WORKFLOW.md#p1-workflow-selection) for [Bug Investigation & Fix](docs/ai/BUG_INVESTIGATION.md), [Performance Optimization](docs/ai/PERFORMANCE_OPTIMIZATION.md), [Dependency Management](docs/ai/DEPENDENCY_MANAGEMENT.md) or [API Contract Changes](docs/ai/API_CONTRACT_CHANGES.md). [Test Strategy](docs/ai/TEST_STRATEGY.md) supports every P0/P1 workflow. Reuse the existing risk/validation policy and change-spec template; see [source-backed P1 dry runs](docs/ai/P1_DRY_RUNS.md) and [Phase 3 compliance evidence](docs/ai/PHASE3_VALIDATION.md). Historical incomplete builds/browser checks remain unresolved until actually verified.
 
+## Phase 4 — execution reliability
+
+Apply [DISCOVER → CLASSIFY → PLAN → EXECUTE → VERIFY → REVIEW → REPORT](docs/ai/EXECUTION_PROTOCOL.md) around the selected P0/P1 guide. Use [impact analysis](docs/ai/CHANGE_IMPACT.md), [quality gates](docs/ai/QUALITY_GATES.md), [failure recovery](docs/ai/FAILURE_RECOVERY.md) and [self-review](docs/ai/SELF_REVIEW.md). Record actual evidence and explicitly distinguish Implementation Complete, Verification Complete and Delivery Ready. The existing risk matrix and application checks remain authoritative. See [controlled tabletop scenarios](docs/ai/PHASE4_TABLETOP.md) and [Phase 4 validation](docs/ai/PHASE4_VALIDATION.md); these do not establish application experiment or production success.
+
 Read only the detailed specs relevant to the task rather than loading the entire archive.
 
 For observed ownership and API exceptions, use the [domain knowledge map](docs/ai/DOMAIN_MAP.md). The [guidance inventory and gap analysis](docs/ai/GOVERNANCE_AUDIT.md) records instruction ownership and unresolved conflicts. [Phase 1 validation](docs/ai/PHASE1_VALIDATION.md) records this documentation pass; it is not release certification.

@@ -32,6 +32,12 @@ If restoring existing behavior requires an intentional public contract change, r
 
 All P1 guides define entry/investigation/plan/risk/scope/validation/regression/rollback/evidence/completion. They inherit existing architecture, backend authority, independent-repository scope and four evidence statuses through references. Procedures describe future authorized work; Phase 3 itself changes documentation only. Preserve user changes and use the existing change-spec template for substantial changes. See [P1 dry runs](P1_DRY_RUNS.md) and [Phase 3 evidence](PHASE3_VALIDATION.md).
 
+## Phase 4 execution integration
+
+Use the [execution protocol](EXECUTION_PROTOCOL.md) as the common lifecycle around the selected guide above. Specialized investigation/specification stages remain intact; its mapping adds explicit classification, evidence, final review and completion decisions without duplicating those procedures. For documentation maintenance, use these common controls and documentation validation directly.
+
+Before editing, record proportional [change impact](CHANGE_IMPACT.md), risk and acceptance-to-check plan in the existing brief/spec. Apply [quality gates](QUALITY_GATES.md) during verification, [failure recovery](FAILURE_RECOVERY.md) when evidence fails/is unavailable, and [self-review](SELF_REVIEW.md) before reporting. Every implementation report states Implementation Complete, Verification Complete and Delivery Ready separately for the intended handoff/release. No new risk matrix, approval ritual, CI or tooling is introduced.
+
 ## 1. Establish scope
 
 - Read the user's current request, root `AGENTS.md`, root `AI.md` and instructions in the affected directory ancestry.
