@@ -46,3 +46,7 @@ Cross-repository source contracts run with `npm test` in `../operations`; standa
 ## AI-assisted development
 
 Start with [AI.md](AI.md) and [AGENTS.md](AGENTS.md). The [AI workflow](docs/ai/WORKFLOW.md), [domain rules](docs/ai/DOMAIN_RULES.md), [spec map](docs/ai/SPEC_MAP.md), [change-spec template](docs/ai/CHANGE_SPEC_TEMPLATE.md) and [validation guide](docs/ai/VALIDATION.md) apply to AI-assisted changes. Claude, Copilot and Cursor entry files route to the same guidance; other tools can be given AI.md explicitly.
+
+## Coolify deployment
+
+Use [docker-compose.yaml](docker-compose.yaml) with [coolify.env.example](coolify.env.example) and follow [the Coolify deployment guide](docs/COOLIFY_DEPLOYMENT.md). This deploys only this frontend onto the existing gateway/API network; the public domain stays on the existing gateway. Coordinate the old frontend/DNS alias cutover before deployment.

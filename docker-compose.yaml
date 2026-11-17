@@ -1,0 +1,55 @@
+# Coolify: Base Directory /; Compose Location /docker-compose.yaml.
+# Frontend only. Existing gateway owns public HTTPS/API/media/WebSocket routing.
+# Join the existing gateway/API Docker network; never publish this service directly.
+# See docs/COOLIFY_DEPLOYMENT.md before reusing the gateway's web/platform DNS alias.
+services:
+  waytaweb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+      args:
+        NEXT_PUBLIC_API_URL: https://${WEB_HOST:?Set WEB_HOST to the existing public hostname without scheme or port}
+        NEXT_PUBLIC_API_BASE_PATH: /api/v1
+        NEXT_PUBLIC_RESTAURANT_BASE_DOMAIN: ${RESTAURANT_BASE_DOMAIN:-}
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+      API_INTERNAL_URL: ${API_INTERNAL_URL:?Set the existing private API origin without an API path}
+      WEB_URL: https://${WEB_HOST}
+      RESTAURANT_BASE_DOMAIN: ${RESTAURANT_BASE_DOMAIN:-}
+    expose:
+      - "3000"
+    networks:
+      gateway:
+        aliases:
+          - ${WAYTA_WEB_ALIAS:-web}
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/login', { redirect: 'manual', signal: AbortSignal.timeout(4000) }).then(r => process.exit(r.status >= 200 && r.status < 400 ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+networks:
+  gateway:
+    external: true
+    name: ${WAYTA_GATEWAY_NETWORK:?Set the existing Docker network shared by gateway and API}
